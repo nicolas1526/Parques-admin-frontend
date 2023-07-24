@@ -1,0 +1,6 @@
+-- Modulo
+ng g module components/ajustes/servicios-parque
+-- componente
+ng g c components/ajustes/servicios-parque
+-- rutas
+ng generate module components/ajustes/municipios/municipios-routing --flat --module=components/ajustes/municipios/municipios.module

@@ -1,6 +1,12 @@
 p-table {
     td,
     th {
-      text-align: center;
+        &:nth-last-child(-n+2) {
+          text-align: center;
+        }
     }
   }
+
+p-columnFilter {
+    margin-left: 40px;
+}

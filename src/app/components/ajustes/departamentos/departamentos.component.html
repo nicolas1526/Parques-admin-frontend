@@ -10,6 +10,7 @@
         >
             <h5>Nombre:</h5>
             <input
+                [(ngModel)]="nameDepartemento"
                 class="col-12"
                 type="text"
                 pInputText
@@ -26,10 +27,9 @@
                 <button
                     pButton
                     icon="pi pi-check"
-                    (click)="display = false"
-                    label="Agregar"
+                    (click)="createOrUpdateDepartamento()"
                     class="p-button-primary"
-                ></button>
+                >{{postOput ? "Agregar":"Modificar"}}</button>
             </ng-template>
         </p-dialog>
     </div>
@@ -64,7 +64,7 @@
                             label="Agregar"
                             class="p-button-outlined mb-2"
                             icon="pi pi-plus"
-                            (click)="display = true"
+                            (click)="display = true;postOput=true;nameDepartemento=''"
                         ></button>
                         <span class="p-input-icon-left mb-2">
                             <i class="pi pi-search"></i>
@@ -82,7 +82,9 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Id</th>
-                        <th pSortableColumn="nombre">
+                        <th
+                            pSortableColumn="nombre"
+                        >
                             Nombre
                             <p-columnFilter
                                 type="text"
@@ -91,7 +93,8 @@
                                 placeholder="Buscar por nombre"
                             />
                         </th>
-                        <th>Acción</th>
+                        <th>Modificar</th>
+                        <th>Eliminar</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-departamentos>
@@ -99,13 +102,17 @@
                         <td>{{ departamentos.id }}</td>
                         <td>{{ departamentos.nombre }}</td>
                         <td>
-                            <button class="p-button p-button-warning mx-3"
-                            (click)="display=true">
+                            <button
+                                class="p-button p-button-warning mx-3"
+                                (click)="display = true;postOput=false; departamentoId=departamentos.id; nameDepartemento=departamentos.nombre"
+                            >
                                 Modificar
                             </button>
+                        </td>
+                        <td>
                             <button
                                 class="p-button p-button-danger mx-3"
-                                (click)="confirmarEliminar()"
+                                (click)="confirmarEliminar(departamentos.id)"
                             >
                                 Eliminar
                             </button>

@@ -8,6 +8,7 @@ import { InputTextModule } from 'primeng/inputtext'
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     InputTextModule,
     ButtonModule,
     DialogModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    FormsModule
   ]
 })
 export class DepartamentosModule { }

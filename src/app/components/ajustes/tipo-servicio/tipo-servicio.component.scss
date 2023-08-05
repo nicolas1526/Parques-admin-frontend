@@ -1,0 +1,19 @@
+.dialogo{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+td{
+    width: 10%;
+    img{
+        width: 60%;
+        height: 60%;
+    }
+}
+
+p-fileUpload{
+    img{
+        width: 20%;
+        height: 20%;
+    }
+}

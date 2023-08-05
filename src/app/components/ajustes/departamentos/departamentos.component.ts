@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DepartamentosService } from './departamentos.service';
-import { Departamento } from '../../models/departamento';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { DepartamentosService } from 'src/app/services/departamentos.service';
+import { Departamento } from '../../../models/departamento.model';
+import { ConfirmationService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { error } from 'console';
 
 @Component({
     templateUrl: './departamentos.component.html',
@@ -83,6 +82,7 @@ export class DepartamentosComponent implements OnInit {
                 this.departamentos.splice(index, 1);
             },
             (error) => {
+                alert("Error al eliminar")
                 console.error('Error en la peticion: ', error);
             }
         );

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from 'src/app/constants/app.constants';
-import { Departamento } from '../../models/departamento';
+import { Departamento } from '../models/departamento.model';
 import { Observable } from 'rxjs';
-import { url } from 'inspector';
 @Injectable({
   providedIn: 'root'
 })

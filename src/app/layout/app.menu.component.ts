@@ -26,12 +26,13 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Departamentos', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/departamentos']},
                     { label: 'Municipios', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/municipios']},
                     { label: 'Parques', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/parques']},
+                    { label: 'Tipo de servicios', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/tipo-servicios']},
                     { label: 'Servicios', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/servicios']},
                     { label: 'Servicios del parque', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/servicios-parque']},
 
                 ]
             },
-            /*{
+            {
                 label: 'UI Components',
                 items: [
 
@@ -171,7 +172,7 @@ export class AppMenuComponent implements OnInit {
                         label: 'View Source', icon: 'pi pi-fw pi-search', url: ['https://github.com/primefaces/sakai-ng'], target: '_blank'
                     }
                 ]
-            }*/
+            }
         ];
     }
 }

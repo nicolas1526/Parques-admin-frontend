@@ -1,8 +1,8 @@
 -- Modulo
-ng g module components/ajustes/servicios-parque
+ng g module components/ajustes/tipo-servicio
 -- componente
-ng g c components/ajustes/servicios-parque
+ng g c components/ajustes/tipo-servicio
 
-ng g service components/ajustes/departamentos
+ng g service services/tipo-servicio
 -- rutas
-ng generate module components/ajustes/municipios/municipios-routing --flat --module=components/ajustes/municipios/municipios.module
+ng generate module components/ajustes/tipo-servicio/tipo-servicio-routing --flat --module=components/ajustes/tipo-servicio/tipo-servicio.module

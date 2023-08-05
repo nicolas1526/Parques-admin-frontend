@@ -1,21 +1,51 @@
 <div class="grid">
     <div class="col-12">
         <p-dialog
-            header="Crear departamento"
+            header="Crear un tipo de servicio"
             [(visible)]="display"
             [modal]="true"
             showEffect="fade"
             [style]="{ width: '60vw' }"
             [breakpoints]="{ '960px': '75vw' }"
         >
-            <h5>Nombre:</h5>
-            <input
-                [(ngModel)]="nameDepartemento"
-                class="col-12"
-                type="text"
-                pInputText
-                placeholder="Ingrese el nombre"
-            />
+            <div class="dialogo">
+                <div class="col-6">
+                    <h5>Nombre</h5>
+                    <input
+                        [(ngModel)]="tipoDeServicioSeleccionado.nombre"
+                        class="col-12"
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el nombre"
+                    />
+                </div>
+                <div class="col-6">
+                    <h5>Descripción</h5>
+                    <input
+                        [(ngModel)]="tipoDeServicioSeleccionado.descripcion"
+                        class="col-12"
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese la Descripción"
+                    />
+                </div>
+                <div class="col-12">
+                    <h5>Imagen</h5>
+                    <p-fileUpload
+                        #fileUpload
+                        [multiple]="false"
+                        [showUploadButton]="false"
+                        [showCancelButton]="false"
+                        name="file"
+                        accept="image/*"
+                        chooseLabel="Seleccionar imagen"
+                        (onSelect)="manejadorArchivoSeleccionado($event)"
+                    >
+                        <ng-template pTemplate="content"> </ng-template>
+                    </p-fileUpload>
+                </div>
+            </div>
+
             <ng-template pTemplate="footer">
                 <button
                     pButton
@@ -27,9 +57,11 @@
                 <button
                     pButton
                     icon="pi pi-check"
-                    (click)="createOrUpdateDepartamento()"
                     class="p-button-primary"
-                >{{postOput ? "Agregar":"Modificar"}}</button>
+                    (click)="createOrUpdate()"
+                >
+                    {{ postOput ? "Agregar" : "Modificar" }}
+                </button>
             </ng-template>
         </p-dialog>
     </div>
@@ -45,15 +77,15 @@
 
     <div class="col-12">
         <div class="card">
-            <h5>Departamentos</h5>
+            <h5>Tipos de servicios</h5>
             <p-table
                 #dt1
-                [value]="departamentos"
+                [value]="tiposDeServicios"
                 dataKey="id"
                 [rows]="10"
                 [loading]="loading"
                 [paginator]="true"
-                [globalFilterFields]="['nombre']"
+                [globalFilterFields]="['nombre', 'descripcion']"
             >
                 <ng-template pTemplate="caption">
                     <div
@@ -64,7 +96,7 @@
                             label="Agregar"
                             class="p-button-outlined mb-2"
                             icon="pi pi-plus"
-                            (click)="display = true;postOput=true;nameDepartemento=''"
+                            (click)="openDialogCreate()"
                         ></button>
                         <span class="p-input-icon-left mb-2">
                             <i class="pi pi-search"></i>
@@ -82,9 +114,7 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Id</th>
-                        <th
-                            pSortableColumn="nombre"
-                        >
+                        <th pSortableColumn="nombre">
                             Nombre
                             <p-columnFilter
                                 type="text"
@@ -93,18 +123,31 @@
                                 placeholder="Buscar por nombre"
                             />
                         </th>
+                        <th pSortableColumn="descripcion">
+                            Descripción
+                            <p-columnFilter
+                                type="text"
+                                field="departamento"
+                                display="menu"
+                                placeholder="Buscar por nombre"
+                            />
+                        </th>
+                        <th>Imagen</th>
                         <th>Modificar</th>
                         <th>Eliminar</th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-departamentos>
+                <ng-template pTemplate="body" let-tiposervicio>
                     <tr>
-                        <td>{{ departamentos.id }}</td>
-                        <td>{{ departamentos.nombre }}</td>
+                        <td>{{ tiposervicio.id }}</td>
+                        <td>{{ tiposervicio.nombre }}</td>
+                        <td>{{ tiposervicio.descripcion }}</td>
+                        <td><img [src]="tiposervicio.urlIcono" /></td>
                         <td>
+                            <!--Aqui agregar el objeto -->
                             <button
                                 class="p-button p-button-warning mx-3"
-                                (click)="display = true;postOput=false; departamentoId=departamentos.id; nameDepartemento=departamentos.nombre"
+                                (click)="openDialogUpdate(tiposervicio.id)"
                             >
                                 Modificar
                             </button>
@@ -112,7 +155,7 @@
                         <td>
                             <button
                                 class="p-button p-button-danger mx-3"
-                                (click)="confirmarEliminar(departamentos.id)"
+                                (click)="confirmarEliminar(tiposervicio.id)"
                             >
                                 Eliminar
                             </button>

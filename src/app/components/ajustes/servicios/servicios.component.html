@@ -1,20 +1,89 @@
 <div class="grid">
     <div class="col-12">
         <p-dialog
-            header="Crear departamento"
+            header="Crear servicio"
             [(visible)]="display"
             [modal]="true"
             showEffect="fade"
-            [style]="{ width: '30vw' }"
-            [breakpoints]="{ '960px': '75vw' }"
+            [style]="{ width: '50vw' }"
+            [breakpoints]="{ '90px': '75vw' }"
         >
-            <h5>Nombre:</h5>
-            <input
-                class="col-12"
-                type="text"
-                pInputText
-                placeholder="Ingrese el nombre"
-            />
+            <div class="dialogo">
+                <div class="col-6">
+                    <label htmlFor="nombreservicio">Nombre</label>
+                    <input
+                        [(ngModel)]="servicioSeleccionado.nombre"
+                        class="col-12"
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el nombre"
+                    />
+                </div>
+                <div class="col-6">
+                    <label htmlFor="tiposervicio">Tipo de servicio</label>
+                    <p-dropdown
+                        [style]="{
+                            width: '100%',
+                            height: '38px',
+                            marginTop: '10px'
+                        }"
+                        [options]="tiposDeServicios"
+                        [(ngModel)]="tipoDeServicioSeleccionado"
+                        placeholder="Seleccione un tipo de servicio"
+                        [filter]="true"
+                        filterBy="value.nombre"
+                        [showClear]="true"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
+                <div class="col-6">
+                    <label htmlFor="codigotesoreria">Codigo tesoreria</label>
+                    <input
+                        [(ngModel)]="servicioSeleccionado.codigoTesoreria"
+                        class="col-12"
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el codigo de tesoreria"
+                    />
+                </div>
+                <div class="col-6">
+                    <label htmlFor="codigocontabilidad"
+                        >Codigo contabilidad</label
+                    >
+                    <input
+                        [(ngModel)]="servicioSeleccionado.codigoContabilidad"
+                        class="col-12"
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el codigo de contabilidad"
+                    />
+                </div>
+                <div class="col-4">
+                    <label htmlFor="estado">Estado</label>
+                    <p-dropdown
+                        [style]="{
+                            width: '100%',
+                            height: '38px',
+                            marginTop: '10px'
+                        }"
+                        [options]="estados"
+                        [(ngModel)]="estadoSeleccionado"
+                        [showClear]="true"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
+                <div class="col-12">
+                    <label htmlFor="descripcionservicio">Descripcion</label>
+                    <textarea
+                        [style]="{ width: '100%', marginTop: '10px' }"
+                        [(ngModel)]="servicioSeleccionado.descripcion"
+                        id="descripcionservicio"
+                        rows="3"
+                        cols="30"
+                        pInputTextarea
+                    ></textarea>
+                </div>
+            </div>
             <ng-template pTemplate="footer">
                 <button
                     pButton
@@ -26,10 +95,9 @@
                 <button
                     pButton
                     icon="pi pi-check"
-                    (click)="display = false"
-                    label="Agregar"
+                    (click)="createOrUpdate()"
                     class="p-button-primary"
-                ></button>
+                >{{ postOput ? "Agregar" : "Modificar" }}</button>
             </ng-template>
         </p-dialog>
     </div>
@@ -45,102 +113,7 @@
 
     <div class="col-12">
         <div class="card">
-            <h5>Datos del servicio</h5>
-            <hr />
-            <form action="">
-                <div class="col-6">
-                    <label htmlFor="nombreservicio">Nombre</label>
-                    <input
-                        pInputText
-                        id="nombreservicio"
-                        aria-describedby="name-help"
-                    />
-                    <small id="name-help"
-                        >Ingrese el nombre del servicio.</small
-                    >
-                </div>
-                <div class="col-6">
-                    <label htmlFor="tiposervicio">Tipo de servicio</label>
-                    <p-treeSelect
-                        id="tiposervicio"
-                        class="md:w-20rem w-full"
-                        containerStyleClass="w-full"
-                        formControlName="selectedNodes"
-                        placeholder="Seleccione el tipo"
-                        aria-describedby="tiposervicio-help"
-                    ></p-treeSelect>
-                    <small id="tiposervicio-help"
-                        >Ingrese el codigo de contabilidad del servicio.</small
-                    >
-                </div>
-                <div class="col-3">
-                    <label htmlFor="codigotesoreria">Codigo tesoreria</label>
-                    <p-inputNumber
-                        [size]="35"
-                        id="codigotesoreria"
-                        mode="decimal"
-                        [useGrouping]="false"
-                        [maxlength]="10"
-                        aria-describedby="codigotesoreria-help"
-                    />
-                    <small id="codigotesoreria-help"
-                        >Ingrese el codigo de tesoreria del servicio.</small
-                    >
-                </div>
-                <div class="col-3">
-                    <label htmlFor="codigocontabilidad"
-                        >Codigo contabilidad</label
-                    >
-                    <p-inputNumber
-                        [size]="35"
-                        id="codigocontabilidad"
-                        mode="decimal"
-                        [useGrouping]="false"
-                        [maxlength]="10"
-                        aria-describedby="codigocontabilidad-help"
-                    />
-                    <small id="codigocontabilidad-help"
-                        >Ingrese el codigo de contabilidad del servicio.</small
-                    >
-                </div>
-                <div class="col-3">
-                    <label htmlFor="estado">Estado</label>
-                    <p-treeSelect
-                        id="estado"
-                        class="md:w-20rem w-full"
-                        containerStyleClass="w-full"
-                        formControlName="selectedNodes"
-                        placeholder="Seleccione el estado"
-                        aria-describedby="estado-help"
-                    ></p-treeSelect>
-                    <small id="estado-help"
-                        >Ingrese el estado del servicio.</small
-                    >
-                </div>
-                <div class="col-12">
-                    <label htmlFor="descripcionservicio">Descripcion</label>
-                    <textarea
-                        id="descripcionservicio"
-                        rows="3"
-                        cols="30"
-                        pInputTextarea
-                        formControlName="descripcion"
-                        aria-describedby="descripcion-help"
-                    ></textarea>
-                    <small id="descripcion-help"
-                        >Ingrese la descripción del servicio.</small
-                    >
-                </div>
-                <p-button class="col-3" type="Submit" label="Agregar"></p-button>
-
-
-
-            </form>
-        </div>
-    </div>
-
-    <div class="col-12">
-        <div class="card">
+            <h5>Servicios</h5>
             <p-table
                 #dt1
                 [value]="servicios"
@@ -154,7 +127,13 @@
                     <div
                         class="flex justify-content-between flex-column sm:flex-row"
                     >
-                        <h5>Lista de servicios</h5>
+                        <button
+                            pButton
+                            label="Agregar"
+                            class="p-button-outlined mb-2"
+                            icon="pi pi-plus"
+                            (click)="openDialogCreate()"
+                        ></button>
                         <span class="p-input-icon-left mb-2">
                             <i class="pi pi-search"></i>
                             <input
@@ -189,27 +168,43 @@
                                 placeholder="Buscar por descripcion"
                             />
                         </th>
-                        <th>Tipo</th>
+                        <th pSortableColumn="tipo">
+                            Tipo
+                            <p-columnFilter
+                                type="text"
+                                field="TipoServicio.nombre"
+                                display="menu"
+                                placeholder="Buscar por tipo"
+                            />
+                        </th>
                         <th>Cod tesoreria</th>
                         <th>Cod contabilidad</th>
                         <th>Estado</th>
-                        <th>Acción</th>
+                        <th>Modificar</th>
+                        <th>Eliminar</th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-departamentos>
+                <ng-template pTemplate="body" let-servicio>
                     <tr>
-                        <td>{{ departamentos.id }}</td>
-                        <td>{{ departamentos.nombre }}</td>
+                        <td>{{ servicio.id }}</td>
+                        <td>{{ servicio.nombre }}</td>
+                        <td>{{ servicio.descripcion }}</td>
+                        <td>{{ servicio.TipoServicio.nombre }}</td>
+                        <td>{{ servicio.codigoTesoreria}}</td>
+                        <td>{{ servicio.codigoContabilidad }}</td>
+                        <td>{{ servicio.activo ? 'Activo':'Inactivo' }}</td>
                         <td>
                             <button
                                 class="p-button p-button-warning mx-3"
-                                (click)="display = true"
+                                (click)="openDialogUpdate(servicio.id)"
                             >
                                 Modificar
                             </button>
+                        </td>
+                        <td>
                             <button
                                 class="p-button p-button-danger mx-3"
-                                (click)="confirmarEliminar()"
+                                (click)="confirmarEliminar(servicio.id)"
                             >
                                 Eliminar
                             </button>

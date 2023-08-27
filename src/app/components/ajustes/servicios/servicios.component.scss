@@ -10,21 +10,8 @@
     }
 }
 
-form{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: start;
-    div{
-        display: flex;
-        flex-direction: column;
-        padding: 14px;
-        label{
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-        small{
-            margin-top: 10px;
-        }
-
+div{
+    button{
+        margin-left: 10px;
     }
 }

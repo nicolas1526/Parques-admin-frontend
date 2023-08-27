@@ -16,3 +16,16 @@ export interface TipoServicio {
     descripcion?: string;
     imgBase64?: string|undefined;
 }
+
+export interface ServicioParque {
+    id?: number;
+    precio?: number;
+    impuesto?: number;
+    descuento?: number;
+    idParque?: number;
+    idServicio?: number;
+    activo?: boolean;
+    cantidadPersonas?: number | null;
+    cantidadMascotas?: number | null;
+    Servicio?: Servicio
+}

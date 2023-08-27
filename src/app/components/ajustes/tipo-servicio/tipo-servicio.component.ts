@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { TipoServicio } from 'src/app/models/servicio';
@@ -11,7 +11,7 @@ import { FileUpload } from 'primeng/fileupload';
     styleUrls: ['./tipo-servicio.component.scss'],
 })
 export class TipoServicioComponent implements OnInit {
-
+    @ViewChild('filter') filter!: ElementRef;
     @ViewChild('fileUpload') fileUpload!: FileUpload;
     tipoDeServicioSeleccionado: TipoServicio = {}
     tiposDeServicios: TipoServicio[] = [];
@@ -74,7 +74,7 @@ export class TipoServicioComponent implements OnInit {
         this.serviceTipoServicio.deleteTipoDeServicio(idTipoServicio).subscribe(
             () => {
                 const index = this.tiposDeServicios.findIndex(
-                    (dep) => dep.id === idTipoServicio
+                    (data) => data.id === idTipoServicio
                 );
                 this.tiposDeServicios.splice(index, 1);
             },
@@ -137,5 +137,8 @@ export class TipoServicioComponent implements OnInit {
         reader.readAsDataURL(file);
     }
 
-
+    clear(table: Table) {
+        table.clear();
+        this.filter.nativeElement.value = '';
+    }
 }

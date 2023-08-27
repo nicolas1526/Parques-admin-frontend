@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef  } from '@angular/core';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Servicio, TipoServicio } from '../../../models/servicio';
@@ -12,7 +12,7 @@ import { map } from 'rxjs';
     styleUrls: ['./servicios.component.scss'],
 })
 export class ServiciosComponent implements OnInit {
-
+    @ViewChild('filter') filter!: ElementRef;
     tiposDeServicios: SelectItem[] = [];
     tipoDeServicioSeleccionado?: TipoServicio;
     estados: SelectItem[] = [];
@@ -70,7 +70,6 @@ export class ServiciosComponent implements OnInit {
             (data) => {
                 this.servicios = data;
                 this.loading = false;
-                console.log(this.servicios)
             },
             (error) => {
                 console.error('Error en la peticion: ', error);
@@ -114,10 +113,8 @@ export class ServiciosComponent implements OnInit {
 
         servicio.idTipoServicio = this.tipoDeServicioSeleccionado?.id;
         servicio.activo = this.estadoSeleccionado;
-        this.serviceServicios.updateDepartamento(servicio).subscribe(
+        this.serviceServicios.updateServicio(servicio).subscribe(
             (data) => {
-                console.log(data)
-
                 const indexServico = this.servicios.findIndex(
                     (res) => res.id === servicio.id
                 );
@@ -189,5 +186,10 @@ export class ServiciosComponent implements OnInit {
             (event.target as HTMLInputElement).value,
             'contains'
         );
+    }
+
+    clear(table: Table) {
+        table.clear();
+        this.filter.nativeElement.value = '';
     }
 }

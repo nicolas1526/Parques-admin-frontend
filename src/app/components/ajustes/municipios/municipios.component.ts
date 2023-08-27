@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Departamento } from 'src/app/models/departamento.model';
@@ -13,7 +13,7 @@ import { map } from 'rxjs';
     styleUrls: ['./municipios.component.scss'],
 })
 export class MunicipiosComponent implements OnInit {
-
+    @ViewChild('filter') filter!: ElementRef;
     municipios: Municipio[] = [];
     municipioSeleccionado: Municipio = {};
     departamentos: SelectItem[] = [];
@@ -173,5 +173,10 @@ export class MunicipiosComponent implements OnInit {
             (event.target as HTMLInputElement).value,
             'contains'
         );
+    }
+
+    clear(table: Table) {
+        table.clear();
+        this.filter.nativeElement.value = '';
     }
 }

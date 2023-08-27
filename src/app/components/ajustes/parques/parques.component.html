@@ -1,1 +1,355 @@
-<p>parques works!</p>
+<div class="grid">
+    <div class="col-12">
+        <p-dialog
+            header="Crear servicio"
+            [(visible)]="display"
+            [modal]="true"
+            showEffect="fade"
+            [style]="{ width: '50vw' }"
+            [breakpoints]="{ '90px': '75vw' }"
+        >
+            <div class="dialogo">
+                <div class="col-4">
+                    <label htmlFor="nombre">Nombre</label>
+                    <input
+                        id="nombre"
+                        [(ngModel)]="parqueSeleccionado.nombre"
+                        class="col-12"
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el nombre"
+                    />
+                </div>
+                <div class="col-4">
+                    <label htmlFor="iniciales">Iniciales</label>
+                    <input
+                        id="iniciales"
+                        [(ngModel)]="parqueSeleccionado.iniciales"
+                        class="col-12"
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese las iniciales"
+                    />
+                </div>
+                <div class="col-4">
+                    <label htmlFor="direccion">Direccion</label>
+                    <input
+                        id="direccion"
+                        [(ngModel)]="parqueSeleccionado.direccion"
+                        class="col-12"
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese la direccion"
+                    />
+                </div>
+                <div class="col-4">
+                    <label htmlFor="telefono">Telefono</label>
+                    <input
+                        id="telefono"
+                        [(ngModel)]="parqueSeleccionado.telefono"
+                        class="col-12"
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el telefono"
+                    />
+                </div>
+                <div class="col-4">
+                    <label htmlFor="longitud">Longitud</label>
+                    <input
+                        id="longitud"
+                        [(ngModel)]="parqueSeleccionado.longitud"
+                        class="col-12"
+                        type="number"
+                        pInputText
+                        placeholder="Ingrese la longitud"
+                    />
+                </div>
+                <div class="col-4">
+                    <label htmlFor="latitud">Latitud</label>
+                    <input
+                        id="latitud"
+                        [(ngModel)]="parqueSeleccionado.latitud"
+                        class="col-12"
+                        type="number"
+                        pInputText
+                        placeholder="Ingrese la latitud"
+                    />
+                </div>
+                <div class="col-4">
+                    <label htmlFor="tiposervicio">Municipio</label>
+                    <p-dropdown
+                        [style]="{
+                            width: '100%',
+                            height: '40px',
+                            marginTop: '10px'
+                        }"
+                        [options]="municipios"
+                        [(ngModel)]="municipiosSeleccionado"
+                        placeholder="Seleccione un municipio"
+                        [filter]="true"
+                        filterBy="value.nombre"
+                        [showClear]="true"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
+                <div class="col-4">
+                    <label htmlFor="urlyoutube">Url youtube</label>
+                    <input
+                        id="urlyoutube"
+                        [(ngModel)]="parqueSeleccionado.urlYoutube"
+                        class="col-12"
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese la url de youtube"
+                    />
+                </div>
+                <div class="col-4">
+                    <label htmlFor="estado">Estado</label>
+                    <p-dropdown
+                        [style]="{
+                            width: '100%',
+                            height: '40px',
+                            marginTop: '10px'
+                        }"
+                        [options]="estados"
+                        [(ngModel)]="estadoSeleccionado"
+                        [showClear]="true"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
+                <div class="col-12">
+                    <label htmlFor="observacion">Observaciones</label>
+                    <textarea
+                        [style]="{ width: '100%', marginTop: '10px' }"
+                        [(ngModel)]="parqueSeleccionado.observacion"
+                        id="observacion"
+                        rows="3"
+                        cols="30"
+                        pInputTextarea
+                    ></textarea>
+                </div>
+                <div class="col-6">
+                    <label htmlFor="imgparque">Imagen parque</label>
+                    <p-fileUpload
+                        #fileUpload1
+                        id="imgparque"
+                        [multiple]="false"
+                        [showUploadButton]="false"
+                        [showCancelButton]="false"
+                        name="file"
+                        accept="image/*"
+                        chooseLabel="Seleccionar imagen"
+                        (onSelect)="
+                            manejadorArchivoSeleccionado($event, 'imgParque')
+                        "
+                    >
+                        <ng-template pTemplate="content"> </ng-template>
+                    </p-fileUpload>
+                </div>
+                <div class="col-6">
+                    <label htmlFor="imgboton">Imagen boton</label>
+                    <p-fileUpload
+                        #fileUpload2
+                        id="imgboton"
+                        [multiple]="false"
+                        [showUploadButton]="false"
+                        [showCancelButton]="false"
+                        name="file"
+                        accept="image/*"
+                        chooseLabel="Seleccionar imagen"
+                        (onSelect)="
+                            manejadorArchivoSeleccionado($event, 'imgboton')
+                        "
+                    >
+                        <ng-template pTemplate="content"> </ng-template>
+                    </p-fileUpload>
+                </div>
+            </div>
+            <ng-template pTemplate="footer">
+                <button
+                    pButton
+                    icon="pi pi-times"
+                    (click)="display = false"
+                    label="Cancelar"
+                    class="p-button-danger"
+                ></button>
+                <button
+                    pButton
+                    icon="pi pi-check"
+                    (click)="createOrUpdate()"
+                    class="p-button-primary"
+                >
+                    {{ postOput ? "Agregar" : "Modificar" }}
+                </button>
+            </ng-template>
+        </p-dialog>
+    </div>
+    <div class="col-12">
+        <p-confirmDialog
+            header="Confirmacion"
+            key="confirmarEliminar"
+            [style]="{ width: '350px' }"
+            acceptButtonStyleClass="p-button-text"
+            rejectButtonStyleClass="p-button-text"
+        ></p-confirmDialog>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <h5>Servicios</h5>
+            <p-table
+                #dt1
+                [value]="parques"
+                dataKey="id"
+                [rows]="10"
+                [loading]="loading"
+                [paginator]="true"
+                [globalFilterFields]="['nombre']"
+                styleClass="p-datatable-gridlines"
+            >
+                <ng-template pTemplate="caption">
+                    <div
+                        class="flex justify-content-between flex-column sm:flex-row"
+                    >
+                        <div>
+                            <button
+                                pButton
+                                label="Agregar"
+                                class="p-button-outlined mb-2"
+                                icon="pi pi-plus"
+                                (click)="openDialogCreate()"
+                            ></button>
+                            <button
+                                pButton
+                                label="Clear"
+                                class="p-button-outlined mb-2"
+                                icon="pi pi-filter-slash"
+                                (click)="clear(dt1)"
+                            ></button>
+                        </div>
+
+                        <span class="p-input-icon-left mb-2">
+                            <i class="pi pi-search"></i>
+                            <input
+                                pInputText
+                                type="text"
+                                #filter
+                                (input)="onGlobalFilter(dt1, $event)"
+                                placeholder="Buscar"
+                                class="w-full"
+                            />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Id</th>
+                        <th>
+                            Nombre<p-columnFilter
+                                type="text"
+                                field="nombre"
+                                display="menu"
+                                placeholder="Buscar por nombre"
+                            />
+                        </th>
+                        <th>Iniciales</th>
+                        <th>Direccion</th>
+                        <th>Municipio</th>
+                        <th>Telefono</th>
+                        <th>Observaciones</th>
+                        <th>Img boton</th>
+                        <th>Video youtube</th>
+                        <th>Img parque</th>
+                        <th>longitud</th>
+                        <th>latitud</th>
+                        <th>
+                            Estado<p-columnFilter
+                                type="boolean"
+                                field="activo"
+                                display="menu"
+                            ></p-columnFilter>
+                        </th>
+                        <th>Modificar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-parque>
+                    <tr>
+                        <td class="text-justify">{{ parque.id }}</td>
+                        <td class="text-justify" style="min-width: 150px;">{{ parque.nombre }}</td>
+                        <td class="text-justify">{{ parque.iniciales }}</td>
+                        <td class="text-justify">{{ parque.direccion }}</td>
+                        <td class="text-justify">
+                            {{ parque.Municipio.nombre }}
+                        </td>
+                        <td class="text-justify">{{ parque.telefono }}</td>
+                        <td class="text-justify" style="min-width: 350px">
+                            {{ parque.observacion }}
+                        </td>
+                        <td>
+                            <p-image
+                                styleClass="custom-image"
+                                width="80"
+                                height="80"
+                                [src]="parque.urlImagenBoton"
+                                alt="Image"
+                                [preview]="true"
+                            ></p-image>
+                        </td>
+                        <td>
+                            <iframe
+                                width="200"
+                                height="150"
+                                src="https://www.youtube.com/embed/ReK0kscoF8o"
+                                frameborder="0"
+                                allowfullscreen
+                            ></iframe>
+                        </td>
+                        <td>
+                            <p-image
+                                styleClass="custom-image"
+                                width="80"
+                                height="80"
+                                [src]="parque.urlImagen"
+                                alt="Image"
+                                [preview]="true"
+                            ></p-image>
+                        </td>
+                        <td>{{ parque.longitud }}</td>
+                        <td>{{ parque.latitud }}</td>
+                        <td class="text-center" style="min-width: 150px">
+                            <i
+                                style="font-size: 1.5rem"
+                                class="pi"
+                                [ngClass]="{
+                                    'true-icon pi-check-circle text-green-500':
+                                        parque.activo,
+                                    'false-icon pi-times-circle text-pink-500':
+                                        !parque.activo
+                                }"
+                            ></i>
+                        </td>
+                        <td>
+                            <button
+                                pButton
+                                pRipple
+                                icon="pi pi-pencil"
+                                class="p-button-raised p-button-warning"
+                                (click)="openDialogUpdate(parque.id)"
+                            ></button>
+                        </td>
+                        <td>
+                            <button
+                                pButton
+                                pRipple
+                                icon="pi pi-trash"
+                                class="p-button-raised p-button-danger"
+                                (click)="confirmarEliminar(parque.id)"
+                            ></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

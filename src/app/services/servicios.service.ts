@@ -25,7 +25,7 @@ export class ServicioService {
     return this.http.delete<void>(url);
   }
 
-  updateDepartamento(servicio:Servicio): Observable<Servicio>{
+  updateServicio(servicio:Servicio): Observable<Servicio>{
     const url = `${API_URL}/servicio/${servicio.id}`;
     return this.http.put<Servicio>(url,servicio);
   }

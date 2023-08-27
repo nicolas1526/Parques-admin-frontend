@@ -15,6 +15,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
 import { FormsModule } from '@angular/forms';
+import { ImageModule } from 'primeng/image';
 
 @NgModule({
     declarations: [TipoServicioComponent],
@@ -33,7 +34,8 @@ import { FormsModule } from '@angular/forms';
         CheckboxModule,
         DropdownModule,
         FileUploadModule,
-        FormsModule
+        FormsModule,
+        ImageModule
     ],
 })
 export class TipoServicioModule {}

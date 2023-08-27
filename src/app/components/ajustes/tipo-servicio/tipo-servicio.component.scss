@@ -3,17 +3,20 @@
     flex-direction: row;
     flex-wrap: wrap;
 }
-td{
-    width: 10%;
-    img{
-        width: 60%;
-        height: 60%;
-    }
+
+::ng-deep .custom-image .p-image-preview {
+    background-color: white;
 }
 
 p-fileUpload{
     img{
         width: 20%;
         height: 20%;
+    }
+}
+
+div{
+    button{
+        margin-left: 10px;
     }
 }

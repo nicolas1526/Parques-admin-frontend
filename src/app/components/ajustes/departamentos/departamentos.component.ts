@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DepartamentosService } from 'src/app/services/departamentos.service';
 import { Departamento } from '../../../models/departamento.model';
 import { ConfirmationService } from 'primeng/api';
@@ -10,6 +10,7 @@ import { Table } from 'primeng/table';
     styleUrls: ['./departamentos.component.scss'],
 })
 export class DepartamentosComponent implements OnInit {
+    @ViewChild('filter') filter!: ElementRef;
     nameDepartemento: string = "";
     postOput: boolean = true;
     display: boolean = false;
@@ -117,5 +118,10 @@ export class DepartamentosComponent implements OnInit {
 
     clearInputs(){
         this.nameDepartemento = "";
+    }
+
+    clear(table: Table) {
+        table.clear();
+        this.filter.nativeElement.value = '';
     }
 }

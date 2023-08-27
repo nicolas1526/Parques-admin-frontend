@@ -1,0 +1,17 @@
+.dialogo{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    label{
+        font-weight: bold;
+    }
+    input,p-dropdown{
+        margin-top: 10px !important;
+    }
+}
+
+div{
+    button{
+        margin-left: 10px;
+    }
+}

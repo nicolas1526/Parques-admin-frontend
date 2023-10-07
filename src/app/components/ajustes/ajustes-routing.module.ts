@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
         { path: 'servicios', data: { breadcrumb: 'Servicios' }, loadChildren: () => import('./servicios/servicios.module').then(m => m.ServiciosModule) },
         { path: 'servicios-parque', data: { breadcrumb: 'Servicios del parques' }, loadChildren: () => import('./servicios-parque/servicios-parque.module').then(m => m.ServiciosParqueModule) },
         { path: 'parques', data: { breadcrumb: 'Parques' }, loadChildren: () => import('./parques/parques.module').then(m => m.ParquesModule) },
+        { path: 'horarios', data: { breadcrumb: 'Horarios' }, loadChildren: () => import('./horario/horario.module').then(m => m.HorarioModule) },
         { path: '**', redirectTo: '/notfound' }
     ])],
     exports: [RouterModule]

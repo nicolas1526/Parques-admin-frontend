@@ -1,8 +1,8 @@
 -- Modulo
-ng g module components/ajustes/tipo-servicio
+ng g module components/ajustes/horario
 -- componente
-ng g c components/ajustes/tipo-servicio
+ng g c components/ajustes/horario
 
-ng g service services/tipo-servicio
+ng g service services/horario
 -- rutas
-ng generate module components/ajustes/tipo-servicio/tipo-servicio-routing --flat --module=components/ajustes/tipo-servicio/tipo-servicio.module
+ng generate module components/ajustes/horario/horario-routing --flat --module=components/ajustes/horario/horario.module

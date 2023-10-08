@@ -1,8 +1,5 @@
 -- Modulo
-ng g module components/ajustes/galeria-parque
--- componente
-ng g c components/ajustes/galeria-parque
-
-ng g service services/galeria-parque
--- rutas
-ng generate module components/ajustes/galeria-parque/galeria-parque-routing --flat --module=components/ajustes/galeria-parque/galeria-parque.module
+ng g module components/ajustes/informate
+ng g c components/ajustes/informate
+ng g service services/informate
+ng generate module components/ajustes/informate/informate-routing --flat --module=components/ajustes/informate/informate.module

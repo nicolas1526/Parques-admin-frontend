@@ -39,7 +39,6 @@ export class ServiciosParqueComponent implements OnInit {
         private confirmationService: ConfirmationService,
         private serviceParque: ParquesService,
         private serviceServiciosParque: ServiciosParqueService,
-        private serviceTipoServicio: TipoServicioService,
         private serviceServicios: ServicioService
     ) {}
 
@@ -154,7 +153,6 @@ export class ServiciosParqueComponent implements OnInit {
             (objeto) => objeto.idParque === this.parqueSeleccionado.id
         );
         this.serviciosParque = serviciosParqueFiltrado;
-        console.log(this.serviciosParque)
         this.loading = false;
     }
 

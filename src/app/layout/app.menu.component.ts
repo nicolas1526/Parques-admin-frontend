@@ -27,6 +27,7 @@ export class AppMenuComponent implements OnInit {
                         label: 'Parques',
                         items: [
                             { label: 'Parques', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/parques'] },
+                            { label: 'Galerias', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/galeria-parques'] },
                             { label: 'Horarios', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/horarios'] },
                         ]
                     },

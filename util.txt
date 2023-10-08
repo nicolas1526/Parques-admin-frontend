@@ -1,8 +1,8 @@
 -- Modulo
-ng g module components/ajustes/horario
+ng g module components/ajustes/galeria-parque
 -- componente
-ng g c components/ajustes/horario
+ng g c components/ajustes/galeria-parque
 
-ng g service services/horario
+ng g service services/galeria-parque
 -- rutas
-ng generate module components/ajustes/horario/horario-routing --flat --module=components/ajustes/horario/horario.module
+ng generate module components/ajustes/galeria-parque/galeria-parque-routing --flat --module=components/ajustes/galeria-parque/galeria-parque.module

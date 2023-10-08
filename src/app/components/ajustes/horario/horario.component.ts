@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import { map } from 'rxjs';
 import { Table } from 'primeng/table';
@@ -80,7 +80,6 @@ export class HorarioComponent {
         (data) => {
 
           this.horarioSeleccionado.id = data.id;
-          console.log(this.horarioSeleccionado)
           this.horarios.push(this.horarioSeleccionado);
         },
         (error) => {

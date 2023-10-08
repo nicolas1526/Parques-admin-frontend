@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
         { path: 'servicios-parque', data: { breadcrumb: 'Servicios del parques' }, loadChildren: () => import('./servicios-parque/servicios-parque.module').then(m => m.ServiciosParqueModule) },
         { path: 'parques', data: { breadcrumb: 'Parques' }, loadChildren: () => import('./parques/parques.module').then(m => m.ParquesModule) },
         { path: 'horarios', data: { breadcrumb: 'Horarios' }, loadChildren: () => import('./horario/horario.module').then(m => m.HorarioModule) },
+        { path: 'galeria-parques', data: { breadcrumb: 'Galerias' }, loadChildren: () => import('./galeria-parque/galeria-parque.module').then(m => m.GaleriaParqueModule) },
         { path: '**', redirectTo: '/notfound' }
     ])],
     exports: [RouterModule]

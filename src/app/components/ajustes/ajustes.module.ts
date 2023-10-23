@@ -6,6 +6,8 @@ import { AjustesRoutingModule } from './ajustes-routing.module';
 	imports: [
 		CommonModule,
 		AjustesRoutingModule
+	],
+	declarations: [
 	]
 })
 export class AjustesModule { }

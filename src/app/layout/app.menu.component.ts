@@ -17,22 +17,53 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Home',
                 items: [
-                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }
-                ]
-            },
-            {
-                label: 'Ajustes',
-                items: [
-                    { label: 'Departamentos', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/departamentos']},
-                    { label: 'Municipios', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/municipios']},
-                    { label: 'Parques', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/parques']},
-                    { label: 'Tipo de servicios', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/tipo-servicios']},
-                    { label: 'Servicios', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/servicios']},
-                    { label: 'Servicios del parque', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/servicios-parque']},
+                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
+                    {
+                        label: 'Ajustes',
+                        icon: 'pi pi-fw pi-wrench',
 
+                        items: [
+                            {
+                                label: 'General',
+                                items: [
+                                    { label: 'Slider', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/slider'] },
+                                    { label: 'Informate', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/informate'] },
+                                    { label: 'Programate', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/programate'] },
+                                ]
+                            },
+                            {
+                                label: 'Parques',
+                                items: [
+                                    { label: 'Parques', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/parques'] },
+                                    { label: 'Galerias', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/galeria-parques'] },
+                                    { label: 'Horarios', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/horarios'] },
+                                ]
+                            },
+                            {
+                                label: 'Servicios',
+                                items: [
+                                    { label: 'Servicios', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/servicios'] },
+                                    { label: 'Servicios del parque', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/servicios-parque'] },
+                                    { label: 'Tipo de servicios', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/tipo-servicios'] },
+                                ]
+                            },
+                            {
+                                label: 'Departamentos y municipios',
+                                items: [
+                                    { label: 'Departamentos', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/departamentos'] },
+                                    { label: 'Municipios', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/municipios'] },
+                                ]
+                            },
+
+
+
+                        ]
+                    },
                 ]
             },
-            /*{
+
+            /*
+            {
                 label: 'UI Components',
                 items: [
 

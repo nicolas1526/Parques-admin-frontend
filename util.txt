@@ -1,8 +1,5 @@
 -- Modulo
-ng g module components/ajustes/tipo-servicio
--- componente
-ng g c components/ajustes/tipo-servicio
-
-ng g service services/tipo-servicio
--- rutas
-ng generate module components/ajustes/tipo-servicio/tipo-servicio-routing --flat --module=components/ajustes/tipo-servicio/tipo-servicio.module
+ng g module components/ajustes/programate
+ng g c components/ajustes/programate
+ng g service services/programate
+ng generate module components/ajustes/programate/programate-routing --flat --module=components/ajustes/programate/programate.module

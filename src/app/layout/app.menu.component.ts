@@ -21,7 +21,6 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Ajustes',
                         icon: 'pi pi-fw pi-wrench',
-
                         items: [
                             {
                                 label: 'General',

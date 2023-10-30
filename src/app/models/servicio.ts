@@ -27,5 +27,6 @@ export interface ServicioParque {
     activo?: boolean;
     cantidadPersonas?: number | null;
     cantidadMascotas?: number | null;
-    Servicio?: Servicio
+    Servicio?: Servicio;
+    nombre?: string
 }

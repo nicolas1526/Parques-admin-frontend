@@ -58,6 +58,16 @@ export class AppMenuComponent implements OnInit {
 
                         ]
                     },
+                    {
+                        label: 'Reservas',
+                        icon: 'pi pi-fw pi-wrench',
+                        items: [
+                            {
+                                label: 'Mantenimiento',
+                                routerLink: ['/reservas/mantenimiento']
+                            }
+                        ]
+                    }
                 ]
             },
 

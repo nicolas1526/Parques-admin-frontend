@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { API_URL } from 'src/app/constants/app.constants';
+import { API_URL, ID_CABAÑA } from 'src/app/constants/app.constants';
 import { Observable } from 'rxjs';
 import { ServicioParque } from '../models/servicio';
 @Injectable({
@@ -12,6 +12,11 @@ export class ServiciosParqueService {
 
   getServiciosParque():Observable<ServicioParque[]>{
     const url = `${API_URL}/servicio-parques`;
+    return this.http.get<ServicioParque[]>(url);
+  }
+
+  getCabañasParque(idParque: number | undefined):Observable<ServicioParque[]>{
+    const url = `${API_URL}/servicio-parques/parque/${idParque}/tipo-servicio/${ID_CABAÑA}`;
     return this.http.get<ServicioParque[]>(url);
   }
 

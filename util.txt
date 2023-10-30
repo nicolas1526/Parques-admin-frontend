@@ -1,5 +1,8 @@
 -- Modulo
-ng g module components/ajustes/programate
-ng g c components/ajustes/programate
-ng g service services/programate
-ng generate module components/ajustes/programate/programate-routing --flat --module=components/ajustes/programate/programate.module
+ng g module pages/reservas/mantenimiento
+ng g c pages/reservas/mantenimiento
+ng g service services/mantenimiento
+ng generate module pages/reservas/mantenimiento/mantenimiento-routing --flat --module=pages/reservas/mantenimiento/mantenimiento.module
+
+
+ng generate module pages/reservas/reservas-routing --flat --module=pages/reservas/reservas.module

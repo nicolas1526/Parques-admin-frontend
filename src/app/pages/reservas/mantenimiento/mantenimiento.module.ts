@@ -13,6 +13,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 
 @NgModule({
     declarations: [MantenimientoComponent],
@@ -29,7 +31,9 @@ import { CalendarModule } from 'primeng/calendar';
         ConfirmDialogModule,
         InputTextareaModule,
         CheckboxModule,
-        DropdownModule
+        DropdownModule,
+        MessagesModule,
+        MessageModule
     ],
 })
 export class MantenimientoModule {}

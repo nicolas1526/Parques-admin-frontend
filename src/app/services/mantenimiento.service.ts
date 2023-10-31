@@ -11,23 +11,23 @@ export class MantenimientoService {
 
     constructor(private http: HttpClient) { }
 
-    getDepartamentosByIdServicioParque(idServicioParque: number | undefined):Observable<Mantenimiento[]>{
+    getMantenimientosByServicioParque(idServicioParque: number | undefined):Observable<Mantenimiento[]>{
       const url = `${API_URL}/servicio-mantenimiento/mantenimientoServ/${idServicioParque}`;
       return this.http.get<Mantenimiento[]>(url);
     }
-    /*
-    deleteDepartamento(idDepartamento: number): Observable<void> {
-      const url = `${API_URL}/departamento/${idDepartamento}`;
+
+    deleteMantenimiento(idMantenimiento: number): Observable<void> {
+      const url = `${API_URL}/servicio-mantenimiento/${idMantenimiento}`;
       return this.http.delete<void>(url);
     }
 
-    updateDepartamento(departamento:Departamento): Observable<Departamento>{
-      const url = `${API_URL}/departamento/${departamento.id}`;
-      return this.http.put<Departamento>(url,departamento);
+    updateMantenimiento(mantenimiento:Mantenimiento): Observable<Mantenimiento>{
+      const url = `${API_URL}/servicio-mantenimiento/${mantenimiento.MantenimientoId}`;
+      return this.http.put<Mantenimiento>(url,mantenimiento);
     }
 
-    createDepartamento(departamento:Departamento):Observable<Departamento>{
-      const url = `${API_URL}/departamento`;
-      return this.http.post(url,departamento);
-    }*/
+    createMantenimiento(mantenimiento:Mantenimiento):Observable<Mantenimiento>{
+      const url = `${API_URL}/servicio-mantenimiento`;
+      return this.http.post<Mantenimiento>(url,mantenimiento);
+    }
 }

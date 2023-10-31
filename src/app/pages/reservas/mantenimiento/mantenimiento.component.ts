@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ConfirmationService, SelectItem } from 'primeng/api';
+import { ConfirmationService, SelectItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { map } from 'rxjs';
 import { MantenimientoService } from 'src/app/services/mantenimiento.service';
@@ -15,7 +15,7 @@ import {
 
 @Component({
     templateUrl: './mantenimiento.component.html',
-    providers: [ConfirmationService],
+    providers: [MessageService,ConfirmationService],
     styleUrls: ['./mantenimiento.component.scss'],
 })
 export class MantenimientoComponent {
@@ -25,47 +25,31 @@ export class MantenimientoComponent {
     parqueSeleccionado: Parques = {};
     cabanias: SelectItem[] = [];
     cabaniaSeleccionada: ServicioParque = {};
-
-
     mantenimientos: Mantenimiento[] = [];
-    mantenimientoSeleccionado?: Mantenimiento;
+    mantenimientoSeleccionado: Mantenimiento = {FechaFin:'',FechaInicio:''};
 
 
-    estados: SelectItem[] = [];
-    estadoSeleccionado?: boolean;
-    servicios: SelectItem[] = [];
-    servicioSeleccionado: Servicio = {};
 
 
+    fechaSeleccionada!: Date[];
+    todosLosDias: Date[] = [];
     display: boolean = false;
     loading: boolean = true;
     postOput: boolean = true;
-    esCabana: boolean = false;
 
-    date5!: Date[];
-    todosLosDias: Date[] = [];
-    invalidDates!: Array<Date>;
-    rangosDeFechas = [
-        {
-            fechaInicial: new Date(2023, 9, 1),
-            fechaFinal: new Date(2023, 9, 5),
-        },
-        {
-            fechaInicial: new Date(2023, 9, 10),
-            fechaFinal: new Date(2023, 9, 15),
-        },
-    ];
+
 
     constructor(
         private mantenimientoService: MantenimientoService,
         private serviceParque: ParquesService,
         private serviciosParqueService: ServiciosParqueService,
-        private confirmationService: ConfirmationService
+        private messageService: MessageService,
+        private confirmationService: ConfirmationService,
+
     ) {}
 
     ngOnInit() {
         this.getParques();
-        this.getFechasMantenimientoPorServicioParque(136);
     }
 
     getParques() {
@@ -117,23 +101,10 @@ export class MantenimientoComponent {
         );
     }
 
-
-
-    onDropdownChangeCabania(event: any) {
-        this.loading = true;
-        this.getFechasMantenimientoPorServicioParque(this.cabaniaSeleccionada.id)
-    }
-
-    onDropdownChangeParque(event: any) {
-        this.cabaniaSeleccionada = {}
-        this.getCabanias();
-
-    }
-
-
     getFechasMantenimientoPorServicioParque(idServicioParque: number | undefined) {
+        this.todosLosDias = []
         this.mantenimientoService
-            .getDepartamentosByIdServicioParque(idServicioParque)
+            .getMantenimientosByServicioParque(idServicioParque)
             .subscribe(
                 (data) => {
                     this.mantenimientos = data;
@@ -149,7 +120,6 @@ export class MantenimientoComponent {
                         this.todosLosDias.push(...fechasEntreRango);
                     });
                     this.loading = false;
-                    console.log(this.mantenimientos)
                 },
                 (error) => {
                     console.error('Error en la peticion: ', error);
@@ -169,9 +139,133 @@ export class MantenimientoComponent {
         return fechas;
     }
 
+    createMantenimiento(){
+        this.mantenimientoSeleccionado.ServicioId = this.cabaniaSeleccionada.id;
+        try {
+            if(this.fechaSeleccionada[1] !== null){
+                this.mantenimientoSeleccionado.FechaInicio = this.fechaSeleccionada[0].toISOString().substring(0,10);
+                this.mantenimientoSeleccionado.FechaFin = this.fechaSeleccionada[1].toISOString().substring(0,10);
+            }else{
+                this.mantenimientoSeleccionado.FechaInicio = this.fechaSeleccionada[0].toISOString().substring(0,10);
+                this.mantenimientoSeleccionado.FechaFin = this.fechaSeleccionada[0].toISOString().substring(0,10);
+            }
+            this.mantenimientoService
+            .createMantenimiento(this.mantenimientoSeleccionado!)
+            .subscribe(
+                (data) => {
+                    this.mantenimientoSeleccionado.MantenimientoId = data.MantenimientoId;
+                    this.mantenimientos.push(this.mantenimientoSeleccionado!);
+                    this.getFechasMantenimientoPorServicioParque(this.cabaniaSeleccionada.id);
+                },
+                (error) => {
+                    console.error('Error en la peticion: ', error);
+                }
+            );
+            this.display = false;
+        } catch (error) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe seleccionar un rango de fechas' });
+        }
+    }
+
+    updateMantenimiento(mantenimiento: Mantenimiento) {
+        try {
+            if(this.fechaSeleccionada[1] !== null){
+                mantenimiento.FechaInicio = this.fechaSeleccionada[0].toISOString().substring(0,10);
+                mantenimiento.FechaFin = this.fechaSeleccionada[1].toISOString().substring(0,10);
+            }else{
+                mantenimiento.FechaInicio = this.fechaSeleccionada[0].toISOString().substring(0,10);
+                mantenimiento.FechaFin = this.fechaSeleccionada[0].toISOString().substring(0,10);
+            }
+            this.mantenimientoService
+            .updateMantenimiento(mantenimiento)
+            .subscribe(
+                (data) => {
+                    this.mantenimientos.push(mantenimiento);
+                    this.getFechasMantenimientoPorServicioParque(this.cabaniaSeleccionada.id);
+                },
+                (error) => {
+                    console.error('Error en la peticion: ', error);
+                }
+            );
+            this.display = false;
+        } catch (error) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe seleccionar un rango de fechas' });
+        }
+    }
+
+    deleteMantenimiento(idMantenimiento: number){
+        this.mantenimientoService.deleteMantenimiento(idMantenimiento).subscribe(
+            () => {
+                const index = this.mantenimientos.findIndex(
+                    (data) => data.MantenimientoId === idMantenimiento
+                );
+                this.mantenimientos.splice(index, 1);
+                this.getFechasMantenimientoPorServicioParque(this.cabaniaSeleccionada.id);
+            },
+            (error) => {
+                console.error('Error en la peticion: ', error);
+            }
+        );
+    }
+
+
+
+    createOrUpdate() {
+
+        if (this.mantenimientoSeleccionado !== undefined) {
+            if (this.postOput) {
+                this.createMantenimiento();
+            } else {
+                this.updateMantenimiento(this.mantenimientoSeleccionado);
+            }
+
+        }
+    }
+
     openDialogCreate() {
+        this.mantenimientoSeleccionado = {FechaFin:'',FechaInicio:''}
+        this.fechaSeleccionada = []
         this.display = true;
         this.postOput = true;
+    }
+
+    openDialogUpdate(idMantenimiento: number) {
+        const indexMantenimiento = this.mantenimientos.findIndex(
+            (data) => data.MantenimientoId === idMantenimiento
+        );
+
+        this.mantenimientoSeleccionado = {
+            MantenimientoId: idMantenimiento,
+            ServicioId: this.cabaniaSeleccionada.id,
+            FechaInicio: this.mantenimientos[indexMantenimiento].FechaInicio,
+            FechaFin: this.mantenimientos[indexMantenimiento].FechaFin
+        }
+
+        this.display = true;
+        this.postOput = false;
+
+    }
+
+    confirmarEliminar(idMantenimiento: number) {
+        this.confirmationService.confirm({
+            key: 'confirmarEliminar',
+            message: '¿Seguro quiere elimiar este mantenimiento?',
+            accept: () => {
+                this.deleteMantenimiento(idMantenimiento);
+            },
+        });
+    }
+
+    onDropdownChangeCabania(event: any) {
+        this.loading = true;
+        this.getFechasMantenimientoPorServicioParque(this.cabaniaSeleccionada.id)
+
+    }
+
+    onDropdownChangeParque(event: any) {
+        this.cabaniaSeleccionada = {}
+        this.getCabanias();
+
     }
 
     dateIsInList(date: any): boolean {
@@ -196,8 +290,5 @@ export class MantenimientoComponent {
         this.filter.nativeElement.value = '';
     }
 
-    toggleCheckbox() {
-        this.esCabana = !this.esCabana;
-      }
 
 }

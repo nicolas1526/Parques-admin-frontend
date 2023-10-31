@@ -29,7 +29,7 @@
                         }"
                         [options]="estados"
                         [(ngModel)]="estadoSeleccionado"
-                        [showClear]="true"
+                        [showClear]="false"
                         appendTo="body"
                     ></p-dropdown>
                 </div>
@@ -105,7 +105,7 @@
                     placeholder="Seleccione un parque"
                     [filter]="true"
                     filterBy="value.nombre"
-                    [showClear]="true"
+                    [showClear]="false"
                     appendTo="body"
                 ></p-dropdown>
             </div>

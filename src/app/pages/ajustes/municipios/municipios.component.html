@@ -1,71 +1,7 @@
 <div class="grid">
     <div class="col-12">
-        <p-dialog
-            header="Crear departamento"
-            [(visible)]="display"
-            [modal]="true"
-            showEffect="fade"
-            [style]="{ width: '60vw' }"
-            [breakpoints]="{ '960px': '75vw' }"
-        >
-            <div class="dialogo">
-                <div class="col-6">
-                    <h5>Nombre del municipio</h5>
-                    <input
-                        [(ngModel)]="municipioSeleccionado.nombre"
-                        class="col-12"
-                        type="text"
-                        pInputText
-                        placeholder="Ingrese el nombre"
-                    />
-                </div>
-                <div class="col-6">
-                    <h5>Departamento:</h5>
-                    <p-dropdown
-                        [style]="{ width: '100%', height: '45px' }"
-                        [options]="departamentos"
-                        [(ngModel)]="departamentoSeleccionado"
-                        placeholder="Seleccione un departamento"
-                        [filter]="true"
-                        filterBy="value.nombre"
-                        [showClear]="false"
-                        appendTo="body"
-                    ></p-dropdown>
-                </div>
-            </div>
-
-            <ng-template pTemplate="footer">
-                <button
-                    pButton
-                    icon="pi pi-times"
-                    (click)="display = false"
-                    label="Cancelar"
-                    class="p-button-danger"
-                ></button>
-                <button
-                    pButton
-                    icon="pi pi-check"
-                    class="p-button-primary"
-                    (click)="createOrUpdate()"
-                >
-                    {{ postOput ? "Agregar" : "Modificar" }}
-                </button>
-            </ng-template>
-        </p-dialog>
-    </div>
-    <div class="col-12">
-        <p-confirmDialog
-            header="Confirmacion"
-            key="confirmarEliminar"
-            [style]="{ width: '350px' }"
-            acceptButtonStyleClass="p-button-text"
-            rejectButtonStyleClass="p-button-text"
-        ></p-confirmDialog>
-    </div>
-
-    <div class="col-12">
         <div class="card">
-            <h5>Departamentos</h5>
+            <h5>Municipios</h5>
             <p-table
                 #dt1
                 [value]="municipios"
@@ -161,5 +97,68 @@
                 </ng-template>
             </p-table>
         </div>
+    </div>
+    <div class="col-12">
+        <p-dialog
+            header="Crear departamento"
+            [(visible)]="display"
+            [modal]="true"
+            showEffect="fade"
+            [style]="{ width: '60vw' }"
+            [breakpoints]="{ '960px': '75vw' }"
+        >
+            <div class="dialogo">
+                <div class="col-6">
+                    <h5>Nombre del municipio</h5>
+                    <input
+                        [(ngModel)]="municipioSeleccionado.nombre"
+                        class="col-12"
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el nombre"
+                    />
+                </div>
+                <div class="col-6">
+                    <h5>Departamento:</h5>
+                    <p-dropdown
+                        [style]="{ width: '100%', height: '45px' }"
+                        [options]="departamentos"
+                        [(ngModel)]="departamentoSeleccionado"
+                        placeholder="Seleccione un departamento"
+                        [filter]="true"
+                        filterBy="value.nombre"
+                        [showClear]="false"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
+            </div>
+
+            <ng-template pTemplate="footer">
+                <button
+                    pButton
+                    icon="pi pi-times"
+                    (click)="display = false"
+                    label="Cancelar"
+                    class="p-button-danger"
+                ></button>
+                <button
+                    pButton
+                    icon="pi pi-check"
+                    class="p-button-primary"
+                    (click)="createOrUpdate()"
+                >
+                    {{ postOput ? "Agregar" : "Modificar" }}
+                </button>
+            </ng-template>
+        </p-dialog>
+    </div>
+    <div class="col-12">
+        <p-confirmDialog
+            header="Confirmacion"
+            key="confirmarEliminar"
+            [style]="{ width: '350px' }"
+            acceptButtonStyleClass="p-button-text"
+            rejectButtonStyleClass="p-button-text"
+        ></p-confirmDialog>
     </div>
 </div>

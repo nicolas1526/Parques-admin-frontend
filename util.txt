@@ -1,8 +1,8 @@
 -- Modulo
-ng g module pages/reservas/mantenimiento
-ng g c pages/reservas/mantenimiento
-ng g service services/mantenimiento
-ng generate module pages/reservas/mantenimiento/mantenimiento-routing --flat --module=pages/reservas/mantenimiento/mantenimiento.module
+ng g module pages/reservas/reserva
+ng g c pages/reservas/reserva
+ng g service services/reserva
+ng generate module pages/reservas/reserva/reserva-routing --flat --module=pages/reservas/reserva/reserva.module
 
 
 ng generate module pages/reservas/reservas-routing --flat --module=pages/reservas/reservas.module

@@ -1,0 +1,130 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <div class="p-fluid grid m-1 p-2 card-form">
+                <div class="field col-6">
+                    <label><b>Documento:</b></label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el titulo"
+                    />
+                </div>
+                <div class="field col-6">
+                    <label><b>Nombre:</b></label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el titulo"
+                    />
+                </div>
+                <div class="field col-6">
+                    <label><b>Email:</b></label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el titulo"
+                    />
+                </div>
+                <div class="field col-3">
+                    <label><b>Celular:</b></label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el titulo"
+                    />
+                </div>
+                <div class="field col-3">
+                    <label><b>Telefono:</b></label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el titulo"
+                    />
+                </div>
+
+                <div class="field col-6">
+                    <label><b>Dirección:</b></label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el titulo"
+                    />
+                </div>
+                <div class="field col-3">
+                    <label><b>Tipo usuario:</b></label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el titulo"
+                    />
+                </div>
+                <div class="field col-3">
+                    <label><b>Municipio:</b></label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el titulo"
+                    />
+                </div>
+            </div>
+            <br>
+            <div class="p-fluid grid m-1 p-2 card-form">
+                <div class="field col-6">
+                    <label><b>Parque:</b></label>
+                    <p-dropdown
+                        [style]="{
+                            height: '38px',
+                            marginBottom: '10px'
+                        }"
+                        placeholder="Seleccione un parque"
+                        [filter]="true"
+                        filterBy="value.nombre"
+                        [showClear]="false"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
+                <div class="field col-6">
+                    <label><b>Cabaña:</b></label>
+                    <p-dropdown
+                        [style]="{
+                            height: '38px',
+                            marginBottom: '10px'
+                        }"
+                        placeholder="Seleccione una cabaña"
+                        [filter]="true"
+                        filterBy="value.nombre"
+                        [showClear]="false"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
+                <div class="field col-4">
+                    <label><b>Fechas:</b></label>
+                    <p-calendar
+                        #calendar
+                        appendTo="body"
+                        selectionMode="range"
+                        [inline]="true"
+                        [readonlyInput]="true"
+                        inputId="disabledays"
+                        placeholder="Seleccione un rango de fecha"
+                    >
+                        <ng-template pTemplate="date" let-date>
+                            <span
+                                [ngClass]="{
+
+                                }"
+                                >{{ date.day }}
+                            </span>
+                        </ng-template>
+                    </p-calendar>
+                </div>
+                <div class="field col-8"></div>
+                <div class="field col-4">
+                    <button pButton pRipple type="button" label="Adicionar servicio" class="p-button-outlined"></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

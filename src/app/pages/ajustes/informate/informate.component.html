@@ -1,142 +1,5 @@
 <div class="grid">
     <div class="col-12">
-        <p-dialog
-            header="{{ titulo }}"
-            [(visible)]="display"
-            [modal]="true"
-            showEffect="fade"
-            [style]="{ width: '60vw' }"
-            [breakpoints]="{ '960px': '75vw' }"
-        >
-            <div class="dialogo">
-                <div class="col-4">
-                    <label><b>Titulo</b></label>
-                    <input
-                        [(ngModel)]="informateSeleccionado.titulo"
-                        class="col-12"
-                        type="text"
-                        pInputText
-                        placeholder="Ingrese el titulo"
-                    />
-                </div>
-                <div class="col-4">
-                    <label><b>Fecha</b></label>
-                    <input
-                        [(ngModel)]="informateSeleccionado.fecha"
-                        class="col-12"
-                        type="date"
-                        pInputText
-                        placeholder="Ingrese la fecha"
-                    />
-                </div>
-                <div class="col-4">
-                    <label htmlFor="estado"><b>Estado</b></label>
-                    <p-dropdown
-                        [style]="{
-                            width: '100%',
-                            height: '40px',
-                            marginTop: '10px'
-                        }"
-                        [options]="estados"
-                        [(ngModel)]="estadoSeleccionado"
-                        [showClear]="false"
-                        appendTo="body"
-                    ></p-dropdown>
-                </div>
-                <div class="col-4">
-                    <label><b>Titulo Imagen</b></label>
-                    <input
-                        [(ngModel)]="informateSeleccionado.tituloImagen"
-                        class="col-12"
-                        type="text"
-                        pInputText
-                        placeholder="Ingrese el titulo de la imagen"
-                    />
-                </div>
-                <div class="col-4">
-                    <label><b>Url ver mas</b></label>
-                    <input
-                        [(ngModel)]="informateSeleccionado.urlVerMas"
-                        class="col-12"
-                        type="url"
-                        pInputText
-                        placeholder="Ingrese la url"
-                    />
-                </div>
-
-
-                <div class="col-4">
-                    <label><b>Etiquetas</b></label>
-                    <input
-                        [(ngModel)]="etiquetas"
-                        class="col-12"
-                        type="text"
-                        pInputText
-                        placeholder="Ingrese las etiquetas"
-                    />
-                </div>
-
-
-
-                <div class="col-6">
-                    <label htmlFor="descripcionservicio"><b>Descripcion</b></label>
-                    <textarea
-                        [style]="{ width: '100%', marginTop: '10px' }"
-                        [(ngModel)]="informateSeleccionado.descripcion"
-                        id="descripcionservicio"
-                        rows="7"
-                        cols="30"
-                        pInputTextarea
-                    ></textarea>
-                </div>
-                <div class="col-6">
-                    <label htmlFor="img"><b>Imagen</b></label>
-                    <p-fileUpload
-                        #fileUpload1
-                        id="img"
-                        [multiple]="false"
-                        [showUploadButton]="false"
-                        [showCancelButton]="false"
-                        name="file"
-                        accept="image/*"
-                        chooseLabel="Seleccionar imagen"
-                        (onSelect)="manejadorArchivoSeleccionado($event)"
-                    >
-                        <ng-template pTemplate="content"> </ng-template>
-                    </p-fileUpload>
-                </div>
-            </div>
-
-            <ng-template pTemplate="footer">
-                <button
-                    pButton
-                    icon="pi pi-times"
-                    (click)="display = false"
-                    label="Cancelar"
-                    class="p-button-danger"
-                ></button>
-                <button
-                    pButton
-                    icon="pi pi-check"
-                    class="p-button-primary"
-                    (click)="createOrUpdate()"
-                >
-                    {{ postOput ? "Agregar" : "Modificar" }}
-                </button>
-            </ng-template>
-        </p-dialog>
-    </div>
-    <div class="col-12">
-        <p-confirmDialog
-            header="Confirmacion"
-            key="confirmarEliminar"
-            [style]="{ width: '350px' }"
-            acceptButtonStyleClass="p-button-text"
-            rejectButtonStyleClass="p-button-text"
-        ></p-confirmDialog>
-    </div>
-
-    <div class="col-12">
         <div class="card">
             <h5>Informate</h5>
             <p-table
@@ -281,5 +144,141 @@
                 </ng-template>
             </p-table>
         </div>
+    </div>
+    <div class="col-12">
+        <p-dialog
+            header="{{ titulo }}"
+            [(visible)]="display"
+            [modal]="true"
+            showEffect="fade"
+            [style]="{ width: '60vw' }"
+            [breakpoints]="{ '960px': '75vw' }"
+        >
+            <div class="dialogo">
+                <div class="col-4">
+                    <label><b>Titulo</b></label>
+                    <input
+                        [(ngModel)]="informateSeleccionado.titulo"
+                        class="col-12"
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el titulo"
+                    />
+                </div>
+                <div class="col-4">
+                    <label><b>Fecha</b></label>
+                    <input
+                        [(ngModel)]="informateSeleccionado.fecha"
+                        class="col-12"
+                        type="date"
+                        pInputText
+                        placeholder="Ingrese la fecha"
+                    />
+                </div>
+                <div class="col-4">
+                    <label htmlFor="estado"><b>Estado</b></label>
+                    <p-dropdown
+                        [style]="{
+                            width: '100%',
+                            height: '40px',
+                            marginTop: '10px'
+                        }"
+                        [options]="estados"
+                        [(ngModel)]="estadoSeleccionado"
+                        [showClear]="false"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
+                <div class="col-4">
+                    <label><b>Titulo Imagen</b></label>
+                    <input
+                        [(ngModel)]="informateSeleccionado.tituloImagen"
+                        class="col-12"
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el titulo de la imagen"
+                    />
+                </div>
+                <div class="col-4">
+                    <label><b>Url ver mas</b></label>
+                    <input
+                        [(ngModel)]="informateSeleccionado.urlVerMas"
+                        class="col-12"
+                        type="url"
+                        pInputText
+                        placeholder="Ingrese la url"
+                    />
+                </div>
+
+
+                <div class="col-4">
+                    <label><b>Etiquetas</b></label>
+                    <input
+                        [(ngModel)]="etiquetas"
+                        class="col-12"
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese las etiquetas"
+                    />
+                </div>
+
+
+
+                <div class="col-6">
+                    <label htmlFor="descripcionservicio"><b>Descripcion</b></label>
+                    <textarea
+                        [style]="{ width: '100%', marginTop: '10px' }"
+                        [(ngModel)]="informateSeleccionado.descripcion"
+                        id="descripcionservicio"
+                        rows="7"
+                        cols="30"
+                        pInputTextarea
+                    ></textarea>
+                </div>
+                <div class="col-6">
+                    <label htmlFor="img"><b>Imagen</b></label>
+                    <p-fileUpload
+                        #fileUpload1
+                        id="img"
+                        [multiple]="false"
+                        [showUploadButton]="false"
+                        [showCancelButton]="false"
+                        name="file"
+                        accept="image/*"
+                        chooseLabel="Seleccionar imagen"
+                        (onSelect)="manejadorArchivoSeleccionado($event)"
+                    >
+                        <ng-template pTemplate="content"> </ng-template>
+                    </p-fileUpload>
+                </div>
+            </div>
+
+            <ng-template pTemplate="footer">
+                <button
+                    pButton
+                    icon="pi pi-times"
+                    (click)="display = false"
+                    label="Cancelar"
+                    class="p-button-danger"
+                ></button>
+                <button
+                    pButton
+                    icon="pi pi-check"
+                    class="p-button-primary"
+                    (click)="createOrUpdate()"
+                >
+                    {{ postOput ? "Agregar" : "Modificar" }}
+                </button>
+            </ng-template>
+        </p-dialog>
+    </div>
+    <div class="col-12">
+        <p-confirmDialog
+            header="Confirmacion"
+            key="confirmarEliminar"
+            [style]="{ width: '350px' }"
+            acceptButtonStyleClass="p-button-text"
+            rejectButtonStyleClass="p-button-text"
+        ></p-confirmDialog>
     </div>
 </div>

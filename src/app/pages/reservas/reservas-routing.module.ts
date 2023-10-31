@@ -12,6 +12,14 @@ import { RouterModule } from '@angular/router';
                     (m) => m.MantenimientoModule
                 ),
         },
+        {
+            path: 'reserva',
+            data: { breadcrumb: 'Reserva' },
+            loadChildren: () =>
+                import('./reserva/reserva.module').then(
+                    (m) => m.ReservaModule
+                ),
+        },
         { path: '**', redirectTo: '/notfound' },
     ])
   ],

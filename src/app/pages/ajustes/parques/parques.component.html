@@ -1,4 +1,163 @@
 <div class="grid">
+
+    <div class="col-12">
+        <div class="card">
+            <h5>Servicios</h5>
+            <p-table
+                #dt1
+                [value]="parques"
+                dataKey="id"
+                [rows]="10"
+                [loading]="loading"
+                [paginator]="true"
+                [globalFilterFields]="['nombre']"
+                styleClass="p-datatable-gridlines"
+            >
+                <ng-template pTemplate="caption">
+                    <div
+                        class="flex justify-content-between flex-column sm:flex-row"
+                    >
+                        <div>
+                            <button
+                                pButton
+                                label="Agregar"
+                                class="p-button-outlined mb-2"
+                                icon="pi pi-plus"
+                                (click)="openDialogCreate()"
+                            ></button>
+                            <button
+                                pButton
+                                label="Clear"
+                                class="p-button-outlined mb-2"
+                                icon="pi pi-filter-slash"
+                                (click)="clear(dt1)"
+                            ></button>
+                        </div>
+
+                        <span class="p-input-icon-left mb-2">
+                            <i class="pi pi-search"></i>
+                            <input
+                                pInputText
+                                type="text"
+                                #filter
+                                (input)="onGlobalFilter(dt1, $event)"
+                                placeholder="Buscar"
+                                class="w-full"
+                            />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Id</th>
+                        <th>
+                            Nombre<p-columnFilter
+                                type="text"
+                                field="nombre"
+                                display="menu"
+                                placeholder="Buscar por nombre"
+                            />
+                        </th>
+                        <th>Iniciales</th>
+                        <th>Direccion</th>
+                        <th>Municipio</th>
+                        <th>Telefono</th>
+                        <th>Observaciones</th>
+                        <th>Img boton</th>
+                        <th>Video youtube</th>
+                        <th>Img parque</th>
+                        <th>longitud</th>
+                        <th>latitud</th>
+                        <th>
+                            Estado<p-columnFilter
+                                type="boolean"
+                                field="activo"
+                                display="menu"
+                            ></p-columnFilter>
+                        </th>
+                        <th>Modificar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-parque>
+                    <tr>
+                        <td class="text-justify">{{ parque.id }}</td>
+                        <td class="text-justify" style="min-width: 150px;">{{ parque.nombre }}</td>
+                        <td class="text-justify">{{ parque.iniciales }}</td>
+                        <td class="text-justify">{{ parque.direccion }}</td>
+                        <td class="text-justify">
+                            {{ parque.Municipio.nombre }}
+                        </td>
+                        <td class="text-justify">{{ parque.telefono }}</td>
+                        <td class="text-justify" style="min-width: 350px">
+                            {{ parque.observacion }}
+                        </td>
+                        <td>
+                            <p-image
+                                styleClass="custom-image"
+                                width="80"
+                                height="80"
+                                [src]="parque.urlImagenBoton"
+                                alt="Image"
+                                [preview]="true"
+                            ></p-image>
+                        </td>
+                        <td>
+                            <iframe
+                                width="200"
+                                height="150"
+                                src="https://www.youtube.com/embed/ReK0kscoF8o"
+                                frameborder="0"
+                                allowfullscreen
+                            ></iframe>
+                        </td>
+                        <td>
+                            <p-image
+                                styleClass="custom-image"
+                                width="80"
+                                height="80"
+                                [src]="parque.urlImagen"
+                                alt="Image"
+                                [preview]="true"
+                            ></p-image>
+                        </td>
+                        <td>{{ parque.longitud }}</td>
+                        <td>{{ parque.latitud }}</td>
+                        <td class="text-center" style="min-width: 150px">
+                            <i
+                                style="font-size: 1.5rem"
+                                class="pi"
+                                [ngClass]="{
+                                    'true-icon pi-check-circle text-green-500':
+                                        parque.activo,
+                                    'false-icon pi-times-circle text-pink-500':
+                                        !parque.activo
+                                }"
+                            ></i>
+                        </td>
+                        <td>
+                            <button
+                                pButton
+                                pRipple
+                                icon="pi pi-pencil"
+                                class="p-button-raised p-button-warning"
+                                (click)="openDialogUpdate(parque.id)"
+                            ></button>
+                        </td>
+                        <td>
+                            <button
+                                pButton
+                                pRipple
+                                icon="pi pi-trash"
+                                class="p-button-raised p-button-danger"
+                                (click)="confirmarEliminar(parque.id)"
+                            ></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
     <div class="col-12">
         <p-dialog
             header="Crear servicio"
@@ -192,164 +351,5 @@
             acceptButtonStyleClass="p-button-text"
             rejectButtonStyleClass="p-button-text"
         ></p-confirmDialog>
-    </div>
-
-    <div class="col-12">
-        <div class="card">
-            <h5>Servicios</h5>
-            <p-table
-                #dt1
-                [value]="parques"
-                dataKey="id"
-                [rows]="10"
-                [loading]="loading"
-                [paginator]="true"
-                [globalFilterFields]="['nombre']"
-                styleClass="p-datatable-gridlines"
-            >
-                <ng-template pTemplate="caption">
-                    <div
-                        class="flex justify-content-between flex-column sm:flex-row"
-                    >
-                        <div>
-                            <button
-                                pButton
-                                label="Agregar"
-                                class="p-button-outlined mb-2"
-                                icon="pi pi-plus"
-                                (click)="openDialogCreate()"
-                            ></button>
-                            <button
-                                pButton
-                                label="Clear"
-                                class="p-button-outlined mb-2"
-                                icon="pi pi-filter-slash"
-                                (click)="clear(dt1)"
-                            ></button>
-                        </div>
-
-                        <span class="p-input-icon-left mb-2">
-                            <i class="pi pi-search"></i>
-                            <input
-                                pInputText
-                                type="text"
-                                #filter
-                                (input)="onGlobalFilter(dt1, $event)"
-                                placeholder="Buscar"
-                                class="w-full"
-                            />
-                        </span>
-                    </div>
-                </ng-template>
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>Id</th>
-                        <th>
-                            Nombre<p-columnFilter
-                                type="text"
-                                field="nombre"
-                                display="menu"
-                                placeholder="Buscar por nombre"
-                            />
-                        </th>
-                        <th>Iniciales</th>
-                        <th>Direccion</th>
-                        <th>Municipio</th>
-                        <th>Telefono</th>
-                        <th>Observaciones</th>
-                        <th>Img boton</th>
-                        <th>Video youtube</th>
-                        <th>Img parque</th>
-                        <th>longitud</th>
-                        <th>latitud</th>
-                        <th>
-                            Estado<p-columnFilter
-                                type="boolean"
-                                field="activo"
-                                display="menu"
-                            ></p-columnFilter>
-                        </th>
-                        <th>Modificar</th>
-                        <th>Eliminar</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-parque>
-                    <tr>
-                        <td class="text-justify">{{ parque.id }}</td>
-                        <td class="text-justify" style="min-width: 150px;">{{ parque.nombre }}</td>
-                        <td class="text-justify">{{ parque.iniciales }}</td>
-                        <td class="text-justify">{{ parque.direccion }}</td>
-                        <td class="text-justify">
-                            {{ parque.Municipio.nombre }}
-                        </td>
-                        <td class="text-justify">{{ parque.telefono }}</td>
-                        <td class="text-justify" style="min-width: 350px">
-                            {{ parque.observacion }}
-                        </td>
-                        <td>
-                            <p-image
-                                styleClass="custom-image"
-                                width="80"
-                                height="80"
-                                [src]="parque.urlImagenBoton"
-                                alt="Image"
-                                [preview]="true"
-                            ></p-image>
-                        </td>
-                        <td>
-                            <iframe
-                                width="200"
-                                height="150"
-                                src="https://www.youtube.com/embed/ReK0kscoF8o"
-                                frameborder="0"
-                                allowfullscreen
-                            ></iframe>
-                        </td>
-                        <td>
-                            <p-image
-                                styleClass="custom-image"
-                                width="80"
-                                height="80"
-                                [src]="parque.urlImagen"
-                                alt="Image"
-                                [preview]="true"
-                            ></p-image>
-                        </td>
-                        <td>{{ parque.longitud }}</td>
-                        <td>{{ parque.latitud }}</td>
-                        <td class="text-center" style="min-width: 150px">
-                            <i
-                                style="font-size: 1.5rem"
-                                class="pi"
-                                [ngClass]="{
-                                    'true-icon pi-check-circle text-green-500':
-                                        parque.activo,
-                                    'false-icon pi-times-circle text-pink-500':
-                                        !parque.activo
-                                }"
-                            ></i>
-                        </td>
-                        <td>
-                            <button
-                                pButton
-                                pRipple
-                                icon="pi pi-pencil"
-                                class="p-button-raised p-button-warning"
-                                (click)="openDialogUpdate(parque.id)"
-                            ></button>
-                        </td>
-                        <td>
-                            <button
-                                pButton
-                                pRipple
-                                icon="pi pi-trash"
-                                class="p-button-raised p-button-danger"
-                                (click)="confirmarEliminar(parque.id)"
-                            ></button>
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </div>
     </div>
 </div>

@@ -65,13 +65,17 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: 'Mantenimiento',
                                 routerLink: ['/reservas/mantenimiento']
+                            },
+                            {
+                                label: 'Reserva',
+                                routerLink: ['/reservas/reserva']
                             }
                         ]
                     }
                 ]
             },
 
-            /*
+
             {
                 label: 'UI Components',
                 items: [
@@ -212,7 +216,7 @@ export class AppMenuComponent implements OnInit {
                         label: 'View Source', icon: 'pi pi-fw pi-search', url: ['https://github.com/primefaces/sakai-ng'], target: '_blank'
                     }
                 ]
-            }*/
+            }
         ];
     }
 }

@@ -1,87 +1,5 @@
 <div class="grid">
     <div class="col-12">
-        <p-dialog
-            header="{{ titulo }}"
-            [(visible)]="display"
-            [modal]="true"
-            showEffect="fade"
-            [style]="{ width: '60vw' }"
-            [breakpoints]="{ '960px': '75vw' }"
-        >
-            <div class="dialogo">
-                <div class="col-6">
-                    <label><b>Titulo</b></label>
-                    <input
-                        [(ngModel)]="sliderSeleccionado.nombre"
-                        class="col-12"
-                        type="text"
-                        pInputText
-                        placeholder="Ingrese el titulo"
-                    />
-                </div>
-                <div class="col-6">
-                    <label htmlFor="estado"><b>Estado</b></label>
-                    <p-dropdown
-                        [style]="{
-                            width: '100%',
-                            height: '40px',
-                            marginTop: '10px'
-                        }"
-                        [options]="estados"
-                        [(ngModel)]="estadoSeleccionado"
-                        [showClear]="false"
-                        appendTo="body"
-                    ></p-dropdown>
-                </div>
-                <div class="col-12">
-                    <label htmlFor="img"><b>Imagen</b></label>
-                    <p-fileUpload
-                        #fileUpload1
-                        id="img"
-                        [multiple]="false"
-                        [showUploadButton]="false"
-                        [showCancelButton]="false"
-                        name="file"
-                        accept="image/*"
-                        chooseLabel="Seleccionar imagen"
-                        (onSelect)="manejadorArchivoSeleccionado($event)"
-                    >
-                        <ng-template pTemplate="content"> </ng-template>
-                    </p-fileUpload>
-                </div>
-            </div>
-
-            <ng-template pTemplate="footer">
-                <button
-                    pButton
-                    icon="pi pi-times"
-                    (click)="display = false"
-                    label="Cancelar"
-                    class="p-button-danger"
-                ></button>
-                <button
-                    pButton
-                    icon="pi pi-check"
-                    class="p-button-primary"
-                    (click)="createOrUpdate()"
-                >
-                    {{ postOput ? "Agregar" : "Modificar" }}
-                </button>
-            </ng-template>
-        </p-dialog>
-    </div>
-
-    <div class="col-12">
-        <p-confirmDialog
-            header="Confirmacion"
-            key="confirmarEliminar"
-            [style]="{ width: '350px' }"
-            acceptButtonStyleClass="p-button-text"
-            rejectButtonStyleClass="p-button-text"
-        ></p-confirmDialog>
-    </div>
-
-    <div class="col-12">
         <div class="card">
             <h5>Sliders</h5>
             <p-table
@@ -198,5 +116,86 @@
                 </ng-template>
             </p-table>
         </div>
+    </div>
+    <div class="col-12">
+        <p-dialog
+            header="{{ titulo }}"
+            [(visible)]="display"
+            [modal]="true"
+            showEffect="fade"
+            [style]="{ width: '60vw' }"
+            [breakpoints]="{ '960px': '75vw' }"
+        >
+            <div class="dialogo">
+                <div class="col-6">
+                    <label><b>Titulo</b></label>
+                    <input
+                        [(ngModel)]="sliderSeleccionado.nombre"
+                        class="col-12"
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el titulo"
+                    />
+                </div>
+                <div class="col-6">
+                    <label htmlFor="estado"><b>Estado</b></label>
+                    <p-dropdown
+                        [style]="{
+                            width: '100%',
+                            height: '40px',
+                            marginTop: '10px'
+                        }"
+                        [options]="estados"
+                        [(ngModel)]="estadoSeleccionado"
+                        [showClear]="false"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
+                <div class="col-12">
+                    <label htmlFor="img"><b>Imagen</b></label>
+                    <p-fileUpload
+                        #fileUpload1
+                        id="img"
+                        [multiple]="false"
+                        [showUploadButton]="false"
+                        [showCancelButton]="false"
+                        name="file"
+                        accept="image/*"
+                        chooseLabel="Seleccionar imagen"
+                        (onSelect)="manejadorArchivoSeleccionado($event)"
+                    >
+                        <ng-template pTemplate="content"> </ng-template>
+                    </p-fileUpload>
+                </div>
+            </div>
+
+            <ng-template pTemplate="footer">
+                <button
+                    pButton
+                    icon="pi pi-times"
+                    (click)="display = false"
+                    label="Cancelar"
+                    class="p-button-danger"
+                ></button>
+                <button
+                    pButton
+                    icon="pi pi-check"
+                    class="p-button-primary"
+                    (click)="createOrUpdate()"
+                >
+                    {{ postOput ? "Agregar" : "Modificar" }}
+                </button>
+            </ng-template>
+        </p-dialog>
+    </div>
+
+    <div class="col-12">
+        <p-confirmDialog
+            header="Confirmacion"
+            key="confirmarEliminar"
+            [style]="{ width: '350px' }"
+            acceptButtonStyleClass="p-button-text"
+            rejectButtonStyleClass="p-button-text"
+        ></p-confirmDialog>
     </div>
 </div>

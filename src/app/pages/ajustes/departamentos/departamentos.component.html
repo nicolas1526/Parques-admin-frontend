@@ -1,51 +1,5 @@
 <div class="grid">
     <div class="col-12">
-        <p-dialog
-            header="Crear departamento"
-            [(visible)]="display"
-            [modal]="true"
-            showEffect="fade"
-            [style]="{ width: '60vw' }"
-            [breakpoints]="{ '960px': '75vw' }"
-        >
-            <h5>Nombre:</h5>
-            <input
-                [(ngModel)]="nameDepartemento"
-                class="col-12"
-                type="text"
-                pInputText
-                placeholder="Ingrese el nombre"
-            />
-            <ng-template pTemplate="footer">
-                <button
-                    pButton
-                    icon="pi pi-times"
-                    (click)="display = false"
-                    label="Cancelar"
-                    class="p-button-danger"
-                ></button>
-                <button
-                    pButton
-                    icon="pi pi-check"
-                    (click)="createOrUpdateDepartamento()"
-                    class="p-button-primary"
-                >
-                    {{ postOput ? "Agregar" : "Modificar" }}
-                </button>
-            </ng-template>
-        </p-dialog>
-    </div>
-    <div class="col-12">
-        <p-confirmDialog
-            header="Confirmacion"
-            key="confirmarEliminar"
-            [style]="{ width: '350px' }"
-            acceptButtonStyleClass="p-button-text"
-            rejectButtonStyleClass="p-button-text"
-        ></p-confirmDialog>
-    </div>
-
-    <div class="col-12">
         <div class="card">
             <h5>Departamentos</h5>
             <p-table
@@ -141,5 +95,50 @@
                 </ng-template>
             </p-table>
         </div>
+    </div>
+    <div class="col-12">
+        <p-dialog
+            header="Crear departamento"
+            [(visible)]="display"
+            [modal]="true"
+            showEffect="fade"
+            [style]="{ width: '60vw' }"
+            [breakpoints]="{ '960px': '75vw' }"
+        >
+            <h5>Nombre:</h5>
+            <input
+                [(ngModel)]="nameDepartemento"
+                class="col-12"
+                type="text"
+                pInputText
+                placeholder="Ingrese el nombre"
+            />
+            <ng-template pTemplate="footer">
+                <button
+                    pButton
+                    icon="pi pi-times"
+                    (click)="display = false"
+                    label="Cancelar"
+                    class="p-button-danger"
+                ></button>
+                <button
+                    pButton
+                    icon="pi pi-check"
+                    (click)="createOrUpdateDepartamento()"
+                    class="p-button-primary"
+                >
+                    {{ postOput ? "Agregar" : "Modificar" }}
+                </button>
+            </ng-template>
+        </p-dialog>
+    </div>
+    <div class="col-12">
+        <p-confirmDialog
+            header="Confirmacion"
+            key="confirmarEliminar"
+            [style]="{ width: '350px' }"
+            acceptButtonStyleClass="p-button-text"
+            rejectButtonStyleClass="p-button-text"
+        ></p-confirmDialog>
     </div>
 </div>

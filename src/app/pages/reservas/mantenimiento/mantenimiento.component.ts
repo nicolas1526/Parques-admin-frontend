@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ConfirmationService, SelectItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { map } from 'rxjs';

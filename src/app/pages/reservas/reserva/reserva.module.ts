@@ -7,6 +7,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { CalendarModule } from 'primeng/calendar';
     ToolbarModule,
     InputTextModule,
     DropdownModule,
-    CalendarModule
+    CalendarModule,
+    FormsModule
   ]
 })
 export class ReservaModule { }

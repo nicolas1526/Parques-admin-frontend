@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from 'src/app/constants/app.constants';
-import { Mantenimiento } from '../models/mantenimiento.model';
+import { Mantenimiento, MantenimietoReserva } from '../models/mantenimiento.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -15,6 +15,11 @@ export class MantenimientoService {
       const url = `${API_URL}/servicio-mantenimiento/mantenimientoServ/${idServicioParque}`;
       return this.http.get<Mantenimiento[]>(url);
     }
+
+    getManteReservByServicioParque(idServicioParque: number | undefined):Observable<MantenimietoReserva>{
+        const url = `${API_URL}/servicio-mantenimiento/mantenimiento-reserva/${idServicioParque}`;
+        return this.http.get<MantenimietoReserva>(url);
+      }
 
     deleteMantenimiento(idMantenimiento: number): Observable<void> {
       const url = `${API_URL}/servicio-mantenimiento/${idMantenimiento}`;

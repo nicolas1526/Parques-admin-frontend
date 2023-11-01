@@ -5,70 +5,82 @@
                 <div class="field col-6">
                     <label><b>Documento:</b></label>
                     <input
-                        type="text"
+                        [(ngModel)]="usuario.documento"
+                        type="number"
+                        maxlength="9999999999"
                         pInputText
-                        placeholder="Ingrese el titulo"
+                        placeholder="Documento"
+                        (blur)="blurDocument($event)"
                     />
                 </div>
                 <div class="field col-6">
                     <label><b>Nombre:</b></label>
                     <input
+                        [(ngModel)]="usuario.nombreCompleto"
                         type="text"
                         pInputText
-                        placeholder="Ingrese el titulo"
+                        placeholder="Nombre completo"
                     />
                 </div>
                 <div class="field col-6">
-                    <label><b>Email:</b></label>
+                    <label><b>Correo:</b></label>
                     <input
-                        type="text"
+                        [(ngModel)]="usuario.correo"
+                        type="email"
                         pInputText
-                        placeholder="Ingrese el titulo"
+                        placeholder="Correo"
                     />
                 </div>
                 <div class="field col-3">
                     <label><b>Celular:</b></label>
                     <input
-                        type="text"
+                        [(ngModel)]="usuario.celular"
+                        type="tel"
                         pInputText
-                        placeholder="Ingrese el titulo"
+                        placeholder="Celular"
                     />
                 </div>
                 <div class="field col-3">
                     <label><b>Telefono:</b></label>
                     <input
-                        type="text"
+                        [(ngModel)]="usuario.telefono"
+                        type="tel"
                         pInputText
-                        placeholder="Ingrese el titulo"
+                        placeholder="Telefono"
                     />
                 </div>
 
                 <div class="field col-6">
                     <label><b>Dirección:</b></label>
                     <input
+                        [(ngModel)]="usuario.direccion"
                         type="text"
                         pInputText
-                        placeholder="Ingrese el titulo"
+                        placeholder="Dirección"
                     />
                 </div>
                 <div class="field col-3">
                     <label><b>Tipo usuario:</b></label>
                     <input
+                        [(ngModel)]="usuario.tipoContrato!.tipo"
                         type="text"
                         pInputText
-                        placeholder="Ingrese el titulo"
+                        placeholder="Tipo usuario"
+                        disabled="true"
                     />
                 </div>
                 <div class="field col-3">
                     <label><b>Municipio:</b></label>
                     <input
+                        [(ngModel)]="usuario.Municipio!.nombre"
                         type="text"
                         pInputText
-                        placeholder="Ingrese el titulo"
+                        placeholder="Municipio"
+                        disabled="true"
                     />
                 </div>
             </div>
-            <br>
+            <br />
             <div class="p-fluid grid m-1 p-2 card-form">
                 <div class="field col-6">
                     <label><b>Parque:</b></label>
@@ -77,6 +89,9 @@
                             height: '38px',
                             marginBottom: '10px'
                         }"
+                        [options]="parques"
+                        [(ngModel)]="parqueSeleccionado"
+                        (onChange)="onDropdownChangeParque($event)"
                         placeholder="Seleccione un parque"
                         [filter]="true"
                         filterBy="value.nombre"
@@ -84,13 +99,19 @@
                         appendTo="body"
                     ></p-dropdown>
                 </div>
-                <div class="field col-6">
+                <div
+                    class="field col-6"
+                    *ngIf="parqueSeleccionado.nombre !== undefined"
+                >
                     <label><b>Cabaña:</b></label>
                     <p-dropdown
                         [style]="{
                             height: '38px',
                             marginBottom: '10px'
                         }"
+                        [options]="cabanias"
+                        [(ngModel)]="cabaniaSeleccionada"
+                        (onChange)="onDropdownChangeCabania($event)"
                         placeholder="Seleccione una cabaña"
                         [filter]="true"
                         filterBy="value.nombre"
@@ -98,33 +119,47 @@
                         appendTo="body"
                     ></p-dropdown>
                 </div>
-                <div class="field col-4">
+                <div
+                    class="field col-4"
+                    *ngIf="cabaniaSeleccionada.nombre !== undefined"
+                >
                     <label><b>Fechas:</b></label>
                     <p-calendar
                         #calendar
                         appendTo="body"
                         selectionMode="range"
-                        [inline]="true"
+                        [inline]="false"
                         [readonlyInput]="true"
                         inputId="disabledays"
                         placeholder="Seleccione un rango de fecha"
+                        [disabledDates]="todosLosDias.date"
                     >
                         <ng-template pTemplate="date" let-date>
                             <span
                                 [ngClass]="{
-
+                                    'dia-mantenimiento': dateIsInListMantenimiento(date),
+                                    'dia-reserva ':dateIsInListReserva(date),
+                                    'dia-prereserva ':dateIsInListPreReserva(date),
                                 }"
                                 >{{ date.day }}
                             </span>
                         </ng-template>
                     </p-calendar>
                 </div>
-                <div class="field col-8"></div>
-                <div class="field col-4">
-                    <button pButton pRipple type="button" label="Adicionar servicio" class="p-button-outlined"></button>
+                <div
+                    class="field col-3"
+                    *ngIf="cabaniaSeleccionada.nombre !== undefined"
+                >
+                    <br />
+                    <button
+                        pButton
+                        pRipple
+                        type="button"
+                        label="Adicionar servicio"
+                        class="p-button-outlined mb-0"
+                    ></button>
                 </div>
             </div>
         </div>
-
     </div>
 </div>

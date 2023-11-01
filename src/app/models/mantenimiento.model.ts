@@ -5,3 +5,19 @@ export interface Mantenimiento{
     FechaInicio:string
 }
 
+export interface RangoFecha{
+    fechaInicio?:string,
+    fechaFin?:string
+}
+
+export interface DiasReservaMantenimiento{
+    date:Date[],
+    tipo:string[]
+}
+
+export interface MantenimietoReserva{
+    mantenimiento?:RangoFecha[],
+    reserva?:RangoFecha[],
+    preReserva:RangoFecha[],
+}
+

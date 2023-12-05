@@ -8,6 +8,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
+import { CheckboxModule } from 'primeng/checkbox';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { FormsModule } from '@angular/forms';
     InputTextModule,
     DropdownModule,
     CalendarModule,
-    FormsModule
+    FormsModule,
+    CheckboxModule,
+    DialogModule
   ]
 })
 export class ReservaModule { }

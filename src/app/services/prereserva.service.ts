@@ -2,26 +2,26 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from 'src/app/constants/app.constants';
 import { Observable } from 'rxjs';
-import { Parques } from '../models/parques.model';
-
+import { VerificarPreReservaBody, VerificarPreReservaRes } from '../models/verificar-prereserva';
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root'
 })
-export class ParquesService {
+export class PrereservaService {
+
     constructor(private http: HttpClient) {}
 
-    getParques(): Observable<Parques[]> {
+   /* getParques(): Observable<VerificarPreReservaRes[]> {
         const url = `${API_URL}/parque`;
         return this.http.get<Parques[]>(url);
+    }*/
+
+    verificarPreReserva(datosPreReserva: VerificarPreReservaBody): Observable<VerificarPreReservaRes> {
+        const url = `${API_URL}/prereserva/verificar-prereserva`;
+        return this.http.post<VerificarPreReservaRes>(url, datosPreReserva);
     }
 
-    createParque(parque: Parques): Observable<Parques> {
-        const url = `${API_URL}/parque`;
-        return this.http.post<Parques>(url, parque);
-    }
-
-    deleteParque(idParque: number): Observable<void> {
+    /*deleteParque(idParque: number): Observable<void> {
         const url = `${API_URL}/parque/${idParque}`;
         return this.http.delete<void>(url);
     }
@@ -29,5 +29,5 @@ export class ParquesService {
     updateParque(parque: Parques): Observable<Parques> {
         const url = `${API_URL}/parque/${parque.id}`;
         return this.http.put<Parques>(url, parque);
-    }
+    }*/
 }

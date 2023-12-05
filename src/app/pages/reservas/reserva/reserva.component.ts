@@ -6,8 +6,10 @@ import { DiasReservaMantenimiento } from 'src/app/models/mantenimiento.model';
 import { Parques } from 'src/app/models/parques.model';
 import { ServicioParque } from 'src/app/models/servicio';
 import { Usuario } from 'src/app/models/usuario.model';
+import { VerificarPreReservaBody } from 'src/app/models/verificar-prereserva';
 import { MantenimientoService } from 'src/app/services/mantenimiento.service';
 import { ParquesService } from 'src/app/services/parques.service';
+import { PrereservaService } from 'src/app/services/prereserva.service';
 import { ServiciosParqueService } from 'src/app/services/servicios-parque.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
@@ -26,17 +28,28 @@ export class ReservaComponent {
             nombre:''
         }
     };
+    visibleDialog:boolean = false;
+    messageDialog:string = "";
+    titleDialog:string = "";
     parques: SelectItem[] = [];
     parqueSeleccionado: Parques = {};
     cabanias: SelectItem[] = [];
     cabaniaSeleccionada: ServicioParque = {};
     todosLosDias:DiasReservaMantenimiento = {date:[],tipo:[]};
+    fechaSeleccionada!: Date[];
+    valNocheGratis!:boolean;
+    valReservaDescuento!:boolean;
+    tieneNocheGratis:boolean = false;
+    tieneReservasDescuento:boolean = false;
+    numPersonas!:number;
+    numMascotas!:number;
 
     constructor(
         private usuarioService: UsuarioService,
         private serviceParque: ParquesService,
         private serviciosParqueService: ServiciosParqueService,
         private mantenimientoService: MantenimientoService,
+        private preReservaService: PrereservaService,
         private messageService: MessageService,
         private confirmationService: ConfirmationService
     ) {}
@@ -63,6 +76,29 @@ export class ReservaComponent {
                     console.error('Error en la peticion: ', error);
                 }
             );
+    }
+
+    verificarPreReserva(datosPreReserva: VerificarPreReservaBody){
+        this.preReservaService
+        .verificarPreReserva(datosPreReserva)
+        .subscribe(
+            (data) => {
+                if(data !== null){
+                    if(data.code! == 203){
+                        this.titleDialog = "Error en verificacion pre-reserva"
+                        this.messageDialog = data.msg!;
+                        this.visibleDialog = true;
+                    }else{
+                        console.log("Todo bien")
+                    }
+                }else{
+
+                }
+            },
+            (error) => {
+                console.error('Error en la peticion: ', error);
+            }
+        );
     }
 
     getParques() {
@@ -160,7 +196,6 @@ export class ReservaComponent {
                         this.todosLosDias.date.push(...fechasEntreRango.date);
                         this.todosLosDias.tipo.push(...fechasEntreRango.tipo)
                     });
-                    console.log(this.todosLosDias)
                 },
                 (error) => {
                     console.error('Error en la peticion: ', error);
@@ -185,6 +220,37 @@ export class ReservaComponent {
         };
     }
 
+    onClickAddService(){
+        if( this.usuario.documento &&
+            this.usuario.nombreCompleto &&
+            this.usuario.correo &&
+            this.usuario.telefono &&
+            this.usuario.direccion &&
+            this.usuario.tipoContrato &&
+            this.fechaSeleccionada &&
+            this.numMascotas>=0 && this.numPersonas>0){
+                if( this.fechaSeleccionada[0] && this.fechaSeleccionada[1]){
+                   const datosVerificarPreReserva: VerificarPreReservaBody = {
+                    idServicioParque:this.cabaniaSeleccionada.id,
+                    fechaInicio:this.fechaSeleccionada[0].toISOString().substring(0,10),
+                    fechaFin:this.fechaSeleccionada[1].toISOString().substring(0,10),
+                    numPersonas:this.numPersonas,
+                    numMascotas:this.numMascotas
+                   }
+
+                   this.verificarPreReserva(datosVerificarPreReserva)
+
+                }else{
+                    this.titleDialog = "Error en rango de fechas"
+                    this.messageDialog = "Señor usuario debe seleccionar un rango de fechas.";
+                    this.visibleDialog = true;
+                }
+        }else{
+            this.titleDialog = "Error en formulario"
+            this.messageDialog = "Señor usuario debe ingresar la información solicitada en el formulario.";
+            this.visibleDialog = true;
+        }
+    }
 
     onDropdownChangeParque(event: any) {
         this.cabaniaSeleccionada = {}

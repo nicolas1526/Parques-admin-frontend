@@ -37,12 +37,12 @@ export class ReservaComponent {
     cabaniaSeleccionada: ServicioParque = {};
     todosLosDias:DiasReservaMantenimiento = {date:[],tipo:[]};
     fechaSeleccionada!: Date[];
-    valNocheGratis!:boolean;
-    valReservaDescuento!:boolean;
+    valNocheGratis!:string;
+    valReservaDescuento!:string;
     tieneNocheGratis:boolean = false;
     tieneReservasDescuento:boolean = false;
-    numPersonas!:number;
-    numMascotas!:number;
+    numPersonas:number|undefined;
+    numMascotas:number|undefined;
 
     constructor(
         private usuarioService: UsuarioService,
@@ -59,21 +59,35 @@ export class ReservaComponent {
     }
 
     getUserByDocument() {
+        this.numMascotas = undefined;
+        this.numPersonas = undefined;
+        this.valNocheGratis = '';
+        this.valReservaDescuento = '';
         this.usuarioService
             .getUsuarioPorDocumento(this.usuario.documento!)
             .subscribe(
                 (data) => {
                     if(data !== null){
                         this.usuario = data;
+                        console.log(data)
                     }else{
-                        this.usuario.tipoContrato = {
-                            id:0,
-                            tipo:"Usuario Nuevo"
-                        }
+
+                        this.usuario = {
+                            documento:this.usuario.documento,
+                            tipoContrato: {
+                                id: 0,
+                                tipo: 'Usuario Nuevo',
+                            },
+                            Municipio:{
+                                nombre:''
+                            }
+                        };
+
                     }
                 },
                 (error) => {
                     console.error('Error en la peticion: ', error);
+
                 }
             );
     }
@@ -89,7 +103,7 @@ export class ReservaComponent {
                         this.messageDialog = data.msg!;
                         this.visibleDialog = true;
                     }else{
-                        console.log("Todo bien")
+                        console.log(data)
                     }
                 }else{
 
@@ -228,14 +242,17 @@ export class ReservaComponent {
             this.usuario.direccion &&
             this.usuario.tipoContrato &&
             this.fechaSeleccionada &&
-            this.numMascotas>=0 && this.numPersonas>0){
+            this.numMascotas!>=0 && this.numPersonas!>0){
                 if( this.fechaSeleccionada[0] && this.fechaSeleccionada[1]){
                    const datosVerificarPreReserva: VerificarPreReservaBody = {
                     idServicioParque:this.cabaniaSeleccionada.id,
                     fechaInicio:this.fechaSeleccionada[0].toISOString().substring(0,10),
                     fechaFin:this.fechaSeleccionada[1].toISOString().substring(0,10),
+                    nocheGratis:this.valNocheGratis == "ng" ? true : false,
+                    reservaDescuento:this.valReservaDescuento == "rd" ? true : false,
                     numPersonas:this.numPersonas,
-                    numMascotas:this.numMascotas
+                    numMascotas:this.numMascotas,
+                    documento:this.usuario.documento
                    }
 
                    this.verificarPreReserva(datosVerificarPreReserva)

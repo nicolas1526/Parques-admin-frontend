@@ -2,8 +2,11 @@ export interface VerificarPreReservaBody{
     idServicioParque?:number,
     fechaInicio?:string,
     fechaFin?:string,
+    nocheGratis?:boolean,
+    reservaDescuento?:boolean,
     numPersonas?:number,
-    numMascotas?:number
+    numMascotas?:number,
+    documento?:string
 }
 
 export interface VerificarPreReservaRes{

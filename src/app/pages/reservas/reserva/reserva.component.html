@@ -105,15 +105,15 @@
                 <div class="field col-2 " *ngIf="usuario.numNocheGratis!>0">
                     <br/>
                     <div class="field-checkbox mt-2 mb-0">
-						<p-checkbox name="group1" value="New York" [(ngModel)]="valNocheGratis" id="ny"></p-checkbox>
-						<label for="ny">Noche gratis</label>
+						<p-checkbox value="ng" [(ngModel)]="valNocheGratis" id="ng"></p-checkbox>
+						<label for="ng">Noche gratis</label>
 					</div>
                 </div>
                 <div class="field col-2 " *ngIf="usuario.numNocheDescuento!>0 && usuario.numNocheDescuento!<=3">
                     <br/>
                     <div class="field-checkbox mt-2 mb-0">
-						<p-checkbox name="group1" value="New York" [(ngModel)]="valReservaDescuento" id="ny"></p-checkbox>
-						<label for="ny">Reserva con descuento</label>
+						<p-checkbox value="rd" [(ngModel)]="valReservaDescuento" id="rd"></p-checkbox>
+						<label for="rd">Reserva con descuento</label>
 					</div>
                 </div>
 

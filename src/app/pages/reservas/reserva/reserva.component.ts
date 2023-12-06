@@ -8,7 +8,7 @@ import { Municipio } from 'src/app/models/municipios.model';
 import { Parques } from 'src/app/models/parques.model';
 import { ServicioParque } from 'src/app/models/servicio';
 import { Usuario } from 'src/app/models/usuario.model';
-import { DatosPreReserva, VerificarPreReservaBody } from 'src/app/models/verificar-prereserva';
+import { DatosPreReserva, DatosReservaBody, VerificarPreReservaBody } from 'src/app/models/verificar-prereserva';
 import { MantenimientoService } from 'src/app/services/mantenimiento.service';
 import { MunicipiosService } from 'src/app/services/municipios.service';
 import { ParquesService } from 'src/app/services/parques.service';
@@ -35,7 +35,6 @@ export class ReservaComponent {
     };
     visibleInfoReserva = true;
     visibleDetalleReserva = false;
-
     visibleDialog: boolean = false;
     messageDialog: string = '';
     titleDialog: string = '';
@@ -49,11 +48,10 @@ export class ReservaComponent {
     fechaSeleccionada!: Date[];
     valNocheGratis!: string;
     valReservaDescuento!: string;
-    tieneNocheGratis: boolean = false;
-    tieneReservasDescuento: boolean = false;
-    numPersonas: number | undefined;
-    numMascotas: number | undefined;
+
     datosPreReserva: DatosPreReserva[] = [];
+
+    datosReserva: DatosReservaBody = {};
 
     constructor(
         private usuarioService: UsuarioService,
@@ -97,8 +95,7 @@ export class ReservaComponent {
 
     getUserByDocument() {
         this.municipiosSeleccionado = undefined;
-        this.numMascotas = undefined;
-        this.numPersonas = undefined;
+        this.datosReserva = {}
         this.valNocheGratis = '';
         this.valReservaDescuento = '';
         this.usuarioService
@@ -165,6 +162,30 @@ export class ReservaComponent {
         );
     }
 
+    crearPreReserva(datosReserva: DatosReservaBody){
+        this.datosPreReserva = [];
+        this.preReservaService.crearPreReserva(datosReserva).subscribe(
+            (data) => {
+                if (data !== null) {
+                    if (data.code! == 203) {
+                        this.titleDialog = 'Crear pre-reserva';
+                        this.messageDialog = data.msg!;
+                        this.visibleDialog = true;
+                    } else {
+                        this.titleDialog = 'Crear pre-reserva';
+                        this.messageDialog = "La reserva se ha creado con exito";
+                        this.visibleDialog = true;
+                        this.limpiarDatos();
+                    }
+                } else {
+                }
+            },
+            (error) => {
+                console.error('Error en la peticion: ', error);
+            }
+        );
+    }
+
     getParques() {
         this.serviceParque
             .getParques()
@@ -175,6 +196,7 @@ export class ReservaComponent {
                         value: {
                             id: parque.id,
                             nombre: parque.nombre,
+                            iniciales: parque.iniciales
                         },
                     }));
                 })
@@ -295,8 +317,8 @@ export class ReservaComponent {
                 this.usuario.telefono &&
                 this.usuario.direccion &&
                 this.usuario.tipoContrato &&
-                this.numMascotas! >= 0 &&
-                this.numPersonas! > 0
+                this.datosReserva.numMascotas! >= 0 &&
+                this.datosReserva.numPersonas! > 0
             ) {
                 if(this.fechaSeleccionada){
                     if (this.fechaSeleccionada[0] && this.fechaSeleccionada[1]) {
@@ -311,8 +333,8 @@ export class ReservaComponent {
                             nocheGratis: this.valNocheGratis == 'ng' ? true : false,
                             reservaDescuento:
                                 this.valReservaDescuento == 'rd' ? true : false,
-                            numPersonas: this.numPersonas,
-                            numMascotas: this.numMascotas,
+                            numPersonas: this.datosReserva.numPersonas,
+                            numMascotas: this.datosReserva.numMascotas,
                             documento: this.usuario.documento,
                         };
 
@@ -341,7 +363,27 @@ export class ReservaComponent {
     }
 
     onClickConfirmReservation(){
-
+        const datosBody: DatosReservaBody = {
+            ...this.datosReserva,
+            nocheGratis: this.valNocheGratis == 'ng' ? true : false,
+            reservaDescuento: this.valReservaDescuento == 'rd' ? true : false,
+            idServicioParque: this.cabaniaSeleccionada.id,
+            idMunicipio: this.municipiosSeleccionado?.id,
+            fechaInicio: this.fechaSeleccionada[0]
+            .toISOString()
+            .substring(0, 10),
+            fechaFin: this.fechaSeleccionada[1]
+            .toISOString()
+            .substring(0, 10),
+            documento:this.usuario.documento,
+            nombreCompleto:this.usuario.nombreCompleto,
+            correo:this.usuario.correo,
+            telefono:this.usuario.telefono,
+            celular:this.usuario.celular,
+            inicialesParque:this.parqueSeleccionado.iniciales,
+            direccion:this.usuario.documento
+        }
+        this.crearPreReserva(datosBody);
     }
 
     onDropdownChangeParque(event: any) {
@@ -359,14 +401,21 @@ export class ReservaComponent {
 
     validarFormulario(): boolean {
         let isValid = true;
-        if (this.numMascotas === undefined || this.numMascotas < 0) {
+        if (this.datosReserva.numMascotas === undefined || this.datosReserva.numMascotas < 0) {
             this.formulario.form.controls['numMascotas'].setErrors({
                 incorrect: true,
             });
             isValid = false;
         }
 
-        if (!this.numPersonas || this.numPersonas < 0) {
+        if (this.datosReserva.numMenoresEdad === undefined || this.datosReserva.numMenoresEdad < 0) {
+            this.formulario.form.controls['numMenoresEdad'].setErrors({
+                incorrect: true,
+            });
+            isValid = false;
+        }
+
+        if (!this.datosReserva.numPersonas || this.datosReserva.numPersonas < 0) {
             this.formulario.form.controls['numPersona'].setErrors({
                 incorrect: true,
             });
@@ -488,5 +537,25 @@ export class ReservaComponent {
                 return false;
             }
         });
+    }
+
+    limpiarDatos(){
+        this.usuario = {
+            tipoContrato: {
+                id: 0,
+                tipo: '',
+            },
+            Municipio: {
+                nombre: '',
+            },
+        };
+
+        this.datosPreReserva = [];
+        this.datosReserva = {};
+        this.visibleInfoReserva = true;
+        this.visibleDetalleReserva = false;
+        this.parqueSeleccionado = {};
+        this.cabaniaSeleccionada = {};
+        this.fechaSeleccionada = []
     }
 }

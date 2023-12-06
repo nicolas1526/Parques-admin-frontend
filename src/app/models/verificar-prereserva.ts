@@ -31,3 +31,24 @@ export interface DatosPreReserva{
     desde?:string,
     hasta?:string
 }
+
+export interface DatosReservaBody{
+    idServicioParque?:number,
+    idMunicipio?:number,
+    fechaInicio?:string,
+    fechaFin?:string,
+    documento?:string,
+    nombreCompleto?:string,
+    correo?:string,
+    telefono?:string,
+    celular?:string,
+    inicialesParque?:string,
+    numPersonas?:number,
+    numMascotas?:number,
+    numMenoresEdad?:number,
+    nocheGratis?:boolean,
+    reservaDescuento?:boolean,
+    direccion?:string
+
+
+}

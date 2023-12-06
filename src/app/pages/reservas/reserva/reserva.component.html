@@ -123,11 +123,11 @@
                         <p style="color: red;">Por favor, ingrese un tipo de usuario</p>
                     </div>
                 </div>
-                <div class="field col-3">
-                    <label><b>Cantidad personas:</b></label>
+                <div class="field col-2">
+                    <label><b>Cantidad de personas:</b></label>
                     <input
                     name = "numPersona"
-                        [(ngModel)]="numPersonas"
+                        [(ngModel)]="datosReserva.numPersonas"
                         type="number"
                         pInputText
                         placeholder="Cantidad de personas"
@@ -136,11 +136,24 @@
                         <p style="color: red;">Por favor, ingrese una cantidad válida de personas</p>
                     </div>
                 </div>
-                <div class="field col-3">
-                    <label><b>Cantidad mascotas:</b></label>
+                <div class="field col-2">
+                    <label><b>Cantidad menores de edad:</b></label>
+                    <input
+                        name="numMenoresEdad"
+                        [(ngModel)]="datosReserva.numMenoresEdad"
+                        type="number"
+                        pInputText
+                        placeholder="Cantidad menores de edad"
+                    />
+                    <div *ngIf="tieneError('numMenoresEdad', 'incorrect')">
+                        <p style="color: red;">Por favor, ingrese una cantidad válida de menores de edad.</p>
+                    </div>
+                </div>
+                <div class="field col-2">
+                    <label><b>Cantidad de mascotas:</b></label>
                     <input
                         name="numMascotas"
-                        [(ngModel)]="numMascotas"
+                        [(ngModel)]="datosReserva.numMascotas"
                         type="number"
                         pInputText
                         placeholder="Cantidad de mascotas"

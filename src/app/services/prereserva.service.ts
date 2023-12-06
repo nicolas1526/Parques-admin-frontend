@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from 'src/app/constants/app.constants';
 import { Observable } from 'rxjs';
-import { VerificarPreReservaBody, VerificarPreReservaRes } from '../models/verificar-prereserva';
+import { DatosReservaBody, VerificarPreReservaBody, VerificarPreReservaRes } from '../models/verificar-prereserva';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,11 @@ export class PrereservaService {
 
     verificarPreReserva(datosPreReserva: VerificarPreReservaBody): Observable<VerificarPreReservaRes> {
         const url = `${API_URL}/prereserva/verificar-prereserva`;
+        return this.http.post<VerificarPreReservaRes>(url, datosPreReserva);
+    }
+
+    crearPreReserva(datosPreReserva: DatosReservaBody): Observable<VerificarPreReservaRes> {
+        const url = `${API_URL}/prereserva/crear-prereserva`;
         return this.http.post<VerificarPreReservaRes>(url, datosPreReserva);
     }
 

@@ -10,6 +10,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { DialogModule } from 'primeng/dialog';
     CalendarModule,
     FormsModule,
     CheckboxModule,
-    DialogModule
+    DialogModule,
+    TableModule
   ]
 })
 export class ReservaModule { }

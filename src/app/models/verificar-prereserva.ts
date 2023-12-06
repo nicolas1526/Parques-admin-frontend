@@ -13,7 +13,21 @@ export interface VerificarPreReservaRes{
     numNoches?:number,
     precioServicio?:number,
     impuesto?:number,
-    totalServicio?:number,
+    totalReserva?:number,
+    totalReservaConDescuento?:number,
     code?:number,
     msg?:string
+}
+
+
+export interface DatosPreReserva{
+    id?:number,
+    servicio?:string,
+    numNoche?:number,
+    precio?:number,
+    impuesto?:number,
+    total?:number,
+    totalDescuento?:number,
+    desde?:string,
+    hasta?:string
 }

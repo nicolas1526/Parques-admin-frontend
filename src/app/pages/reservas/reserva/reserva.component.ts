@@ -241,6 +241,7 @@ export class ReservaComponent {
             .getManteReservByServicioParque(idServicioParque)
             .subscribe(
                 (data) => {
+                    console.log(data)
                     data.mantenimiento!.forEach((rango) => {
                         const fechaInicio = new Date(rango.fechaInicio!);
                         fechaInicio.setDate(fechaInicio.getDate() + 1);
@@ -295,18 +296,28 @@ export class ReservaComponent {
         const fechas = [];
         const tipos = [];
         const fechaTemp = new Date(fechaInicial);
-
-        while (fechaTemp <= fechaFinal) {
-            fechas.push(new Date(fechaTemp));
-            tipos.push(tipo);
-            fechaTemp.setDate(fechaTemp.getDate() + 1);
+        if(tipo !== 'PreReserva' ){
+            while (fechaTemp <= fechaFinal) {
+                fechas.push(new Date(fechaTemp));
+                tipos.push(tipo);
+                fechaTemp.setDate(fechaTemp.getDate() + 1);
+            }
+        }else{
+            while (fechaTemp < fechaFinal) {
+                fechas.push(new Date(fechaTemp));
+                tipos.push(tipo);
+                fechaTemp.setDate(fechaTemp.getDate() + 1);
+            }
         }
+
 
         return {
             date: fechas,
             tipo: tipos,
         };
     }
+
+
 
     onClickAddService() {
         if(this.validarFormulario()){
@@ -538,7 +549,6 @@ export class ReservaComponent {
             }
         });
     }
-
     limpiarDatos(){
         this.usuario = {
             tipoContrato: {

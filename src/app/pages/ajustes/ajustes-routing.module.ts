@@ -92,6 +92,14 @@ import { RouterModule } from '@angular/router';
                         (m) => m.ProgramateModule
                     ),
             },
+            {
+                path: 'popup',
+                data: { breadcrumb: 'Popup' },
+                loadChildren: () =>
+                    import('./popup/popup.module').then(
+                        (m) => m.PopupModule
+                    ),
+            },
             { path: '**', redirectTo: '/notfound' },
         ]),
     ],

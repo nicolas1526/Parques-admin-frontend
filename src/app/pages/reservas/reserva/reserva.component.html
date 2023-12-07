@@ -1,15 +1,24 @@
 <div class="grid">
     <p-dialog
-        header="{{ titleDialog }}"
-        [(visible)]="visibleDialog"
+        header="{{ dialog.title }}"
+        [(visible)]="dialog.visible"
         [modal]="true"
-        [style]="{ width: '30vw' }"
+        [style]="{ width: '20vw' }"
         [draggable]="false"
         [resizable]="false"
     >
-        <p class="m-0">
-            {{ messageDialog }}
+        <div style="text-align: center">
+            <i
+                class="{{dialog.icon}}"
+                style="font-size: 3rem;"
+                [style.color]="dialog.color"
+            ></i>
+        </div>
+        <br />
+        <p class="m-0 text-black-50">
+            {{ dialog.message }}
         </p>
+        <br />
     </p-dialog>
 
     <div class="col-12">
@@ -360,10 +369,34 @@
                                 <td class="text-center">{{ prereserva.id }}</td>
                                 <td>{{ prereserva.servicio }}</td>
                                 <td>{{ prereserva.numNoche }}</td>
-                                <td>{{ prereserva.precio | currency:'COP':'symbol':'1.0-0' }}</td>
+                                <td>
+                                    {{
+                                        prereserva.precio
+                                            | currency
+                                                : "COP"
+                                                : "symbol"
+                                                : "1.0-0"
+                                    }}
+                                </td>
                                 <td>{{ prereserva.impuesto }}</td>
-                                <td>{{ prereserva.total | currency:'COP':'symbol':'1.0-0' }}</td>
-                                <td>{{ prereserva.totalDescuento | currency:'COP':'symbol':'1.0-0' }}</td>
+                                <td>
+                                    {{
+                                        prereserva.total
+                                            | currency
+                                                : "COP"
+                                                : "symbol"
+                                                : "1.0-0"
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        prereserva.totalDescuento
+                                            | currency
+                                                : "COP"
+                                                : "symbol"
+                                                : "1.0-0"
+                                    }}
+                                </td>
                                 <td>{{ prereserva.desde }}</td>
                                 <td>{{ prereserva.hasta }}</td>
                             </tr>

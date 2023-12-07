@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from 'src/app/constants/app.constants';
 import { Observable } from 'rxjs';
-import { DatosReservaBody, VerificarPreReservaBody, VerificarPreReservaRes } from '../models/verificar-prereserva';
+import { DatosReservaBody, DatosReservaRes, VerificarPreReservaBody, VerificarPreReservaRes } from '../models/verificar-prereserva';
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +21,9 @@ export class PrereservaService {
         return this.http.post<VerificarPreReservaRes>(url, datosPreReserva);
     }
 
-    crearPreReserva(datosPreReserva: DatosReservaBody): Observable<VerificarPreReservaRes> {
+    crearPreReserva(datosPreReserva: DatosReservaBody): Observable<DatosReservaRes> {
         const url = `${API_URL}/prereserva/crear-prereserva`;
-        return this.http.post<VerificarPreReservaRes>(url, datosPreReserva);
+        return this.http.post<DatosReservaRes>(url, datosPreReserva);
     }
 
     /*deleteParque(idParque: number): Observable<void> {

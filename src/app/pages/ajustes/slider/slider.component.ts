@@ -65,6 +65,7 @@ export class SliderComponent {
 
     updateSlider(slider: Slider) {
         this.sliderSeleccionado.estado = this.estadoSeleccionado;
+        this.sliderSeleccionado.urlImagen = undefined;
         this.sliderService.updateSlider(slider).subscribe(
             (data) => {
                 const indexSlider = this.sliders.findIndex(

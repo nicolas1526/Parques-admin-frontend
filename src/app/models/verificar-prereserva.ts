@@ -49,6 +49,19 @@ export interface DatosReservaBody{
     nocheGratis?:boolean,
     reservaDescuento?:boolean,
     direccion?:string
+}
 
+export interface ReservaF{
+    ReservaId: number,
+    EstadoId: number,
+    ClienteReservaId: number,
+    CodigoReserva: string,
+}
+
+
+export interface DatosReservaRes{
+    reserva: ReservaF,
+    msg: string,
+    code: number
 
 }

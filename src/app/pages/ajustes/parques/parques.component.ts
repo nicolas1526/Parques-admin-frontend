@@ -98,13 +98,18 @@ export class ParquesComponent implements OnInit {
     }
 
     updateParque(parque: Parques) {
+        parque.urlImagen = undefined;
+        parque.urlImagenBoton = undefined;
         parque.idMunicipio = this.municipiosSeleccionado?.id;
         parque.activo = this.estadoSeleccionado;
         this.serviceParques.updateParque(parque).subscribe(
             (data) => {
+
                 const index = this.parques.findIndex(
                     (data) => data.id === parque.id
                 );
+                const municipio = this.municipios.find(item => item.value.id === data.idMunicipio);
+                data.Municipio = {nombre:municipio?.value.nombre,id:data.idMunicipio};
                 this.parques[index] = data;
             },
             (error) => {

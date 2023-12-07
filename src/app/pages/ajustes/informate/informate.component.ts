@@ -69,6 +69,7 @@ export class InformateComponent {
 
     updateInformate(informate: Informate) {
         this.convertToInputArray();
+        this.informateSeleccionado.urlImagen = undefined;
         this.informateSeleccionado.estado = this.estadoSeleccionado;
         this.informateService.updateInformate(informate).subscribe(
             (data) => {

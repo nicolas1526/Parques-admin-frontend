@@ -56,6 +56,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Imagen</th>
+                        <th>Descripción</th>
                         <th>
                             Estado<p-columnFilter
                                 type="boolean"
@@ -80,6 +81,7 @@
                                 [preview]="true"
                             ></p-image>
                         </td>
+                        <td>{{programate.descripcion}}</td>
                         <td class="text-center" style="min-width: 120px">
                             <i
                                 style="font-size: 1.5rem"
@@ -136,6 +138,16 @@
                         [showClear]="false"
                         appendTo="body"
                     ></p-dropdown>
+                </div>
+                <div class="col-6">
+                    <label><b>Descripción</b></label>
+                    <input
+                        [(ngModel)]="programateSeleccionado.descripcion"
+                        class="col-12"
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el titulo"
+                    />
                 </div>
                 <div class="col-12">
                     <label htmlFor="img"><b>Imagen</b></label>

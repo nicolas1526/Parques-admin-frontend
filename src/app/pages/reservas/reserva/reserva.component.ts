@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ConfirmationService, SelectItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { title } from 'process';
 import { map } from 'rxjs';
 import { DiasReservaMantenimiento } from 'src/app/models/mantenimiento.model';
 import { Municipio } from 'src/app/models/municipios.model';
@@ -35,9 +36,13 @@ export class ReservaComponent {
     };
     visibleInfoReserva = true;
     visibleDetalleReserva = false;
-    visibleDialog: boolean = false;
-    messageDialog: string = '';
-    titleDialog: string = '';
+    dialog = {
+        color: '',
+        visible:false,
+        message:'',
+        title:'',
+        icon:''
+    }
     parques: SelectItem[] = [];
     parqueSeleccionado: Parques = {};
     cabanias: SelectItem[] = [];
@@ -68,7 +73,6 @@ export class ReservaComponent {
         this.getParques();
         this.getMunicipios();
     }
-
     getMunicipios() {
         this.serviceMunicipios
             .getMunicipios()
@@ -92,7 +96,6 @@ export class ReservaComponent {
                 }
             );
     }
-
     getUserByDocument() {
         this.municipiosSeleccionado = undefined;
         this.datosReserva = {}
@@ -127,16 +130,19 @@ export class ReservaComponent {
                 }
             );
     }
-
     verificarPreReserva(datosPreReserva: VerificarPreReservaBody) {
         this.datosPreReserva = [];
         this.preReservaService.verificarPreReserva(datosPreReserva).subscribe(
             (data) => {
                 if (data !== null) {
                     if (data.code! == 203) {
-                        this.titleDialog = 'Error en verificacion pre-reserva';
-                        this.messageDialog = data.msg!;
-                        this.visibleDialog = true;
+                        this.dialog = {
+                            color: 'red',
+                            icon : 'pi pi-times-circle',
+                            title: 'Error en verificacion pre-reserva',
+                            message: data.msg!,
+                            visible: true
+                        }
                     } else {
                         console.log(data.precioServicio)
                         this.datosPreReserva.push({
@@ -161,20 +167,27 @@ export class ReservaComponent {
             }
         );
     }
-
     crearPreReserva(datosReserva: DatosReservaBody){
         this.datosPreReserva = [];
         this.preReservaService.crearPreReserva(datosReserva).subscribe(
             (data) => {
                 if (data !== null) {
                     if (data.code! == 203) {
-                        this.titleDialog = 'Crear pre-reserva';
-                        this.messageDialog = data.msg!;
-                        this.visibleDialog = true;
+                        this.dialog = {
+                            color: 'red',
+                            icon : 'pi pi-times-circle',
+                            title: 'Crear pre-reserva',
+                            message: data.msg!,
+                            visible: true
+                        }
                     } else {
-                        this.titleDialog = 'Crear pre-reserva';
-                        this.messageDialog = "La reserva se ha creado con exito";
-                        this.visibleDialog = true;
+                        this.dialog = {
+                            color: 'green',
+                            icon : 'pi pi-check-circle',
+                            title: 'Crear pre-reserva',
+                            message: `La reserva con codigo ${data.reserva.CodigoReserva} , se ha creado con exito `,
+                            visible: true
+                        }
                         this.limpiarDatos();
                     }
                 } else {
@@ -185,7 +198,6 @@ export class ReservaComponent {
             }
         );
     }
-
     getParques() {
         this.serviceParque
             .getParques()
@@ -210,7 +222,6 @@ export class ReservaComponent {
                 }
             );
     }
-
     getCabanias() {
         this.serviciosParqueService
             .getCabañasParque(this.parqueSeleccionado.id)
@@ -234,7 +245,6 @@ export class ReservaComponent {
                 }
             );
     }
-
     getFechasReservaPorServicioParque(idServicioParque: number | undefined) {
         this.todosLosDias = { date: [], tipo: [] };
         const man = this.mantenimientoService
@@ -287,7 +297,6 @@ export class ReservaComponent {
                 }
             );
     }
-
     getFechasEntreRango(
         fechaInicial: Date,
         fechaFinal: Date,
@@ -309,14 +318,11 @@ export class ReservaComponent {
                 fechaTemp.setDate(fechaTemp.getDate() + 1);
             }
         }
-
-
         return {
             date: fechas,
             tipo: tipos,
         };
     }
-
     onClickAddService() {
         if(this.validarFormulario()){
             if (
@@ -349,28 +355,36 @@ export class ReservaComponent {
 
                         this.verificarPreReserva(datosVerificarPreReserva);
                     } else {
-                        this.titleDialog = 'Error en rango de fechas';
-                        this.messageDialog =
-                            'Señor usuario debe seleccionar un rango de fechas.';
-                        this.visibleDialog = true;
+                        this.dialog = {
+                            color: 'red',
+                            icon : 'pi pi-times-circle',
+                            title: 'Error en rango de fechas',
+                            message: 'Señor usuario debe seleccionar un rango de fechas.',
+                            visible: true
+                        }
                     }
                 }
                 else{
-                    this.titleDialog = 'Error seleccionar fecha';
-                    this.messageDialog =
-                        'Señor usuario debe seleccionar un rango de fechas.';
-                    this.visibleDialog = true;
+                    this.dialog = {
+                        color: 'red',
+                        icon : 'pi pi-times-circle',
+                        title: 'Error seleccionar fecha',
+                        message: 'Señor usuario debe seleccionar un rango de fechas.',
+                        visible: true
+                    }
                 }
 
             } else {
-                this.titleDialog = 'Error en formulario';
-                this.messageDialog =
-                    'Señor usuario debe ingresar la información solicitada en el formulario.';
-                this.visibleDialog = true;
+                this.dialog = {
+                    color: 'red',
+                    icon : 'pi pi-times-circle',
+                    title: 'Error en formulario',
+                    message: 'Señor usuario debe ingresar la información solicitada en el formulario.',
+                    visible: true
+                }
             }
         }
     }
-
     onClickConfirmReservation(){
         const datosBody: DatosReservaBody = {
             ...this.datosReserva,
@@ -394,20 +408,16 @@ export class ReservaComponent {
         }
         this.crearPreReserva(datosBody);
     }
-
     onDropdownChangeParque(event: any) {
         this.cabaniaSeleccionada = {};
         this.getCabanias();
     }
-
     onDropdownChangeCabania(event: any) {
         this.getFechasReservaPorServicioParque(this.cabaniaSeleccionada.id);
     }
-
     blurDocument(event: Event) {
         this.getUserByDocument();
     }
-
     validarFormulario(): boolean {
         let isValid = true;
         if (this.datosReserva.numMascotas === undefined || this.datosReserva.numMascotas < 0) {
@@ -497,17 +507,14 @@ export class ReservaComponent {
         }
         return isValid;
     }
-
     validarCorreo(correo: string): boolean {
         const regexCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         return regexCorreo.test(correo);
     }
-
     tieneError(controlName: string, errorName: string): boolean {
         const control = this.formulario?.form.controls[controlName];
         return control?.hasError(errorName) || false;
     }
-
     dateIsInListMantenimiento(date: any): boolean {
         return this.todosLosDias.date.some((fecha, index) => {
             if (this.todosLosDias.tipo[index] == 'Mantenimiento') {

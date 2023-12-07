@@ -64,6 +64,7 @@ export class ProgramateComponent {
     }
 
     updateProgramate(programate: Programate) {
+        this.programateSeleccionado.urlImagen = undefined;
         this.programateSeleccionado.estado = this.estadoSeleccionado;
         this.programateService.updateProgramate(programate).subscribe(
             (data) => {
@@ -73,6 +74,7 @@ export class ProgramateComponent {
                 this.programates[indexProgramate] = {
                     id: data.id,
                     estado: data.estado,
+                    descripcion: data.descripcion,
                     urlImagen: data.urlImagen,
                 };
             },

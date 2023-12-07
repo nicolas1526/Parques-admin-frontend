@@ -1,17 +1,24 @@
 <div class="grid">
-    <p-dialog header={{titleDialog}} [(visible)]="visibleDialog" [modal]="true" [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
+    <p-dialog
+        header="{{ titleDialog }}"
+        [(visible)]="visibleDialog"
+        [modal]="true"
+        [style]="{ width: '30vw' }"
+        [draggable]="false"
+        [resizable]="false"
+    >
         <p class="m-0">
-            {{messageDialog}}
+            {{ messageDialog }}
         </p>
     </p-dialog>
 
     <div class="col-12">
         <div class="card">
-            <form #Formulario="ngForm" class="p-fluid grid m-1 p-2 card-form" >
+            <form #Formulario="ngForm" class="p-fluid grid m-1 p-2 card-form">
                 <div class="field col-6">
                     <label><b>Documento:</b></label>
                     <input
-                        name = "documento"
+                        name="documento"
                         [(ngModel)]="usuario.documento"
                         type="number"
                         maxlength="9999999999"
@@ -20,72 +27,80 @@
                         (blur)="blurDocument($event)"
                     />
                     <div *ngIf="tieneError('documento', 'incorrect')">
-                        <p style="color: red;">Por favor, ingrese el documento.</p>
+                        <p style="color: red">
+                            Por favor, ingrese el documento.
+                        </p>
                     </div>
                 </div>
                 <div class="field col-6">
                     <label><b>Nombre:</b></label>
                     <input
-                        name = "nombre"
+                        name="nombre"
                         [(ngModel)]="usuario.nombreCompleto"
                         type="text"
                         pInputText
                         placeholder="Nombre completo"
                     />
                     <div *ngIf="tieneError('nombre', 'incorrect')">
-                        <p style="color: red;">Por favor, ingrese el nombre.</p>
+                        <p style="color: red">Por favor, ingrese el nombre.</p>
                     </div>
                 </div>
                 <div class="field col-6">
                     <label><b>Correo:</b></label>
                     <input
-                        name = "correo"
+                        name="correo"
                         [(ngModel)]="usuario.correo"
                         type="email"
                         pInputText
                         placeholder="Correo"
                     />
                     <div *ngIf="tieneError('correo', 'incorrect')">
-                        <p style="color: red;">Por favor, ingrese el correo.</p>
+                        <p style="color: red">Por favor, ingrese el correo.</p>
                     </div>
                 </div>
                 <div class="field col-3">
                     <label><b>Celular:</b></label>
                     <input
-                        name = "celular"
+                        name="celular"
                         [(ngModel)]="usuario.celular"
                         type="tel"
                         pInputText
                         placeholder="Celular"
                     />
                     <div *ngIf="tieneError('celular', 'incorrect')">
-                        <p style="color: red;">Por favor, ingrese el numero de celular.</p>
+                        <p style="color: red">
+                            Por favor, ingrese el numero de celular.
+                        </p>
                     </div>
                 </div>
                 <div class="field col-3">
                     <label><b>Telefono:</b></label>
                     <input
-                    name = "telefono"
+                        name="telefono"
                         [(ngModel)]="usuario.telefono"
                         type="tel"
                         pInputText
                         placeholder="Telefono"
                     />
                     <div *ngIf="tieneError('telefono', 'incorrect')">
-                        <p style="color: red;">Por favor, ingrese el numero de telefono.</p>
+                        <p style="color: red">
+                            Por favor, ingrese el numero de telefono.
+                        </p>
                     </div>
                 </div>
                 <div class="field col-6">
                     <label><b>Dirección:</b></label>
                     <input
-                    name = "direccion"
+                        name="direccion"
                         [(ngModel)]="usuario.direccion"
                         type="text"
                         pInputText
                         placeholder="Dirección"
                     />
                     <div *ngIf="tieneError('direccion', 'incorrect')">
-                        <p style="color: red;">Por favor, ingrese la direccion.</p>
+                        <p style="color: red">
+                            Por favor, ingrese la direccion.
+                        </p>
                     </div>
                 </div>
 
@@ -106,13 +121,15 @@
                         appendTo="body"
                     ></p-dropdown>
                     <div *ngIf="tieneError('municipio', 'incorrect')">
-                        <p style="color: red;">Por favor, seleccione un municipio.</p>
+                        <p style="color: red">
+                            Por favor, seleccione un municipio.
+                        </p>
                     </div>
                 </div>
                 <div class="field col-3">
                     <label><b>Tipo usuario:</b></label>
                     <input
-                    name = "tipoUsuario"
+                        name="tipoUsuario"
                         [(ngModel)]="usuario.tipoContrato!.tipo"
                         type="text"
                         pInputText
@@ -120,20 +137,24 @@
                         disabled="true"
                     />
                     <div *ngIf="tieneError('tipoUsuario', 'incorrect')">
-                        <p style="color: red;">Por favor, ingrese un tipo de usuario</p>
+                        <p style="color: red">
+                            Por favor, ingrese un tipo de usuario
+                        </p>
                     </div>
                 </div>
                 <div class="field col-2">
                     <label><b>Cantidad de personas:</b></label>
                     <input
-                    name = "numPersona"
+                        name="numPersona"
                         [(ngModel)]="datosReserva.numPersonas"
                         type="number"
                         pInputText
                         placeholder="Cantidad de personas"
                     />
                     <div *ngIf="tieneError('numPersona', 'incorrect')">
-                        <p style="color: red;">Por favor, ingrese una cantidad válida de personas</p>
+                        <p style="color: red">
+                            Por favor, ingrese una cantidad válida de personas
+                        </p>
                     </div>
                 </div>
                 <div class="field col-2">
@@ -146,7 +167,10 @@
                         placeholder="Cantidad menores de edad"
                     />
                     <div *ngIf="tieneError('numMenoresEdad', 'incorrect')">
-                        <p style="color: red;">Por favor, ingrese una cantidad válida de menores de edad.</p>
+                        <p style="color: red">
+                            Por favor, ingrese una cantidad válida de menores de
+                            edad.
+                        </p>
                     </div>
                 </div>
                 <div class="field col-2">
@@ -159,26 +183,60 @@
                         placeholder="Cantidad de mascotas"
                     />
                     <div *ngIf="tieneError('numMascotas', 'incorrect')">
-                        <p style="color: red;">Por favor, ingrese una cantidad válida de mascotas.</p>
+                        <p style="color: red">
+                            Por favor, ingrese una cantidad válida de mascotas.
+                        </p>
                     </div>
                 </div>
-                <div class="field col-2 " *ngIf="usuario.numNocheGratis!>0 && usuario.tipoContrato && usuario.tipoContrato.id === 3">
-                    <br/>
+                <div
+                    class="field col-2"
+                    *ngIf="
+                        usuario.numNocheGratis! > 0 &&
+                        usuario.tipoContrato &&
+                        usuario.tipoContrato.id === 3
+                    "
+                >
+                    <br />
                     <div class="field-checkbox mt-2 mb-0">
-                        <p-checkbox value="ng" [(ngModel)]="valNocheGratis" id="ng" [ngModelOptions]="{standalone: true}"></p-checkbox>
+                        <p-checkbox
+                            value="ng"
+                            [(ngModel)]="valNocheGratis"
+                            id="ng"
+                            [ngModelOptions]="{ standalone: true }"
+                        ></p-checkbox>
                         <label for="ng">Noche gratis</label>
                     </div>
                 </div>
-                <div class="field col-2 " *ngIf="usuario.numNocheDescuento!>0 && usuario.numNocheDescuento!<=3  && usuario.tipoContrato && usuario.tipoContrato.id === 4">
-                    <br/>
+                <div
+                    class="field col-2"
+                    *ngIf="
+                        usuario.numNocheDescuento! > 0 &&
+                        usuario.numNocheDescuento! <= 3 &&
+                        usuario.tipoContrato &&
+                        usuario.tipoContrato.id === 4
+                    "
+                >
+                    <br />
                     <div class="field-checkbox mt-2 mb-0">
-                        <p-checkbox value="rd" [(ngModel)]="valReservaDescuento" id="rd" [ngModelOptions]="{standalone: true}"></p-checkbox>
+                        <p-checkbox
+                            value="rd"
+                            [(ngModel)]="valReservaDescuento"
+                            id="rd"
+                            [ngModelOptions]="{ standalone: true }"
+                        ></p-checkbox>
                         <label for="rd">Reserva con descuento</label>
                     </div>
                 </div>
             </form>
             <br />
-            <div *ngIf="usuario.documento && visibleInfoReserva && !visibleDetalleReserva" class="p-fluid grid m-1 p-2 card-form">
+            <div
+                *ngIf="
+                    usuario.documento &&
+                    visibleInfoReserva &&
+                    !visibleDetalleReserva
+                "
+                class="p-fluid grid m-1 p-2 card-form"
+            >
                 <div class="field col-6">
                     <label><b>Parque:</b></label>
                     <p-dropdown
@@ -248,7 +306,7 @@
                     class="field col-3"
                     *ngIf="cabaniaSeleccionada.nombre !== undefined"
                 >
-                    <br/>
+                    <br />
                     <button
                         pButton
                         pRipple
@@ -260,9 +318,19 @@
                 </div>
             </div>
             <br />
-            <div *ngIf="visibleDetalleReserva && !visibleInfoReserva" class="p-fluid grid m-1 p-2 card-form">
+            <div
+                *ngIf="visibleDetalleReserva && !visibleInfoReserva"
+                class="p-fluid grid m-1 p-2 card-form"
+            >
                 <div class="card m-1 p-0 col-12">
-                    <p-table  responsiveLayout="stack" [breakpoint]="'960px'"  [value]="datosPreReserva" dataKey="id" class="col-12 p-0" styleClass="p-datatable-gridlines">
+                    <p-table
+                        responsiveLayout="stack"
+                        [breakpoint]="'960px'"
+                        [value]="datosPreReserva"
+                        dataKey="id"
+                        class="col-12 p-0"
+                        styleClass="p-datatable-gridlines"
+                    >
                         <ng-template pTemplate="header" let-columns>
                             <tr>
                                 <th></th>
@@ -279,37 +347,41 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-prereserva>
                             <tr>
-                                <td></td>
-                                <td>{{prereserva.id}}</td>
-                                <td>{{prereserva.servicio}}</td>
-                                <td>{{prereserva.numNoche}}</td>
-                                <td>{{prereserva.precio}}</td>
-                                <td>{{prereserva.impuesto}}</td>
-                                <td>{{prereserva.total}}</td>
-                                <td>{{prereserva.totalDescuento}}</td>
-                                <td>{{prereserva.desde}}</td>
-                                <td>{{prereserva.hasta}}</td>
+                                <td>
+                                    <button
+                                        pButton
+                                        pRipple
+                                        type="button"
+                                        icon="pi pi-times"
+                                        class="p-button-rounded p-button-danger"
+                                        (click)="limpiarDatos()"
+                                    ></button>
+                                </td>
+                                <td class="text-center">{{ prereserva.id }}</td>
+                                <td>{{ prereserva.servicio }}</td>
+                                <td>{{ prereserva.numNoche }}</td>
+                                <td>{{ prereserva.precio | currency:'COP':'symbol':'1.0-0' }}</td>
+                                <td>{{ prereserva.impuesto }}</td>
+                                <td>{{ prereserva.total | currency:'COP':'symbol':'1.0-0' }}</td>
+                                <td>{{ prereserva.totalDescuento | currency:'COP':'symbol':'1.0-0' }}</td>
+                                <td>{{ prereserva.desde }}</td>
+                                <td>{{ prereserva.hasta }}</td>
                             </tr>
                         </ng-template>
                     </p-table>
-
                 </div>
+                <div class="col-4"></div>
                 <div class="col-4">
-
+                    <br />
+                    <button
+                        pButton
+                        pRipple
+                        type="button"
+                        label="Confirmar reserva"
+                        class="p-button-outlined mt-2"
+                        (click)="onClickConfirmReservation()"
+                    ></button>
                 </div>
-                <div
-                        class="col-4"
-                    >
-                        <br/>
-                        <button
-                            pButton
-                            pRipple
-                            type="button"
-                            label="Confirmar reserva"
-                            class="p-button-outlined mt-2"
-                            (click)="onClickConfirmReservation()"
-                        ></button>
-                    </div>
             </div>
         </div>
     </div>

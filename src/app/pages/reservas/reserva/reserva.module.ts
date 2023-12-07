@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { TableModule } from 'primeng/table';
     FormsModule,
     CheckboxModule,
     DialogModule,
-    TableModule
+    TableModule,
+    ButtonModule
   ]
 })
 export class ReservaModule { }

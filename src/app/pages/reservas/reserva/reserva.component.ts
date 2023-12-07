@@ -317,8 +317,6 @@ export class ReservaComponent {
         };
     }
 
-
-
     onClickAddService() {
         if(this.validarFormulario()){
             if (

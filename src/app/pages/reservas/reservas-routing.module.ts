@@ -20,6 +20,22 @@ import { RouterModule } from '@angular/router';
                     (m) => m.ReservaModule
                 ),
         },
+        {
+            path: 'listado-reservas',
+            data: { breadcrumb: 'Listado de reservas' },
+            loadChildren: () =>
+                import('./listado-reservas/listado-reservas.module').then(
+                    (m) => m.ListadoReservasModule
+                ),
+        },
+        {
+            path: 'detalle-reservas/:id',
+            data: { breadcrumb: 'Detalle de reservas' },
+            loadChildren: () =>
+                import('./detalle-reservas/detalle-reservas.module').then(
+                    (m) => m.DetalleReservasModule
+                ),
+        },
         { path: '**', redirectTo: '/notfound' },
     ])
   ],

@@ -1,5 +1,5 @@
 -- Modulo
-ng g module pages/ajustes/popup
-ng g c pages/ajustes/popup
-ng g service services/popup
-ng generate module pages/ajustes/popup/popup-routing --flat --module=pages/ajustes/popup/popup.module
+ng g module pages/reservas/detalle-reservas
+ng g c pages/reservas/detalle-reservas
+ng g service services/detalle-reservas
+ng generate module pages/reservas/detalle-reservas/detalle-reservas-routing --flat --module=pages/reservas/detalle-reservas/detalle-reservas.module

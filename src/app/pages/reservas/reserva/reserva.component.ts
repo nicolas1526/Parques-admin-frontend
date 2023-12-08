@@ -1,8 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ConfirmationService, SelectItem, MessageService } from 'primeng/api';
-import { Table } from 'primeng/table';
-import { title } from 'process';
 import { map } from 'rxjs';
 import { DiasReservaMantenimiento } from 'src/app/models/mantenimiento.model';
 import { Municipio } from 'src/app/models/municipios.model';

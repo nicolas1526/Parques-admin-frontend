@@ -69,7 +69,6 @@ export class ListadoReservasComponent implements OnInit {
                 (data) => {
                     this.reservas = data;
                     this.loading = false;
-                    console.log(data);
                 },
                 (error) => {
                     console.error('Error en la peticion: ', error);

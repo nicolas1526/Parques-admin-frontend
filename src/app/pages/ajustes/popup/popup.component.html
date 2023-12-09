@@ -1,49 +1,56 @@
 <div class="grid">
-    <div class="card col-5 mx-5 my-4">
-        <p-fileUpload
-            #fileUpload
-            id="imgpopup"
-            [multiple]="false"
-            [showUploadButton]="false"
-            [showCancelButton]="false"
-            name="file"
-            accept="image/*"
-            chooseLabel="Seleccionar imagen"
-            (onSelect)="manejadorArchivoSeleccionado($event)"
-        >
-            <ng-template pTemplate="content"> </ng-template>
-        </p-fileUpload>
-        <div
-            class="grid d-flex flex-row justify-content-center align-items-center mt-2"
-        >
-            <button
-                pButton
-                pRipple
-                icon="pi pi-pencil"
-                class="p-button-raised p-button-warning m-3"
-                label="{{titleButton}}"
-                (click)=" createPopUp()"
-            ></button>
-            <button
-                pButton
-                pRipple
-                icon="pi pi-trash"
-                class="p-button-raised p-button-danger m-3"
-                label="Eliminar"
-                (click)="confirmarEliminar()"
-            ></button>
+    <div class="col-6">
+        <div class="card p-fluid">
+            <p-fileUpload
+                #fileUpload
+                id="imgpopup"
+                [multiple]="false"
+                [showUploadButton]="false"
+                [showCancelButton]="false"
+                name="file"
+                accept="image/*"
+                chooseLabel="Seleccionar imagen"
+                (onSelect)="manejadorArchivoSeleccionado($event)"
+            >
+                <ng-template pTemplate="content"> </ng-template>
+            </p-fileUpload>
+            <div
+                class="grid d-flex flex-row justify-content-center align-items-center mt-2"
+            >
+                <button
+                    pButton
+                    pRipple
+                    icon="pi pi-pencil"
+                    class="p-button-raised p-button-warning m-3"
+                    label="{{titleButton}}"
+                    (click)=" createPopUp()"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    icon="pi pi-trash"
+                    class="p-button-raised p-button-danger m-3"
+                    label="Eliminar"
+                    (click)="confirmarEliminar()"
+                ></button>
+            </div>
         </div>
     </div>
-    <div class="col-6 mx-5 my-4">
-        <p-image
-            styleClass="custom-image"
-            width = "100%"
-            height = "100%"
-            [src]="popUp.urlImagen!"
-            alt="Image"
-            [preview]="true"
-        ></p-image>
+
+    <div class="col-6">
+        <div class="card p-fluid">
+            <p-image
+                styleClass="custom-image"
+                width = "100%"
+                height = "100%"
+                [src]="popUp.urlImagen!"
+                alt="Image"
+                [preview]="true"
+            ></p-image>
+        </div>
     </div>
+    
+    
     <div class="col-12">
         <p-confirmDialog
             header="Confirmacion"

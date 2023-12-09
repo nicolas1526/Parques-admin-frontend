@@ -303,7 +303,7 @@ export class ReservaComponent {
         const fechas = [];
         const tipos = [];
         const fechaTemp = new Date(fechaInicial);
-        if(tipo !== 'PreReserva' ){
+        if(tipo === 'Mantenimiento' ){
             while (fechaTemp <= fechaFinal) {
                 fechas.push(new Date(fechaTemp));
                 tipos.push(tipo);

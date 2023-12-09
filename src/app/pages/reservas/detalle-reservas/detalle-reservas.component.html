@@ -72,6 +72,78 @@
     <div class="col-12" *ngIf="loading">
         <p-panel>
             <ng-template pTemplate="header"><span class="font-semibold text-l">Detalle del pago</span></ng-template>
+            <form #Formulario="ngForm" class="p-fluid grid m-1 p-2 card-form">
+                <div class="field col-3">
+                    <label for="bancos"><b>Bancos:</b></label>
+                    <p-dropdown
+                        [options]="bancos"
+                        [(ngModel)]="bancoSeleccionado"
+                        placeholder="Seleccione un banco"
+                        [filter]="true"
+                        filterBy="value.nombre"
+                        [showClear]="false"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
+                <div class="field col-3">
+                    <label for="numConsignacion"><b>N° consignación:</b></label>
+                    <input
+                        name="numConsignacion"
+                        
+                        type="number"
+                        pInputText
+                        placeholder="N° consignación"
+                    />
+                </div>
+                <div class="field col-3">
+                    <label for="valConsignacion"><b>Valor consignación:</b></label>
+                    <input
+                        name="valConsignacion"
+                        
+                        type="number"
+                        pInputText
+                        placeholder="Valor consignación"
+                    />
+                </div>
+                <div class="field col-3">
+                    <label for="fecha"><b>Fecha consignación</b></label>
+                    <p-calendar 
+                        name="fecha" 
+                        [(ngModel)]="fechaConsignacion"
+                        placeholder="MM/DD/YYYY"
+                        ></p-calendar>
+                </div>
+                <div class="field col-6">
+                    <label for="observaciones"><b>Observaciones</b></label>
+                    <textarea
+
+                        nombre="observaciones"
+                        rows="3"
+                        cols="30"
+                        pInputTextarea
+                    ></textarea>
+                </div>
+                <div class="field col-6">
+                    <label for="observaciones"><b>Observaciones</b></label>
+                    <p-fileUpload
+                        #fileUpload
+                        [multiple]="false"
+                        [showUploadButton]="false"
+                        [showCancelButton]="false"
+                        name="file"
+                        accept="image/*"
+                        chooseLabel="Seleccionar imagen"
+                        (onSelect)="
+                            manejadorArchivoSeleccionado($event)
+                        "
+                    >
+                        <ng-template pTemplate="content"> </ng-template>
+                    </p-fileUpload>
+                </div>
+                
+
+            </form>
+
         </p-panel>
     </div>
 </div>

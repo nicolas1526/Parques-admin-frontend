@@ -5,6 +5,12 @@ import { DetalleReservasRoutingModule } from './detalle-reservas-routing.module'
 import { PanelModule } from 'primeng/panel';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TableModule } from 'primeng/table';
+import { CalendarModule } from 'primeng/calendar';
+import { FormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
   declarations: [
@@ -15,7 +21,13 @@ import { TableModule } from 'primeng/table';
     DetalleReservasRoutingModule,
     PanelModule,
     ConfirmDialogModule,
-    TableModule
+    TableModule,
+    CalendarModule,
+    FormsModule,
+    InputTextModule,
+    DropdownModule,
+    InputTextareaModule,
+    FileUploadModule
   ]
 })
 export class DetalleReservasModule { }

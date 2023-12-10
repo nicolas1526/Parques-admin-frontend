@@ -2,8 +2,13 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { map } from 'rxjs';
-import { EstadoReserva, Reserva } from 'src/app/models/reserva.model';
+import { EstadoReserva, Reserva, ReservaDetalle } from 'src/app/models/reserva.model';
 import { ListadoReservasService } from 'src/app/services/listado-reservas.service';
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+
+(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
+
 
 @Component({
     selector: 'app-listado-reservas',
@@ -24,7 +29,7 @@ export class ListadoReservasComponent implements OnInit {
     constructor(
         private confirmationService: ConfirmationService,
         private listadoReservaService: ListadoReservasService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.estadoReserva = [
@@ -60,6 +65,83 @@ export class ListadoReservasComponent implements OnInit {
         this.getReservasByEstado();
     }
 
+    getReservaById(idReserva:string) {
+        this.listadoReservaService
+          .getReservasById(
+            idReserva!
+          )
+          .subscribe(
+            (data) => {
+              if (data) {
+                this.generarPDF(data)
+              }
+    
+            },
+            (error) => {
+              console.error('Error en la peticion: ', error);
+            }
+          );
+    }
+      
+    generarPDF(reserva: ReservaDetalle): void {
+        const contenidoFactura = [
+            [{ text: 'CORPORACION AUTONOMA REGIONAL \nNIT 899.999.062-6\n\nIVA Reg común-IVA incluido', style: 'titulo' }],
+            [{ text: `Reserva Nro: ${reserva.codigo}	${reserva.DetalleReserva?.fechaFin}`, style: 'subtitulo' }],
+            [{
+                table: {
+                    body: [
+                        ['NroNoches', 'Descripción', 'PrecioUnitario'],
+                        [`${reserva.DetalleReserva?.numNoches}`, `${reserva.ServicioParque?.Servicio.nombre} Desde ${reserva.DetalleReserva?.fechaInicio} Hasta ${reserva.DetalleReserva?.fechaFin}`, `${reserva.ServicioParque?.precio}`]
+                    ]
+                }, style: 'subtitulo'
+            }],
+            [{ text: `Sin IVA	$438655 \nBase IVA	$83345 \nTotal	$${reserva.DetalleReserva?.valor}`, style: 'total' }],
+            [{ text: 'Conserve su tiquete en el parque \nDebe presentar este tiquete al llegar al parque', style: 'footer' }],
+        ];
+
+        const documento = {
+            content: [
+                {
+                    table: {
+                        body: contenidoFactura,
+                    },
+                },
+            ],
+            styles: {
+                titulo: {
+                    fontSize: 16,
+                    bold: true,
+                    alignment: 'center' as const,
+                },
+                subtitulo: {
+                    fontSize: 14,
+                    bold: true,
+                    alignment: 'center' as const,
+                },
+                cuerpo: {
+                    fontSize: 12,
+                },
+                total: {
+                    fontSize: 14,
+                    bold: true,
+                    alignment: 'right' as const,
+                },
+                footer: {
+                    fontSize: 10,
+                    italics: true,
+                    alignment: 'center' as const,
+                },
+            },
+        };
+
+        const pdfDocGenerator = pdfMake.createPdf(documento);
+        pdfDocGenerator.getBlob((blob) => {
+            const blobUrl = URL.createObjectURL(blob);
+            window.open(blobUrl, '_blank');
+        });
+
+    }
+
     getReservasByEstado() {
         this.listadoReservaService
             .getAllReservasByEstado(
@@ -77,10 +159,10 @@ export class ListadoReservasComponent implements OnInit {
     }
 
     onDropdownChangeEstadoReserva(event: any) {
-      this.loading = true;
-      this.reservas = [];
-      this.getReservasByEstado();
-      this.loading = false;
+        this.loading = true;
+        this.reservas = [];
+        this.getReservasByEstado();
+        this.loading = false;
     }
 
     onGlobalFilter(table: Table, event: Event): void {

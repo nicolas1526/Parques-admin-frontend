@@ -26,13 +26,19 @@ export class PrereservaService {
         return this.http.post<DatosReservaRes>(url, datosPreReserva);
     }
 
+    cancelarPreReserva(idPreReserva: string): Observable<void> {
+        const url = `${API_URL}/prereserva/cancelar-prereserva/${idPreReserva}`;
+        return this.http.put<void>(url,null);
+    }
+
+    aprobarPreReserva(idPreReserva: string): Observable<void> {
+        const url = `${API_URL}/prereserva/aprobar-prereserva/${idPreReserva}`;
+        return this.http.put<void>(url,null);
+    }
     /*deleteParque(idParque: number): Observable<void> {
         const url = `${API_URL}/parque/${idParque}`;
         return this.http.delete<void>(url);
     }
 
-    updateParque(parque: Parques): Observable<Parques> {
-        const url = `${API_URL}/parque/${parque.id}`;
-        return this.http.put<Parques>(url, parque);
-    }*/
+    */
 }

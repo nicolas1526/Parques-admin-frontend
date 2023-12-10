@@ -11,6 +11,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FileUploadModule } from 'primeng/fileupload';
+import { DialogModule } from 'primeng/dialog';
+import { ImageModule } from 'primeng/image';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,10 @@ import { FileUploadModule } from 'primeng/fileupload';
     InputTextModule,
     DropdownModule,
     InputTextareaModule,
-    FileUploadModule
+    FileUploadModule,
+    DialogModule,
+    ImageModule,
+
   ]
 })
 export class DetalleReservasModule { }

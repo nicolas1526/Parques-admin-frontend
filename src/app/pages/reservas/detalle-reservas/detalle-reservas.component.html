@@ -1,8 +1,15 @@
 <div class="grid">
-    <div class="col-12">
-        <p-confirmDialog header="Confirmacion" key="confirmarEliminar" [style]="{ width: '350px' }"
-            acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
-    </div>
+    <p-dialog header="{{ dialog.title }}" [(visible)]="dialog.visible" [modal]="true" [style]="{ width: '20vw' }"
+        [draggable]="false" [resizable]="false">
+        <div style="text-align: center">
+            <i class="{{dialog.icon}}" style="font-size: 3rem;" [style.color]="dialog.color"></i>
+        </div>
+        <br />
+        <p class="m-0 text-black-50">
+            {{ dialog.message }}
+        </p>
+        <br />
+    </p-dialog>
     <div class="col-12" *ngIf="loading">
         <p-panel>
             <ng-template pTemplate="header"><span class="font-semibold text-l">Reserva Nº
@@ -52,7 +59,7 @@
                         <td>{{reserva.ServicioParque.Servicio.nombre}}</td>
                         <td>{{reserva.ServicioParque.Parque.nombre}}</td>
                         <td>{{reserva.DetalleReserva.numNoches}}</td>
-                        <td>{{reserva.DetalleReserva.valor | currency : "COP" : "symbol" : "1.0-0"}}</td>
+                        <td>{{reserva.ServicioParque.precio | currency : "COP" : "symbol" : "1.0-0"}}</td>
                         <td>{{reserva.DetalleReserva.fechaInicio}}</td>
                         <td>{{reserva.DetalleReserva.fechaFin}}</td>
                         <td>{{reserva.DetalleReserva.nocheGratis ? "Si":"No"}}</td>
@@ -63,87 +70,129 @@
             </p-table>
             <br />
             <hr />
-            <p><strong>Total servicio:</strong> {{reserva[0].DetalleReserva!.valor | currency : "COP" : "symbol" : "1.0-0"}}</p>
-            <p><strong>Total abonos:</strong> $ 522000</p>
-            <p><strong>Pendiente por pagar:</strong> $ 522000</p>
+            <p><strong>Total servicio:</strong> {{reserva[0].DetalleReserva!.valor | currency : "COP" : "symbol" :
+                "1.0-0"}}</p>
+            <p><strong>Total abonos:</strong> {{totalAbonosReserva | currency : "COP" : "symbol" : "1.0-0"}}</p>
+            <p><strong>Pendiente por pagar:</strong> {{(reserva[0].DetalleReserva!.valor! - totalAbonosReserva) |
+                currency : "COP" : "symbol" : "1.0-0"}}</p>
 
         </p-panel>
     </div>
     <div class="col-12" *ngIf="loading">
         <p-panel>
             <ng-template pTemplate="header"><span class="font-semibold text-l">Detalle del pago</span></ng-template>
-            <form #Formulario="ngForm" class="p-fluid grid m-1 p-2 card-form">
+            <form #Formulario="ngForm" class="p-fluid grid p-2 card-form"
+                *ngIf="(reserva[0].DetalleReserva!.valor! - totalAbonosReserva)  > 0 && reserva[0].Estado?.nombre === 'Pendiente'">
                 <div class="field col-3">
                     <label for="bancos"><b>Bancos:</b></label>
-                    <p-dropdown
-                        [options]="bancos"
-                        [(ngModel)]="bancoSeleccionado"
-                        placeholder="Seleccione un banco"
-                        [filter]="true"
-                        filterBy="value.nombre"
-                        [showClear]="false"
-                        appendTo="body"
-                    ></p-dropdown>
+                    <p-dropdown name="bancos" [options]="bancos" [(ngModel)]="datosAbono.Banco"
+                        placeholder="Seleccione un banco" [filter]="true" filterBy="value.nombre" [showClear]="false"
+                        appendTo="body"></p-dropdown>
+                    <div *ngIf="tieneError('bancos', 'incorrect')">
+                        <p style="color: red">Por favor, seleccione un banco.</p>
+                    </div>
                 </div>
                 <div class="field col-3">
                     <label for="numConsignacion"><b>N° consignación:</b></label>
-                    <input
-                        name="numConsignacion"
-                        
-                        type="number"
-                        pInputText
-                        placeholder="N° consignación"
-                    />
+                    <input name="numConsignacion" [(ngModel)]="datosAbono.numeroConsignacion" type="number" pInputText
+                        placeholder="N° consignación" />
+                    <div *ngIf="tieneError('numConsignacion', 'incorrect')">
+                        <p style="color: red">Por favor, ingrese el n° de consignación.</p>
+                    </div>
                 </div>
                 <div class="field col-3">
                     <label for="valConsignacion"><b>Valor consignación:</b></label>
-                    <input
-                        name="valConsignacion"
-                        
-                        type="number"
-                        pInputText
-                        placeholder="Valor consignación"
-                    />
+                    <input name="valConsignacion" [(ngModel)]="datosAbono.valor" type="number" pInputText
+                        placeholder="Valor consignación" />
+                    <div *ngIf="tieneError('valConsignacion', 'incorrect')">
+                        <p style="color: red">Por favor, ingrese el valor de la consignación.</p>
+                    </div>
                 </div>
                 <div class="field col-3">
                     <label for="fecha"><b>Fecha consignación</b></label>
-                    <p-calendar 
-                        name="fecha" 
-                        [(ngModel)]="fechaConsignacion"
-                        placeholder="MM/DD/YYYY"
-                        ></p-calendar>
+                    <p-calendar name="fecha" [(ngModel)]="datosAbono.fechaDate" placeholder="MM/DD/YYYY"></p-calendar>
+                    <div *ngIf="tieneError('fecha', 'incorrect')">
+                        <p style="color: red">Por favor, seleccione una fecha.</p>
+                    </div>
                 </div>
                 <div class="field col-6">
                     <label for="observaciones"><b>Observaciones</b></label>
-                    <textarea
-
-                        nombre="observaciones"
-                        rows="3"
-                        cols="30"
-                        pInputTextarea
-                    ></textarea>
+                    <textarea [(ngModel)]="datosAbono.observaciones" name="observaciones" rows="3" cols="30"
+                        pInputTextarea></textarea>
+                    <div *ngIf="tieneError('observaciones', 'incorrect')">
+                        <p style="color: red">Por favor, ingrese las observaciones.</p>
+                    </div>
                 </div>
                 <div class="field col-6">
-                    <label for="observaciones"><b>Observaciones</b></label>
-                    <p-fileUpload
-                        #fileUpload
-                        [multiple]="false"
-                        [showUploadButton]="false"
-                        [showCancelButton]="false"
-                        name="file"
-                        accept="image/*"
-                        chooseLabel="Seleccionar imagen"
-                        (onSelect)="
+                    <label for="observaciones"><b>Comprobante de pago</b></label>
+                    <p-fileUpload #fileUpload [multiple]="false" [showUploadButton]="false" [showCancelButton]="false"
+                        name="file" accept="image/*,application/pdf" chooseLabel="Seleccionar imagen" (onSelect)="
                             manejadorArchivoSeleccionado($event)
-                        "
-                    >
+                        ">
                         <ng-template pTemplate="content"> </ng-template>
                     </p-fileUpload>
+                    <div *ngIf="errorImg">
+                        <p style="color: red">Por favor, ingrese la imagen del comprobante.</p>
+                    </div>
                 </div>
-                
 
+                <div class="col-4">
+
+                </div>
+                <div class="col-4">
+                    <button pButton pRipple type="button" label="Adicionar servicio" class="p-button-outlined"
+                        (click)="onClickAddAbono()"></button>
+                </div>
+                <div class="col-4">
+
+                </div>
             </form>
+            <p-table #dt1 [value]="listaAbonos" dataKey="id" [loading]="!loading" [paginator]="false"
+                styleClass="p-datatable-gridlines">
+                <ng-template pTemplate="caption">
+                    <span class="font-semibold text-l">Lista de abonos</span>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Id abono</th>
+                        <th>Fecha abono</th>
+                        <th>Valor abono</th>
+                        <th>Banco</th>
+                        <th>N° Consignacion</th>
+                        <th>ObservacionesAbono</th>
+                        <th>Comprobante</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-abono>
+                    <tr>
+                        <td>{{abono.id}}</td>
+                        <td>{{abono.fecha.substring(0, 10)}}</td>
+                        <td>{{abono.valor | currency : "COP" : "symbol" : "1.0-0"}}</td>
+                        <td>{{abono.Banco.nombre}}</td>
+                        <td>{{abono.numeroConsignacion}}</td>
+                        <td>{{abono.observaciones}}</td>
+                        <td><a href="{{abono.comprobanteUrl}}" target="_blank"><i class="pi pi-file-export"
+                                    style="color: slateblue;font-size: 1.5rem"></i></a></td>
+                        <td><button pButton pRipple icon="pi pi-trash"
+                                class="p-button-danger p-button-outlined p-button-outlined"
+                                (click)="confirmarEliminar(abono.id)"></button></td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+            <div class="mt-4">
+                <button pButton class="p-button-success mr-5"
+                    *ngIf="(reserva[0].DetalleReserva!.valor! - totalAbonosReserva)  == 0 && reserva[0].Estado?.nombre === 'Pendiente'"
+                    (click)="onClickConfirmarReserva()">Confirmar reserva</button>
+                <button pButton class="p-button-danger " *ngIf="reserva[0].Estado?.nombre === 'Pendiente'" (click)="onClickCancelarReserva()">Cancelar reserva</button>
+            </div>
+
 
         </p-panel>
+    </div>
+    <div class="col-12">
+        <p-confirmDialog header="Confirmacion" key="confirmarEliminar" [style]="{ width: '350px' }"
+            acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
     </div>
 </div>

@@ -81,7 +81,7 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-reserva>
                     <tr>
-                        <td><button pButton pRipple icon="pi pi-print" class="p-button-raised p-button-outlined p-button-outlined"></button></td>
+                        <td><button pButton pRipple icon="pi pi-print" class="p-button-raised p-button-outlined p-button-outlined" (click)="getReservaById(reserva.ReservaId)"></button></td>
                         <td><a href="#/reservas/detalle-reservas/{{reserva.ReservaId}}" pButton pRipple icon="pi pi-file-edit" class="p-button-raised p-button-outlined p-button-outlined"></a></td>
                         <td>{{ reserva.ReservaId }}</td>
                         <td>{{ reserva.CodigoReserva }}</td>

@@ -1,3 +1,5 @@
+import { Banco } from "./banco.model"
+
 export interface EstadoReserva {
     EstadoReservaId?: number,
     NombreEstadoReserva?: string,
@@ -26,6 +28,7 @@ interface DetalleReserva {
 }
 
 interface ServicioParque {
+    precio:number,
     Parque: {
         nombre?: string
     },
@@ -52,4 +55,18 @@ export interface ReservaDetalle {
     ServicioParque?:ServicioParque
 }
 
+
+export interface Abonos {
+    id?:number,
+    idReserva?:number,
+    idBanco?:number,
+    fecha?:string,
+    fechaDate?: Date,
+    valor?:number,
+    numeroConsignacion?:number,
+    observaciones?:string,
+    comprobanteUrl?:string,
+    imgBase64?:string,
+    Banco?:Banco
+}
 

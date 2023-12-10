@@ -65,37 +65,71 @@ export class ListadoReservasComponent implements OnInit {
         this.getReservasByEstado();
     }
 
-    getReservaById(idReserva:string) {
+    getReservaById(idReserva: string) {
         this.listadoReservaService
-          .getReservasById(
-            idReserva!
-          )
-          .subscribe(
-            (data) => {
-              if (data) {
-                this.generarPDF(data)
-              }
-    
-            },
-            (error) => {
-              console.error('Error en la peticion: ', error);
-            }
-          );
+            .getReservasById(
+                idReserva!
+            )
+            .subscribe(
+                (data) => {
+                    if (data) {
+                        this.generarPDF(data)
+                    }
+
+                },
+                (error) => {
+                    console.error('Error en la peticion: ', error);
+                }
+            );
     }
-      
+
+    numberFormat(value:number):string{
+        return new Intl.NumberFormat('es-CO',{
+            style: 'currency',
+            currency: 'COP',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(value)
+    }
+
     generarPDF(reserva: ReservaDetalle): void {
+        const iva = (reserva.DetalleReserva?.valor! * reserva.ServicioParque?.impuesto!)/100;
+        const totalConIva = reserva.DetalleReserva?.valor!;
+        const totalSinIva = totalConIva-iva;
+
         const contenidoFactura = [
             [{ text: 'CORPORACION AUTONOMA REGIONAL \nNIT 899.999.062-6\n\nIVA Reg común-IVA incluido', style: 'titulo' }],
             [{ text: `Reserva Nro: ${reserva.codigo}	${reserva.DetalleReserva?.fechaFin}`, style: 'subtitulo' }],
             [{
                 table: {
+                    headerRows: 1,
                     body: [
-                        ['NroNoches', 'Descripción', 'PrecioUnitario'],
-                        [`${reserva.DetalleReserva?.numNoches}`, `${reserva.ServicioParque?.Servicio.nombre} Desde ${reserva.DetalleReserva?.fechaInicio} Hasta ${reserva.DetalleReserva?.fechaFin}`, `${reserva.ServicioParque?.precio}`]
+                        [
+                            { text: 'NroNoches', style: 'headers' }, 
+                            { text: 'Descripción', style: 'headers' }, 
+                            { text: 'Precio unitario', style: 'headers' }
+                        ],
+                        [
+                            { text: `${reserva.DetalleReserva?.numNoches}` ,style: "cuerpoCenter" },
+                             `${reserva.ServicioParque?.Servicio.nombre} Desde ${reserva.DetalleReserva?.fechaInicio} Hasta ${reserva.DetalleReserva?.fechaFin}`, 
+                            { text: `${this.numberFormat(reserva.ServicioParque?.precio!)}` ,style: "cuerpoCenter"}                            
+                        ]
                     ]
-                }, style: 'subtitulo'
+                }
             }],
-            [{ text: `Sin IVA	$438655 \nBase IVA	$83345 \nTotal	$${reserva.DetalleReserva?.valor}`, style: 'total' }],
+            [{
+                table: {
+                    headerRows: 1,
+                    body: [
+                        [{ text: 'Sin Iva', style: 'headersFooter' }, `${this.numberFormat(totalSinIva)}`],
+                        [{ text: 'Base IVA', style: 'headersFooter' }, `${this.numberFormat(iva)}`],
+                        [{ text: 'Total', style: 'headersFooter' }, `${this.numberFormat(totalConIva)}`],
+                    ]
+                },
+                alignment: 'left',
+                layout: 'noBorders'
+            }],
+            //[{ text: `Sin IVA	$438655 \nBase IVA	$83345 \nTotal	$`, style: 'total' }],
             [{ text: 'Conserve su tiquete en el parque \nDebe presentar este tiquete al llegar al parque', style: 'footer' }],
         ];
 
@@ -114,12 +148,26 @@ export class ListadoReservasComponent implements OnInit {
                     alignment: 'center' as const,
                 },
                 subtitulo: {
-                    fontSize: 14,
+                    fontSize: 13,
                     bold: true,
                     alignment: 'center' as const,
                 },
                 cuerpo: {
                     fontSize: 12,
+                },
+                cuerpoCenter: {
+                    fontSize: 12,
+                    alignment: 'center' as const,
+                },
+                headers: {
+                    fontSize: 12,
+                    bold: true,
+                    alignment: 'center' as const,
+                },
+                headersFooter: {
+                    fontSize: 12,
+                    bold: true,
+                    alignment: 'left' as const,
                 },
                 total: {
                     fontSize: 14,

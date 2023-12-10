@@ -29,6 +29,7 @@ interface DetalleReserva {
 
 interface ServicioParque {
     precio:number,
+    impuesto?:number,
     Parque: {
         nombre?: string
     },

@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
+import { RouterModule } from '@angular/router';
+import { BancosComponent } from './bancos.component';
 
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule
-  ]
+  imports: [RouterModule.forChild([{ path: '', component: BancosComponent }])],
 })
 export class BancosRoutingModule { }

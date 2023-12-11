@@ -1,1 +1,182 @@
-<p>bancos works!</p>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5>Bancos</h5>
+            <p-table
+                #dt1
+                [value]="bancos"
+                dataKey="id"
+                [rows]="10"
+                [loading]="loading"
+                [paginator]="true"
+                [globalFilterFields]="['nombre']"
+                styleClass="p-datatable-gridlines"
+            >
+                <ng-template pTemplate="caption">
+                    <div
+                        class="flex justify-content-between flex-column sm:flex-row"
+                    >
+                        <div>
+                            <div>
+                                <button
+                                    pButton
+                                    label="Agregar"
+                                    class="p-button-outlined mb-2"
+                                    icon="pi pi-plus"
+                                    (click)="openDialogCreate()"
+                                ></button>
+                                <button
+                                    pButton
+                                    label="Clear"
+                                    class="p-button-outlined mb-2"
+                                    icon="pi pi-filter-slash"
+                                    (click)="clear(dt1)"
+                                ></button>
+                            </div>
+                        </div>
+                        <span class="p-input-icon-left mb-2">
+                            <i class="pi pi-search"></i>
+                            <input
+                                pInputText
+                                type="text"
+                                #filter
+                                (input)="onGlobalFilter(dt1, $event)"
+                                placeholder="Buscar"
+                                class="w-full"
+                            />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Id</th>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Estado<p-columnFilter
+                                type="boolean"
+                                field="estado"
+                                display="menu"
+                            ></p-columnFilter>
+                        </th>
+                        <th>Modificar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-banco>
+                    <tr>
+                        <td>{{ banco.id }}</td>
+                        <td>{{ banco.nombre }}</td>
+                        <td class="text-center" style="min-width: 150px">
+                            <i
+                                style="font-size: 1.5rem"
+                                class="pi"
+                                [ngClass]="{
+                                    'true-icon pi-check-circle text-green-500':
+                                        banco.estado,
+                                    'false-icon pi-times-circle text-pink-500':
+                                        !banco.estado
+                                }"
+                            ></i>
+                        </td>
+                        <td>
+                            <button
+                                class="p-button p-button-warning mx-3"
+                                (click)="openDialogUpdate(banco.id)"
+                            >
+                                Modificar
+                            </button>
+                        </td>
+                        <td>
+                            <button
+                                class="p-button p-button-danger mx-3"
+                                (click)="confirmarEliminar(banco.id)"
+                            >
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <div class="col-12">
+        <p-dialog
+            header="Crear banco"
+            [(visible)]="display"
+            [modal]="true"
+            showEffect="fade"
+            [style]="{ width: '60vw' }"
+            [breakpoints]="{ '960px': '75vw' }"
+        >
+            <form  #Formulario="ngForm" class="p-fluid grid p-2 card-form">
+                <div class="field col-6">
+                    <label><b>Nombre</b></label>
+                    <input
+                        [(ngModel)]="bancosSeleccionado.nombre"
+                        name="nombre"
+                        class="col-12"
+                        type="text"
+                        pInputText
+                        placeholder="Ingrese el nombre"
+                    />
+                    <div *ngIf="tieneError('nombre', 'incorrect')">
+                        <p style="color: red">Por favor, ingrese un nombre.</p>
+                    </div>
+                </div>
+                <div class="field col-6">
+                    <label htmlFor="estado"><b>Estado</b></label>
+                    <p-dropdown
+                        name="estado"
+                        [options]="estados"
+                        [(ngModel)]="bancosSeleccionado.estado"
+                        [showClear]="false"
+                        appendTo="body"
+                    ></p-dropdown>
+                    <div *ngIf="tieneError('estado', 'incorrect')">
+                        <p style="color: red">Por favor, seleccione un estado.</p>
+                    </div>
+                </div>
+            </form>
+
+            <ng-template pTemplate="footer">
+                <button
+                    pButton
+                    icon="pi pi-times"
+                    (click)="display = false"
+                    label="Cancelar"
+                    class="p-button-danger"
+                ></button>
+                <button
+                    pButton
+                    icon="pi pi-check"
+                    class="p-button-primary"
+                    (click)="createOrUpdate()"
+                >
+                    {{ postOput ? "Agregar" : "Modificar" }}
+                </button>
+            </ng-template>
+        </p-dialog>
+    </div>
+    <div class="col-12">
+        <p-confirmDialog
+            header="Confirmacion"
+            key="confirmarEliminar"
+            [style]="{ width: '350px' }"
+            acceptButtonStyleClass="p-button-text"
+            rejectButtonStyleClass="p-button-text"
+        ></p-confirmDialog>
+    </div>
+    <p-dialog header="{{ dialog.title }}" [(visible)]="dialog.visible" [modal]="true" [style]="{ width: '20vw' }"
+        [draggable]="false" [resizable]="false">
+        <div style="text-align: center">
+            <i class="{{dialog.icon}}" style="font-size: 3rem;" [style.color]="dialog.color"></i>
+        </div>
+        <br />
+        <p class="m-0 text-black-50">
+            {{ dialog.message }}
+        </p>
+        <br />
+    </p-dialog>
+</div>

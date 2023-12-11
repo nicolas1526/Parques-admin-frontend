@@ -16,19 +16,21 @@ export class BancoService {
     return this.http.get<Banco[]>(url);
   }
 
-  deleteDepartamento(idDepartamento: number): Observable<void> {
-    const url = `${API_URL}/departamento/${idDepartamento}`;
+  createBanco(banco:Banco):Observable<Banco>{
+    const url = `${API_URL}/banco`;
+    return this.http.post<Banco>(url,banco);
+  }
+
+  deleteBanco(idBanco: number): Observable<void> {
+    const url = `${API_URL}/banco/${idBanco}`;
     return this.http.delete<void>(url);
   }
 
-  updateDepartamento(departamento:Departamento): Observable<Departamento>{
-    const url = `${API_URL}/departamento/${departamento.id}`;
-    return this.http.put<Departamento>(url,departamento);
+  updateBanco(banco:Banco): Observable<Banco>{
+    const url = `${API_URL}/banco/${banco.id}`;
+    return this.http.put<Banco>(url,banco);
   }
 
-  createDepartamento(departamento:Departamento):Observable<Departamento>{
-    const url = `${API_URL}/departamento`;
-    return this.http.post(url,departamento);
-  }
+  
 
 }

@@ -100,6 +100,14 @@ import { RouterModule } from '@angular/router';
                         (m) => m.PopupModule
                     ),
             },
+            {
+                path: 'bancos',
+                data: { breadcrumb: 'Bancos' },
+                loadChildren: () =>
+                    import('./bancos/bancos.module').then(
+                        (m) => m.BancosModule
+                    ),
+            },
             { path: '**', redirectTo: '/notfound' },
         ]),
     ],

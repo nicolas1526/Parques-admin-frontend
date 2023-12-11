@@ -147,6 +147,11 @@ export class ServiciosParqueComponent implements OnInit {
         this.display = false;
     }
 
+    updateServicioParque(){
+
+    }
+
+
     onDropdownChangeParque(event: any) {
         this.loading = true;
         const serviciosParqueFiltrado = this.serviciosParqueAll.filter(
@@ -156,12 +161,13 @@ export class ServiciosParqueComponent implements OnInit {
         this.loading = false;
     }
 
+
     createOrUpdate() {
         if (this.servicioSeleccionado !== undefined) {
             if (this.postOput) {
                 this.createServicioParque();
             } else {
-                //this.updateServicio(this.servicioSeleccionado);
+                this.updateServicioParque();
             }
             this.display = false;
         }
@@ -176,7 +182,14 @@ export class ServiciosParqueComponent implements OnInit {
         this.postOput = true;
     }
 
-    openDialogUpdate(idServicioParque: number) {}
+    openDialogUpdate(idServicioParque: number) {
+        const index = this.serviciosParque.findIndex(
+          (data) => data.id === idServicioParque
+        );
+        this.servicioParqueSeleccionado = this.serviciosParque[index];
+        this.display = true;
+        this.postOput = false;
+    }
 
     confirmarEliminar(idServicioParque: number) {
         this.confirmationService.confirm({

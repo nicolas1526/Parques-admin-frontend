@@ -12,6 +12,7 @@ import { map } from 'rxjs';
 import { Parques } from 'src/app/models/parques.model';
 import { ParquesService } from 'src/app/services/parques.service';
 import { ServiciosParqueService } from 'src/app/services/servicios-parque.service';
+import { ID_CABAÑA } from 'src/app/constants/app.constants';
 
 @Component({
     templateUrl: './servicios-parque.component.html',
@@ -20,6 +21,7 @@ import { ServiciosParqueService } from 'src/app/services/servicios-parque.servic
 })
 export class ServiciosParqueComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
+    mycheckbox:string = "true"
     estados: SelectItem[] = [];
     estadoSeleccionado?: boolean;
     servicios: SelectItem[] = [];
@@ -57,13 +59,16 @@ export class ServiciosParqueComponent implements OnInit {
             .getServicios()
             .pipe(
                 map((servicios) => {
-                    return servicios.map((servicio) => ({
-                        label: servicio.nombre,
-                        value: {
-                            id: servicio.id,
-                            nombre: servicio.nombre,
-                        },
-                    }));
+                    return servicios
+                        .filter(servicio => servicio.activo === true)
+                        .map((servicio) => ({
+                            label: servicio.nombre,
+                            value: {
+                                id: servicio.id,
+                                nombre: servicio.nombre,
+                                idTipoServicio: servicio.TipoServicio!.id
+                            },
+                        }));
                 })
             )
             .subscribe(
@@ -139,18 +144,32 @@ export class ServiciosParqueComponent implements OnInit {
                     this.servicioParqueSeleccionado.cantidadPersonas = data.cantidadPersonas == 0 ? null : data.cantidadPersonas;
                     this.servicioParqueSeleccionado.id = data.id;
                     this.serviciosParque.push(this.servicioParqueSeleccionado);
+                    this.display = false;
                 },
                 (error) => {
                     console.error('Error en la peticion: ', error);
                 }
             );
-        this.display = false;
     }
 
     updateServicioParque(){
-
+        this.servicioParqueSeleccionado.idServicio = this.servicioSeleccionado.id;
+        this.servicioParqueSeleccionado.activo = this.estadoSeleccionado;
+        this.serviceServiciosParque
+            .updateServiciosParque(this.servicioParqueSeleccionado)
+            .subscribe(
+                (data) => {
+                    const indexServico = this.servicios.findIndex(
+                        (res) => res.value.id === data.idServicio
+                    );
+                    this.servicioParqueSeleccionado.Servicio!.nombre = this.servicios[indexServico].value.nombre;
+                    this.display = false;
+                },
+                (error) => {
+                    console.error('Error en la peticion: ', error);
+                }
+            );
     }
-
 
     onDropdownChangeParque(event: any) {
         this.loading = true;
@@ -161,7 +180,6 @@ export class ServiciosParqueComponent implements OnInit {
         this.loading = false;
     }
 
-
     createOrUpdate() {
         if (this.servicioSeleccionado !== undefined) {
             if (this.postOput) {
@@ -169,24 +187,37 @@ export class ServiciosParqueComponent implements OnInit {
             } else {
                 this.updateServicioParque();
             }
-            this.display = false;
         }
     }
 
     openDialogCreate() {
         this.servicioParqueSeleccionado = {}
         this.estadoSeleccionado = true;
-        this.esCabana = false;
         this.servicioSeleccionado = {};
         this.display = true;
         this.postOput = true;
     }
 
     openDialogUpdate(idServicioParque: number) {
+        this.servicioParqueSeleccionado = {};
         const index = this.serviciosParque.findIndex(
           (data) => data.id === idServicioParque
         );
         this.servicioParqueSeleccionado = this.serviciosParque[index];
+        if(this.servicioParqueSeleccionado.Servicio?.idTipoServicio === ID_CABAÑA){
+            this.esCabana = true;
+        }else{
+            this.servicioParqueSeleccionado.cantidadMascotas = null;
+            this.servicioParqueSeleccionado.cantidadPersonas = null;
+            this.esCabana = false;
+        }
+
+        const indexServico = this.servicios.findIndex(
+            (res) => res.value.id === this.servicioParqueSeleccionado.Servicio!.id
+        );
+
+        this.servicioSeleccionado = this.servicios[indexServico].value;
+
         this.display = true;
         this.postOput = false;
     }
@@ -213,7 +244,13 @@ export class ServiciosParqueComponent implements OnInit {
         this.filter.nativeElement.value = '';
     }
 
-    toggleCheckbox() {
-        this.esCabana = !this.esCabana;
-      }
+    esCabania(){
+        if(this.servicioSeleccionado.idTipoServicio === ID_CABAÑA){
+            this.esCabana = true;
+        }else{
+            this.servicioParqueSeleccionado.cantidadMascotas = null;
+            this.servicioParqueSeleccionado.cantidadPersonas = null;
+            this.esCabana = false;
+        }
+    }
 }

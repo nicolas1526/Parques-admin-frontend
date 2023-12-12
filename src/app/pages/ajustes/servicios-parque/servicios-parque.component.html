@@ -165,6 +165,7 @@
                         }"
                         [options]="servicios"
                         [(ngModel)]="servicioSeleccionado"
+                        (onChange)="esCabania()"
                         placeholder="Seleccione un servicio"
                         [filter]="true"
                         filterBy="value.nombre"
@@ -215,10 +216,6 @@
                         [showClear]="false"
                         appendTo="body"
                     ></p-dropdown>
-                </div>
-                <div class="field-checkbox col-12">
-                    <p-checkbox name="group1" value="EsCabana" (onChange)="toggleCheckbox()"></p-checkbox>
-                    <label for="ny">¿Es una cabaña?</label>
                 </div>
                 <div class="col-4" *ngIf="esCabana">
                     <label htmlFor="nombreservicio">Cantidad personas</label>

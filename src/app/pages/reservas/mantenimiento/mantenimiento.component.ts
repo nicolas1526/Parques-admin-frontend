@@ -10,8 +10,10 @@ import { ParquesService } from 'src/app/services/parques.service';
 import { ServiciosParqueService } from 'src/app/services/servicios-parque.service';
 import {
     Servicio,
-    ServicioParque
+    ServicioParque,
+    TipoServicio
 } from '../../../models/servicio';
+import { TipoServicioService } from 'src/app/services/tipo-servicio.service';
 
 @Component({
     templateUrl: './mantenimiento.component.html',
@@ -23,6 +25,9 @@ export class MantenimientoComponent {
     @ViewChild('filter') filter!: ElementRef;
     parques: SelectItem[] = [];
     parqueSeleccionado: Parques = {};
+    tiposServicio: SelectItem[] = [];
+    tiposServicioSeleccionada: TipoServicio = {};
+
     cabanias: SelectItem[] = [];
     cabaniaSeleccionada: ServicioParque = {};
     mantenimientos: Mantenimiento[] = [];
@@ -43,6 +48,7 @@ export class MantenimientoComponent {
         private mantenimientoService: MantenimientoService,
         private serviceParque: ParquesService,
         private serviciosParqueService: ServiciosParqueService,
+        private tipoServicioService: TipoServicioService,
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
 
@@ -50,6 +56,7 @@ export class MantenimientoComponent {
 
     ngOnInit() {
         this.getParques();
+        this.getTipoDeServicios();
     }
 
     getParques() {
@@ -76,10 +83,36 @@ export class MantenimientoComponent {
             );
     }
 
-    getCabanias(){
+    getTipoDeServicios(){
 
+        this.tipoServicioService
+        .getTiposDeServiciosReservables()
+        .pipe(
+            map((tiposervicio) => {
+                return tiposervicio.map((tipo) => ({
+                    label: tipo.nombre,
+                    value: {
+                        id: tipo.id,
+                        nombre: tipo.nombre,
+                    },
+                }));
+            })
+        )
+        .subscribe(
+            (data) => {
+                this.tiposServicio = data;
+            },
+            (error) => {
+                console.error('Error en la peticion: ', error);
+            }
+        );
+    }
+
+    getCabanias(){
+        console.log("Hola")
+        console.log(this.tiposServicioSeleccionada)
         this.serviciosParqueService
-        .getCabañasParque(this.parqueSeleccionado.id)
+        .getCabañasParque(this.parqueSeleccionado.id,this.tiposServicioSeleccionada.id)
         .pipe(
             map((cabanias) => {
                 return cabanias.map((cabania) => ({
@@ -256,6 +289,12 @@ export class MantenimientoComponent {
         });
     }
 
+    onDropdownChangeTipoServicio(event: any) {
+        this.cabaniaSeleccionada = {}
+        this.getCabanias();
+
+    }
+
     onDropdownChangeCabania(event: any) {
         this.loading = true;
         this.getFechasMantenimientoPorServicioParque(this.cabaniaSeleccionada.id)
@@ -263,9 +302,7 @@ export class MantenimientoComponent {
     }
 
     onDropdownChangeParque(event: any) {
-        this.cabaniaSeleccionada = {}
-        this.getCabanias();
-
+        this.tiposServicioSeleccionada = {};
     }
 
     dateIsInList(date: any): boolean {

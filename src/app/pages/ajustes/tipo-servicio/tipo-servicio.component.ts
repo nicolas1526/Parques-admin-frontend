@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, SelectItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { TipoServicio } from 'src/app/models/servicio';
 import { TipoServicioService } from 'src/app/services/tipo-servicio.service';
@@ -18,7 +18,7 @@ export class TipoServicioComponent implements OnInit {
     display: boolean = false;
     loading: boolean = true;
     postOput: boolean = true;
-
+    estados: SelectItem[] = [];
 
     constructor(
         private confirmationService: ConfirmationService,
@@ -26,6 +26,10 @@ export class TipoServicioComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.estados = [
+            { label: 'Si', value: true },
+            { label: 'No', value: false },
+          ];
         this.getTiposDeServicios();
     }
 
@@ -112,10 +116,12 @@ export class TipoServicioComponent implements OnInit {
 
     openDialogUpdate(idTipoServicio:number){
         this.fileUpload.clear();
+
         const index = this.tiposDeServicios.findIndex(
             (data) => data.id === idTipoServicio
         );
         this.tipoDeServicioSeleccionado = this.tiposDeServicios[index];
+        console.log(this.tiposDeServicios[index])
         this.tipoDeServicioSeleccionado.imgBase64 = undefined;
         this.display = true;
         this.postOput = false;

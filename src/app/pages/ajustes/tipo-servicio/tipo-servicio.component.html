@@ -66,6 +66,13 @@
                                 placeholder="Buscar por nombre"
                             />
                         </th>
+                        <th>
+                            Reservable<p-columnFilter
+                                type="boolean"
+                                field="reservable"
+                                display="menu"
+                            ></p-columnFilter>
+                        </th>
                         <th>Imagen</th>
                         <th>Modificar</th>
                         <th>Eliminar</th>
@@ -76,6 +83,18 @@
                         <td>{{ tiposervicio.id }}</td>
                         <td>{{ tiposervicio.nombre }}</td>
                         <td>{{ tiposervicio.descripcion }}</td>
+                        <td class="text-center" style="min-width: 120px">
+                            <i
+                                style="font-size: 1.5rem"
+                                class="pi"
+                                [ngClass]="{
+                                    'true-icon pi-check-circle text-green-500':
+                                    tiposervicio.reservable,
+                                    'false-icon pi-times-circle text-pink-500':
+                                        !tiposervicio.reservable
+                                }"
+                            ></i>
+                        </td>
                         <td>
                             <p-image
                                 styleClass="custom-image"
@@ -118,8 +137,8 @@
             [breakpoints]="{ '960px': '75vw' }"
         >
             <div class="dialogo">
-                <div class="col-6">
-                    <h5>Nombre</h5>
+                <div class="col-5">
+                    <label class="mb-2" htmlFor="Descripción"><b>Nombre</b></label>
                     <input
                         [(ngModel)]="tipoDeServicioSeleccionado.nombre"
                         class="col-12"
@@ -128,8 +147,8 @@
                         placeholder="Ingrese el nombre"
                     />
                 </div>
-                <div class="col-6">
-                    <h5>Descripción</h5>
+                <div class="col-5">
+                    <label htmlFor="Descripción"><b>Descripción</b></label>
                     <input
                         [(ngModel)]="tipoDeServicioSeleccionado.descripcion"
                         class="col-12"
@@ -137,6 +156,16 @@
                         pInputText
                         placeholder="Ingrese la Descripción"
                     />
+                </div>
+                <div class="field col-2">
+                    <label htmlFor="reservable"><b>Reservable</b></label>
+                    <p-dropdown
+                        name="estado"
+                        [options]="estados"
+                        [(ngModel)]="tipoDeServicioSeleccionado.reservable"
+                        [showClear]="false"
+                        appendTo="body"
+                    ></p-dropdown>
                 </div>
                 <div class="col-12">
                     <h5>Imagen</h5>

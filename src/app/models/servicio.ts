@@ -15,6 +15,7 @@ export interface TipoServicio {
     nombre?: string;
     descripcion?: string;
     imgBase64?: string|undefined;
+    reservable?: boolean
 }
 
 export interface ServicioParque {

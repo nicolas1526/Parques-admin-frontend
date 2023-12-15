@@ -20,8 +20,27 @@
                         appendTo="body"
                     ></p-dropdown>
                 </div>
+
                 <div *ngIf="parqueSeleccionado.nombre !== undefined">
-                    <label for="">Cabaña:</label>
+                    <label for="">Tipo de servicio:</label>
+                    <p-dropdown
+                        [style]="{
+                            height: '38px',
+                            marginBottom: '10px'
+                        }"
+                        [options]="tiposServicio"
+                        [(ngModel)]="tiposServicioSeleccionada"
+                        (onChange)="onDropdownChangeTipoServicio($event)"
+                        placeholder="Seleccione una tipo de servicio"
+                        [filter]="true"
+                        filterBy="value.nombre"
+                        [showClear]="false"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
+
+                <div *ngIf="tiposServicioSeleccionada.nombre !== undefined">
+                    <label for="">{{tiposServicioSeleccionada.nombre}}:</label>
                     <p-dropdown
                         [style]="{
                             height: '38px',

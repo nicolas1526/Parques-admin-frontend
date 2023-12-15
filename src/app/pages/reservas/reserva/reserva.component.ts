@@ -222,7 +222,7 @@ export class ReservaComponent {
     }
     getCabanias() {
         this.serviciosParqueService
-            .getCabañasParque(this.parqueSeleccionado.id)
+            .getCabañasParque(this.parqueSeleccionado.id,undefined)
             .pipe(
                 map((cabanias) => {
                     return cabanias.map((cabania) => ({

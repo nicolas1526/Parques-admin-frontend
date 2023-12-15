@@ -15,8 +15,8 @@ export class ServiciosParqueService {
     return this.http.get<ServicioParque[]>(url);
   }
 
-  getCabañasParque(idParque: number | undefined):Observable<ServicioParque[]>{
-    const url = `${API_URL}/servicio-parques/parque/${idParque}/tipo-servicio/${ID_CABAÑA}`;
+  getCabañasParque(idParque: number | undefined,idTipoServicio: number | undefined):Observable<ServicioParque[]>{
+    const url = `${API_URL}/servicio-parques/parque/${idParque}/tipo-servicio/${idTipoServicio}`;
     return this.http.get<ServicioParque[]>(url);
   }
 

@@ -14,6 +14,11 @@ export class TipoServicioService {
         return this.http.get<TipoServicio[]>(url);
     }
 
+    getTiposDeServiciosReservables(): Observable<TipoServicio[]> {
+        const url = `${API_URL}/tipo-servicio/reserva`;
+        return this.http.get<TipoServicio[]>(url);
+    }
+
     createTipoDeServicio(
         tipoDeServicio: TipoServicio
     ): Observable<TipoServicio> {

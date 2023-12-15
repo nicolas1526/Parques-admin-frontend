@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from 'src/app/constants/app.constants';
 import { Observable } from 'rxjs';
-import { Abonos, Reserva, ReservaDetalle } from '../models/reserva.model';
+import { Abonos, Reserva, ReservaDetalle, ReservaOtro } from '../models/reserva.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +11,9 @@ export class ListadoReservasService {
 
   constructor(private http: HttpClient) { }
 
-  getAllReservasByEstado(idEstado: number): Observable<Reserva[]> {
-    const url = `${API_URL}/reservas/estado/${idEstado}`;
-    return this.http.get<Reserva[]>(url);
+  getAllReservasByEstado(idTipoServicio:number,idEstado: number): Observable<ReservaOtro[]> {
+    const url = `${API_URL}/reservas/tipo/${idTipoServicio}/estado/${idEstado}`;
+    return this.http.get<ReservaOtro[]>(url);
   }
   getReservasById(idReserva: string): Observable<ReservaDetalle> {
     const url = `${API_URL}/reservas/${idReserva}`;
@@ -34,10 +34,10 @@ export class ListadoReservasService {
     const url = `${API_URL}/abonos/`;
     return this.http.post<Abonos>(url,abono);
   }
-  
+
   deleteAbonoReserva(idAbono: number): Observable<void> {
     const url = `${API_URL}/abonos/${idAbono}`;
     return this.http.delete<void>(url);
   }
-  
+
 }

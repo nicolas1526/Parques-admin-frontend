@@ -48,6 +48,18 @@ export interface Reserva {
     Usuario: Usuario,
 }
 
+export interface ReservaOtro {
+    ReservaId: number,
+    CodigoReserva: string,
+    nombreCompleto: string,
+    documento: number,
+    correo: string,
+    telefono:number,
+    NombreEstadoReserva:string,
+    PrecioTotalReserva:number,
+    FechaGeneracionReserva:string
+}
+
 export interface ReservaDetalle {
     codigo?:string,
     Estado?: Estado,

@@ -2,10 +2,12 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { map } from 'rxjs';
-import { EstadoReserva, Reserva, ReservaDetalle } from 'src/app/models/reserva.model';
+import { EstadoReserva, Reserva, ReservaDetalle, ReservaOtro } from 'src/app/models/reserva.model';
 import { ListadoReservasService } from 'src/app/services/listado-reservas.service';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { TipoServicio } from 'src/app/models/servicio';
+import { TipoServicioService } from 'src/app/services/tipo-servicio.service';
 
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
@@ -24,14 +26,18 @@ export class ListadoReservasComponent implements OnInit {
         EstadoReservaId: 1,
         NombreEstadoReserva: 'Pendiente',
     };
-    reservas: Reserva[] = [];
+    reservas: ReservaOtro[] = [];
+    tiposServicio: SelectItem[] = [];
+    tiposServicioSeleccionada: TipoServicio = {};
 
     constructor(
         private confirmationService: ConfirmationService,
+        private tipoServicioService: TipoServicioService,
         private listadoReservaService: ListadoReservasService
     ) { }
 
     ngOnInit(): void {
+        this.getTipoDeServicios();
         this.estadoReserva = [
             {
                 label: 'Pendiente',
@@ -63,6 +69,34 @@ export class ListadoReservasComponent implements OnInit {
             },
         ];
         this.getReservasByEstado();
+
+
+    }
+
+    getTipoDeServicios(){
+
+        this.tipoServicioService
+        .getTiposDeServiciosReservables()
+        .pipe(
+            map((tiposervicio) => {
+                return tiposervicio.map((tipo) => ({
+                    label: tipo.nombre,
+                    value: {
+                        id: tipo.id,
+                        nombre: tipo.nombre,
+                    },
+                }));
+            })
+        )
+        .subscribe(
+            (data) => {
+                this.tiposServicio = data;
+
+            },
+            (error) => {
+                console.error('Error en la peticion: ', error);
+            }
+        );
     }
 
     getReservaById(idReserva: string) {
@@ -105,14 +139,14 @@ export class ListadoReservasComponent implements OnInit {
                     headerRows: 1,
                     body: [
                         [
-                            { text: 'NroNoches', style: 'headers' }, 
-                            { text: 'Descripción', style: 'headers' }, 
+                            { text: 'NroNoches', style: 'headers' },
+                            { text: 'Descripción', style: 'headers' },
                             { text: 'Precio unitario', style: 'headers' }
                         ],
                         [
                             { text: `${reserva.DetalleReserva?.numNoches}` ,style: "cuerpoCenter" },
-                             `${reserva.ServicioParque?.Servicio.nombre} Desde ${reserva.DetalleReserva?.fechaInicio} Hasta ${reserva.DetalleReserva?.fechaFin}`, 
-                            { text: `${this.numberFormat(reserva.ServicioParque?.precio!)}` ,style: "cuerpoCenter"}                            
+                             `${reserva.ServicioParque?.Servicio.nombre} Desde ${reserva.DetalleReserva?.fechaInicio} Hasta ${reserva.DetalleReserva?.fechaFin}`,
+                            { text: `${this.numberFormat(reserva.ServicioParque?.precio!)}` ,style: "cuerpoCenter"}
                         ]
                     ]
                 }
@@ -193,6 +227,7 @@ export class ListadoReservasComponent implements OnInit {
     getReservasByEstado() {
         this.listadoReservaService
             .getAllReservasByEstado(
+                this.tiposServicioSeleccionada.id!,
                 this.estadoReservaSeleccionado.EstadoReservaId!
             )
             .subscribe(
@@ -207,10 +242,18 @@ export class ListadoReservasComponent implements OnInit {
     }
 
     onDropdownChangeEstadoReserva(event: any) {
+        this.cargarTabla();
+    }
+
+    onDropdownChangeTipoServicio(event: any) {
+        this.cargarTabla();
+    }
+
+    cargarTabla(){
         this.loading = true;
         this.reservas = [];
         this.getReservasByEstado();
-        this.loading = false;
+
     }
 
     onGlobalFilter(table: Table, event: Event): void {

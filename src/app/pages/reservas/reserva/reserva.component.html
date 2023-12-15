@@ -246,7 +246,7 @@
                 "
                 class="p-fluid grid m-1 p-2 card-form"
             >
-                <div class="field col-6">
+                <div class="field col-4">
                     <label><b>Parque:</b></label>
                     <p-dropdown
                         [style]="{
@@ -263,11 +263,28 @@
                         appendTo="body"
                     ></p-dropdown>
                 </div>
+                <div *ngIf="parqueSeleccionado.nombre !== undefined" class="field col-4">
+                    <label for=""><b>Tipo de servicio:</b></label>
+                    <p-dropdown
+                        [style]="{
+                            height: '38px',
+                            marginBottom: '10px'
+                        }"
+                        [options]="tiposServicio"
+                        [(ngModel)]="tiposServicioSeleccionada"
+                        (onChange)="onDropdownChangeTipoServicio($event)"
+                        placeholder="Seleccione una tipo de servicio"
+                        [filter]="true"
+                        filterBy="value.nombre"
+                        [showClear]="false"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
                 <div
-                    class="field col-6"
-                    *ngIf="parqueSeleccionado.nombre !== undefined"
+                    class="field col-4"
+                    *ngIf="tiposServicioSeleccionada.nombre !== undefined"
                 >
-                    <label><b>Cabaña:</b></label>
+                    <label><b>{{tiposServicioSeleccionada.nombre}}:</b></label>
                     <p-dropdown
                         [style]="{
                             height: '38px',

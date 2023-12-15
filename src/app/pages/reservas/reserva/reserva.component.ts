@@ -5,7 +5,7 @@ import { map } from 'rxjs';
 import { DiasReservaMantenimiento } from 'src/app/models/mantenimiento.model';
 import { Municipio } from 'src/app/models/municipios.model';
 import { Parques } from 'src/app/models/parques.model';
-import { ServicioParque } from 'src/app/models/servicio';
+import { ServicioParque, TipoServicio } from 'src/app/models/servicio';
 import { Usuario } from 'src/app/models/usuario.model';
 import { DatosPreReserva, DatosReservaBody, VerificarPreReservaBody } from 'src/app/models/verificar-prereserva';
 import { MantenimientoService } from 'src/app/services/mantenimiento.service';
@@ -13,6 +13,7 @@ import { MunicipiosService } from 'src/app/services/municipios.service';
 import { ParquesService } from 'src/app/services/parques.service';
 import { PrereservaService } from 'src/app/services/prereserva.service';
 import { ServiciosParqueService } from 'src/app/services/servicios-parque.service';
+import { TipoServicioService } from 'src/app/services/tipo-servicio.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -51,7 +52,8 @@ export class ReservaComponent {
     fechaSeleccionada!: Date[];
     valNocheGratis!: string;
     valReservaDescuento!: string;
-
+    tiposServicio: SelectItem[] = [];
+    tiposServicioSeleccionada: TipoServicio = {};
     datosPreReserva: DatosPreReserva[] = [];
 
     datosReserva: DatosReservaBody = {};
@@ -63,6 +65,7 @@ export class ReservaComponent {
         private mantenimientoService: MantenimientoService,
         private preReservaService: PrereservaService,
         private serviceMunicipios: MunicipiosService,
+        private tipoServicioService: TipoServicioService,
         private messageService: MessageService,
         private confirmationService: ConfirmationService
     ) {}
@@ -70,6 +73,7 @@ export class ReservaComponent {
     ngOnInit() {
         this.getParques();
         this.getMunicipios();
+        this.getTipoDeServicios();
     }
     getMunicipios() {
         this.serviceMunicipios
@@ -94,6 +98,32 @@ export class ReservaComponent {
                 }
             );
     }
+
+    getTipoDeServicios(){
+
+        this.tipoServicioService
+        .getTiposDeServiciosReservables()
+        .pipe(
+            map((tiposervicio) => {
+                return tiposervicio.map((tipo) => ({
+                    label: tipo.nombre,
+                    value: {
+                        id: tipo.id,
+                        nombre: tipo.nombre,
+                    },
+                }));
+            })
+        )
+        .subscribe(
+            (data) => {
+                this.tiposServicio = data;
+            },
+            (error) => {
+                console.error('Error en la peticion: ', error);
+            }
+        );
+    }
+
     getUserByDocument() {
         this.municipiosSeleccionado = undefined;
         this.datosReserva = {}
@@ -222,7 +252,7 @@ export class ReservaComponent {
     }
     getCabanias() {
         this.serviciosParqueService
-            .getCabañasParque(this.parqueSeleccionado.id,undefined)
+            .getCabañasParque(this.parqueSeleccionado.id,this.tiposServicioSeleccionada.id)
             .pipe(
                 map((cabanias) => {
                     return cabanias.map((cabania) => ({
@@ -407,11 +437,14 @@ export class ReservaComponent {
         this.crearPreReserva(datosBody);
     }
     onDropdownChangeParque(event: any) {
-        this.cabaniaSeleccionada = {};
-        this.getCabanias();
+        this.tiposServicioSeleccionada = {};
     }
     onDropdownChangeCabania(event: any) {
         this.getFechasReservaPorServicioParque(this.cabaniaSeleccionada.id);
+    }
+    onDropdownChangeTipoServicio(event: any) {
+        this.cabaniaSeleccionada = {};
+        this.getCabanias();
     }
     blurDocument(event: Event) {
         this.getUserByDocument();

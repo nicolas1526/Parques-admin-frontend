@@ -165,7 +165,7 @@
                         }"
                         [options]="servicios"
                         [(ngModel)]="servicioSeleccionado"
-                        (onChange)="esCabania()"
+                        (onChange)="esReservable(this.servicioSeleccionado.idTipoServicio!)"
                         placeholder="Seleccione un servicio"
                         [filter]="true"
                         filterBy="value.nombre"
@@ -244,7 +244,7 @@
                 <button
                     pButton
                     icon="pi pi-times"
-                    (click)="display = false"
+                    (click)="onClickCancelar()"
                     label="Cancelar"
                     class="p-button-danger"
                 ></button>

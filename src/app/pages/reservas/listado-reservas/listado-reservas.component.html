@@ -55,7 +55,7 @@
                 [rows]="10"
                 [loading]="loading"
                 [paginator]="true"
-                [globalFilterFields]="['nombre']"
+                [globalFilterFields]="['nombreCompleto','CodigoReserva','documento']"
                 styleClass="p-datatable-gridlines"
             >
                 <ng-template pTemplate="caption">
@@ -90,9 +90,26 @@
                         <th>Imprimir</th>
                         <th>Detalles</th>
                         <th>Id</th>
-                        <th>Codigo</th>
-                        <th>Nombre</th>
-                        <th>Documento</th>
+                        <th>Codigo
+                            <p-columnFilter
+                            type="text"
+                            field="CodigoReserva"
+                            display="menu"
+                            placeholder="Buscar por nombre"
+                        />
+                        </th>
+                        <th>Nombre<p-columnFilter
+                            type="text"
+                            field="nombreCompleto"
+                            display="menu"
+                            placeholder="Buscar por nombre"
+                        /></th>
+                        <th>Documento<p-columnFilter
+                            type="text"
+                            field="documento"
+                            display="menu"
+                            placeholder="Buscar por nombre"
+                        /></th>
                         <th>Correo</th>
                         <th>Telefono</th>
                         <th>Estado</th>
@@ -103,7 +120,7 @@
                 <ng-template pTemplate="body" let-reserva>
                     <tr>
                         <td><button pButton pRipple icon="pi pi-print" class="p-button-raised p-button-outlined p-button-outlined" (click)="getReservaById(reserva.ReservaId)"></button></td>
-                        <td><a href="#/reservas/detalle-reservas/{{reserva.ReservaId}}" pButton pRipple icon="pi pi-file-edit" class="p-button-raised p-button-outlined p-button-outlined"></a></td>
+                        <td><a href="#/reservas/detalle-reservas/{{reserva.ReservaId}}" target="_blank" pButton pRipple icon="pi pi-file-edit" class="p-button-raised p-button-outlined p-button-outlined"></a></td>
                         <td>{{ reserva.ReservaId }}</td>
                         <td>{{ reserva.CodigoReserva }}</td>
                         <td>{{ reserva.nombreCompleto }}</td>
@@ -119,7 +136,7 @@
                         </td>
                         <td>
                             {{
-                                "reserva.FechaGeneracionReserva.substring(0, 10)"
+                                reserva.FechaGeneracionReserva.substring(0, 10)
                             }}
                         </td>
                     </tr>

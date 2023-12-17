@@ -133,7 +133,6 @@ export class ReservaComponent {
             .getUsuarioPorDocumento(this.usuario.documento!)
             .subscribe(
                 (data) => {
-                    console.log(data)
                     if (data !== null) {
                         this.usuario = data;
                         this.municipiosSeleccionado = {
@@ -172,7 +171,6 @@ export class ReservaComponent {
                             visible: true
                         }
                     } else {
-                        console.log(data.precioServicio)
                         this.datosPreReserva.push({
                             id:this.cabaniaSeleccionada.id,
                             servicio:this.cabaniaSeleccionada.nombre,
@@ -279,7 +277,6 @@ export class ReservaComponent {
             .getManteReservByServicioParque(idServicioParque)
             .subscribe(
                 (data) => {
-                    console.log(data)
                     data.mantenimiento!.forEach((rango) => {
                         const fechaInicio = new Date(rango.fechaInicio!);
                         fechaInicio.setDate(fechaInicio.getDate() + 1);

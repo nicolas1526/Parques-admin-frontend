@@ -31,7 +31,7 @@ export class ServiciosParqueComponent implements OnInit {
     serviciosParqueAll: ServicioParque[] = [];
     serviciosParque: ServicioParque[] = [];
     servicioParqueSeleccionado: ServicioParque = {};
-
+    tiposServicio: TipoServicio[] = [];
     display: boolean = false;
     loading: boolean = true;
     postOput: boolean = true;
@@ -41,6 +41,7 @@ export class ServiciosParqueComponent implements OnInit {
         private confirmationService: ConfirmationService,
         private serviceParque: ParquesService,
         private serviceServiciosParque: ServiciosParqueService,
+        private tipoServicioService: TipoServicioService,
         private serviceServicios: ServicioService
     ) {}
 
@@ -52,6 +53,7 @@ export class ServiciosParqueComponent implements OnInit {
         this.getServicio();
         this.getParques();
         this.getServiciosParque();
+        this.getTipoDeServiciosReservables();
     }
 
     getServicio() {
@@ -79,6 +81,19 @@ export class ServiciosParqueComponent implements OnInit {
                     console.error('Error en la peticion: ', error);
                 }
             );
+    }
+
+    getTipoDeServiciosReservables(){
+        this.tipoServicioService
+        .getTiposDeServiciosReservables()
+        .subscribe(
+            (data) => {
+                this.tiposServicio = data;
+            },
+            (error) => {
+                console.error('Error en la peticion: ', error);
+            }
+        );
     }
 
     getParques() {
@@ -191,6 +206,7 @@ export class ServiciosParqueComponent implements OnInit {
     }
 
     openDialogCreate() {
+        this.esCabana = false;
         this.servicioParqueSeleccionado = {}
         this.estadoSeleccionado = true;
         this.servicioSeleccionado = {};
@@ -200,17 +216,13 @@ export class ServiciosParqueComponent implements OnInit {
 
     openDialogUpdate(idServicioParque: number) {
         this.servicioParqueSeleccionado = {};
+        this.servicioSeleccionado = {};
         const index = this.serviciosParque.findIndex(
           (data) => data.id === idServicioParque
         );
         this.servicioParqueSeleccionado = this.serviciosParque[index];
-        if(this.servicioParqueSeleccionado.Servicio?.idTipoServicio === ID_CABAÑA){
-            this.esCabana = true;
-        }else{
-            this.servicioParqueSeleccionado.cantidadMascotas = null;
-            this.servicioParqueSeleccionado.cantidadPersonas = null;
-            this.esCabana = false;
-        }
+        this.esReservable(this.servicioParqueSeleccionado.Servicio!.idTipoServicio!);
+        
 
         const indexServico = this.servicios.findIndex(
             (res) => res.value.id === this.servicioParqueSeleccionado.Servicio!.id
@@ -244,13 +256,22 @@ export class ServiciosParqueComponent implements OnInit {
         this.filter.nativeElement.value = '';
     }
 
-    esCabania(){
-        if(this.servicioSeleccionado.idTipoServicio === ID_CABAÑA){
+    esReservable(idTipoServicio:number){
+        console.log(idTipoServicio)
+        console.log(this.tiposServicio.some(item => item.id === idTipoServicio && item.reservable === true))
+        if(this.tiposServicio.some(item => item.id === idTipoServicio && item.reservable === true)){
             this.esCabana = true;
         }else{
+            this.esCabana = false;
             this.servicioParqueSeleccionado.cantidadMascotas = null;
             this.servicioParqueSeleccionado.cantidadPersonas = null;
-            this.esCabana = false;
+            
         }
+    }
+
+
+
+    onClickCancelar(){
+        this.display = false;
     }
 }

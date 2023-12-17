@@ -37,7 +37,7 @@ export class ListadoReservasComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.getTipoDeServicios();
+        
         this.estadoReserva = [
             {
                 label: 'Pendiente',
@@ -68,7 +68,8 @@ export class ListadoReservasComponent implements OnInit {
                 },
             },
         ];
-        this.getReservasByEstado();
+        this.getTipoDeServicios();
+        
 
 
     }
@@ -91,7 +92,8 @@ export class ListadoReservasComponent implements OnInit {
         .subscribe(
             (data) => {
                 this.tiposServicio = data;
-
+                this.tiposServicioSeleccionada.id = data[0].value.id;
+                this.getReservasByEstado();
             },
             (error) => {
                 console.error('Error en la peticion: ', error);

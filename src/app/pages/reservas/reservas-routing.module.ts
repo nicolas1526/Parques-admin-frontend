@@ -1,16 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AuthGuard } from 'src/app/auth/auth.guard';
 
 @NgModule({
   imports: [
     RouterModule.forChild([
         {
             path: 'mantenimiento',
-            data: { breadcrumb: 'Mantenimiento' },
+            data: { breadcrumb: 'Mantenimiento', requiredRoles: ['admin', 'taquilla'] },
             loadChildren: () =>
                 import('./mantenimiento/mantenimiento.module').then(
                     (m) => m.MantenimientoModule
                 ),
+            canActivate: [AuthGuard],
+
         },
         {
             path: 'reserva',

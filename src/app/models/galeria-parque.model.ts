@@ -1,13 +1,15 @@
 
 import { Parques } from "./parques.model"
 
-export interface GaleriaParque{
+export interface GaleriaParque extends GaleriaDestacada{
+    Parque?:Parques,
+    idParque?:number,
+}
+
+export interface GaleriaDestacada{
     id?:number,
     urlImagen?:string,
     titulo?:string,
     estado?:boolean,
-    Parque?:Parques,
-    idParque?:number,
     imgBase64?:string
 }
-

@@ -30,6 +30,7 @@ export class AppMenuComponent implements OnInit {
                                     { label: 'Bancos', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/bancos'] },
                                     { label: 'Informate', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/informate'] },
                                     { label: 'Programate', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/programate'] },
+                                    { label: 'Galeria destacada', icon: 'pi pi-fw pi-home', routerLink: ['/ajustes/galeria-destacada'] },
                                 ]
                             },
                             {

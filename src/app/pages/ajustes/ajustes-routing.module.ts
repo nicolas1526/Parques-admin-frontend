@@ -108,6 +108,14 @@ import { RouterModule } from '@angular/router';
                         (m) => m.BancosModule
                     ),
             },
+            {
+                path: 'galeria-destacada',
+                data: { breadcrumb: 'GaleriaDestacada' },
+                loadChildren: () =>
+                    import('./galeria-destacada/galeria-destacada.module').then(
+                        (m) => m.GaleriaDestacadaModule
+                    ),
+            },
             { path: '**', redirectTo: '/notfound' },
         ]),
     ],

@@ -1,5 +1,5 @@
 -- Modulo
-ng g module pages/reservas/detalle-reservas
-ng g c pages/reservas/detalle-reservas
-ng g service services/bancos
-ng generate module pages/reservas/detalle-reservas/detalle-reservas-routing --flat --module=pages/reservas/detalle-reservas/detalle-reservas.module
+ng g module pages/ajustes/galeria-destacada
+ng g c pages/ajustes/galeria-destacada
+ng g service services/galeria-destacada
+ng generate module pages/ajustes/galeria-destacada/galeria-destacada-routing --flat --module=pages/ajustes/galeria-destacada/galeria-destacada.module

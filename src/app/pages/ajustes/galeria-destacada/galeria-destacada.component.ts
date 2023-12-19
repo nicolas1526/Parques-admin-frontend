@@ -2,32 +2,27 @@ import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import { map } from 'rxjs';
 import { Table } from 'primeng/table';
-import { GaleriaParque } from 'src/app/models/galeria-parque.model';
-import { Parques } from 'src/app/models/parques.model';
-import { GaleriaParqueService } from 'src/app/services/galeria-parque.service';
-import { ParquesService } from 'src/app/services/parques.service';
+import { GaleriaDestacada } from 'src/app/models/galeria-parque.model';
+import { GaleriaDestacadaService } from 'src/app/services/galeria-destacada.service';
 
 @Component({
-    templateUrl: './galeria-parque.component.html',
+    selector: 'app-galeria-destacada',
+    templateUrl: './galeria-destacada.component.html',
     providers: [ConfirmationService],
-    styleUrls: ['./galeria-parque.component.scss'],
+    styleUrls: ['./galeria-destacada.component.scss'],
 })
-export class GaleriaParqueComponent implements OnInit {
+export class GaleriaDestacadaComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
     postOput: boolean = true;
     display: boolean = false;
     loading: boolean = true;
-    galeriasAll: GaleriaParque[] = [];
-    galerias: GaleriaParque[] = [];
-    galeriaSeleccionada: GaleriaParque = {};
-    parques: SelectItem[] = [];
-    parqueSeleccionado: Parques = {};
+    galeria: GaleriaDestacada[] = [];
+    galeriaSeleccionada: GaleriaDestacada = {};
     estados: SelectItem[] = [];
     estadoSeleccionado?: boolean;
 
     constructor(
-        private galeriaParqueService: GaleriaParqueService,
-        private parqueService: ParquesService,
+        private galeriaDestacadaService: GaleriaDestacadaService,
         private confirmationService: ConfirmationService
     ) {}
 
@@ -36,38 +31,13 @@ export class GaleriaParqueComponent implements OnInit {
             { label: 'Activo', value: true },
             { label: 'Inactivo', value: false },
         ];
-        this.getParques();
         this.getGalerias();
     }
 
-    getParques() {
-        this.parqueService
-            .getParques()
-            .pipe(
-                map((parques) => {
-                    return parques.map((parque) => ({
-                        label: parque.nombre,
-                        value: {
-                            id: parque.id,
-                            nombre: parque.nombre,
-                        },
-                    }));
-                })
-            )
-            .subscribe(
-                (data) => {
-                    this.parques = data;
-                },
-                (error) => {
-                    console.error('Error en la peticion: ', error);
-                }
-            );
-    }
-
     getGalerias() {
-        this.galeriaParqueService.getGaleriaParques().subscribe(
+        this.galeriaDestacadaService.getGaleriaDestacadas().subscribe(
             (data) => {
-                this.galeriasAll = data;
+                this.galeria = data;
                 this.loading = false;
             },
             (error) => {
@@ -77,16 +47,14 @@ export class GaleriaParqueComponent implements OnInit {
     }
 
     createGaleria() {
-        this.galeriaSeleccionada.Parque = this.parqueSeleccionado;
-        this.galeriaSeleccionada.idParque = this.parqueSeleccionado?.id;
         this.galeriaSeleccionada.estado = this.estadoSeleccionado;
-        this.galeriaParqueService
-            .createGaleriaParque(this.galeriaSeleccionada)
+        this.galeriaDestacadaService
+            .createGaleriaDestacada(this.galeriaSeleccionada)
             .subscribe(
                 (data) => {
                     this.galeriaSeleccionada.id = data.id;
                     this.galeriaSeleccionada.urlImagen = data.urlImagen;
-                    this.galerias.push(this.galeriaSeleccionada);
+                    this.galeria.push(this.galeriaSeleccionada);
                 },
                 (error) => {
                     console.error('Error en la peticion: ', error);
@@ -95,28 +63,18 @@ export class GaleriaParqueComponent implements OnInit {
         this.display = false;
     }
 
-    updateGaleria(galeriaParque: GaleriaParque) {
-        galeriaParque.idParque = this.parqueSeleccionado?.id;
+    updateGaleria(galeria: GaleriaDestacada) {
         this.galeriaSeleccionada.estado = this.estadoSeleccionado;
-        this.galeriaParqueService.updateGaleriaParque(galeriaParque).subscribe(
+        this.galeriaDestacadaService.updateGaleriaDestacada(galeria).subscribe(
             (data) => {
-                const indexHorario = this.galerias.findIndex(
-                    (res) => res.id === galeriaParque.id
+                const index = this.galeria.findIndex(
+                    (res) => res.id === galeria.id
                 );
-
-                const indexParque = this.parques.findIndex(
-                    (res) => res.value.id === data.idParque
-                );
-                this.galerias[indexHorario] = {
+                this.galeria[index] = {
                     id: data.id,
                     titulo: data.titulo,
                     urlImagen: data.urlImagen,
                     estado: data.estado,
-                    idParque: data.idParque,
-                    Parque: {
-                        id: data.idParque,
-                        nombre: this.parques[indexParque].value.nombre,
-                    },
                 };
             },
             (error) => {
@@ -126,12 +84,12 @@ export class GaleriaParqueComponent implements OnInit {
     }
 
     deleteGaleria(idGaleria: number) {
-        this.galeriaParqueService.deleteGaleriaParque(idGaleria).subscribe(
+        this.galeriaDestacadaService.deleteGaleriaDestacada(idGaleria).subscribe(
             () => {
-                const index = this.galerias.findIndex(
+                const index = this.galeria.findIndex(
                     (data) => data.id === idGaleria
                 );
-                this.galerias.splice(index, 1);
+                this.galeria.splice(index, 1);
             },
             (error) => {
                 console.error('Error en la peticion: ', error);
@@ -139,7 +97,7 @@ export class GaleriaParqueComponent implements OnInit {
         );
     }
 
-    createOrUpdate() {
+    createOrUpdate(){
         if (this.galeriaSeleccionada !== undefined) {
             if (this.postOput) {
                 this.createGaleria();
@@ -157,15 +115,11 @@ export class GaleriaParqueComponent implements OnInit {
         this.postOput = true;
     }
 
-    openDialogUpdate(idGaleriaParque: number) {
-        const index = this.galerias.findIndex(
-            (data) => data.id === idGaleriaParque
+    openDialogUpdate(idGaleriaDestacada: number) {
+        const index = this.galeria.findIndex(
+            (data) => data.id === idGaleriaDestacada
         );
-        this.galeriaSeleccionada = this.galerias[index];
-        this.parqueSeleccionado = {
-            id: this.galeriaSeleccionada.Parque?.id,
-            nombre: this.galeriaSeleccionada.Parque?.nombre,
-        };
+        this.galeriaSeleccionada = this.galeria[index];
         this.display = true;
         this.postOput = false;
     }
@@ -199,14 +153,5 @@ export class GaleriaParqueComponent implements OnInit {
             this.galeriaSeleccionada.imgBase64 = reader.result as string;
         };
         reader.readAsDataURL(file);
-    }
-
-    onDropdownChangeParque(event: any) {
-        this.loading = true;
-        const galeriaParqueFiltrado = this.galeriasAll.filter(
-            (objeto) => objeto.Parque?.id === this.parqueSeleccionado?.id
-        );
-        this.galerias = galeriaParqueFiltrado;
-        this.loading = false;
     }
 }

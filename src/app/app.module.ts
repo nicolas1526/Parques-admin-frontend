@@ -12,12 +12,16 @@ import { IconService } from './demo/service/icon.service';
 import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
 import { MsalModule, MsalService, MsalGuard, MsalInterceptor, MsalBroadcastService, MsalRedirectComponent } from "@azure/msal-angular";
-import { PublicClientApplication, InteractionType, BrowserCacheLocation } from "@azure/msal-browser";
+import { PublicClientApplication, InteractionType, BrowserCacheLocation, LogLevel } from "@azure/msal-browser";
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AzureAdDemoService } from './azure-ad-demo.service';
 
 const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
 
-
+export function loggerCallback(logLevel: LogLevel, message: string): void {
+    console.log(message);
+  }
+  
 @NgModule({
     declarations: [
         AppComponent, NotfoundComponent
@@ -32,9 +36,16 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
                 redirectUri: "http://localhost:4200",
             },
             cache: {
-                cacheLocation: 'localStorage',
+                cacheLocation: BrowserCacheLocation.SessionStorage,
                 storeAuthStateInCookie: isIE, // set to true for IE 11
-            }
+            },
+            system: {
+                loggerOptions: {
+                  loggerCallback,
+                  logLevel: LogLevel.Info,
+                  piiLoggingEnabled: false
+                }
+              }
         }), {
             interactionType: InteractionType.Redirect,
             authRequest: {
@@ -49,11 +60,10 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy }, 
-        { provide: HTTP_INTERCEPTORS, useClass: MsalBroadcastService, multi:true},
+        { provide: HTTP_INTERCEPTORS, useClass: MsalInterceptor, multi:true},
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService, MsalService,
-        MsalGuard,
-        MsalBroadcastService
+        PhotoService, ProductService,
+        MsalGuard,AzureAdDemoService
     ],
     bootstrap: [AppComponent,MsalRedirectComponent]
 })

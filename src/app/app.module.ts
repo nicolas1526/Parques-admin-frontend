@@ -11,6 +11,12 @@ import { EventService } from './demo/service/event.service';
 import { IconService } from './demo/service/icon.service';
 import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
+import { MsalModule, MsalService, MsalGuard, MsalInterceptor, MsalBroadcastService, MsalRedirectComponent } from "@azure/msal-angular";
+import { PublicClientApplication, InteractionType, BrowserCacheLocation } from "@azure/msal-browser";
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+
+const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
+
 
 @NgModule({
     declarations: [
@@ -18,13 +24,37 @@ import { PhotoService } from './demo/service/photo.service';
     ],
     imports: [
         AppRoutingModule,
-        AppLayoutModule
+        AppLayoutModule,
+        MsalModule.forRoot(new PublicClientApplication({ // MSAL Configuration
+            auth: {
+                clientId: "a76c3213-ad5c-4899-b597-c7a9b14fd02d",
+                authority: "https://login.microsoftonline.com/b89ff380-d78e-44f3-a717-167f8aec1955",
+                redirectUri: "http://localhost:4200",
+            },
+            cache: {
+                cacheLocation: 'localStorage',
+                storeAuthStateInCookie: isIE, // set to true for IE 11
+            }
+        }), {
+            interactionType: InteractionType.Redirect,
+            authRequest: {
+                scopes: ['user.read']
+            }
+        }, {
+            interactionType: InteractionType.Redirect,
+            protectedResourceMap: new Map([
+                ['https://graph.microsoft.com/v1.0/me', ['user.read']],
+            ]),
+        })
     ],
     providers: [
-        { provide: LocationStrategy, useClass: HashLocationStrategy },
+        { provide: LocationStrategy, useClass: HashLocationStrategy }, 
+        { provide: HTTP_INTERCEPTORS, useClass: MsalBroadcastService, multi:true},
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService
+        PhotoService, ProductService, MsalService,
+        MsalGuard,
+        MsalBroadcastService
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent,MsalRedirectComponent]
 })
 export class AppModule { }

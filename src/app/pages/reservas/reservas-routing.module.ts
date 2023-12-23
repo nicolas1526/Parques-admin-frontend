@@ -7,7 +7,7 @@ import { AuthGuard } from 'src/app/auth/auth.guard';
     RouterModule.forChild([
         {
             path: 'mantenimiento',
-            data: { breadcrumb: 'Mantenimiento', requiredRoles: ['admin', 'taquilla'] },
+            data: { breadcrumb: 'Mantenimiento' },
             loadChildren: () =>
                 import('./mantenimiento/mantenimiento.module').then(
                     (m) => m.MantenimientoModule

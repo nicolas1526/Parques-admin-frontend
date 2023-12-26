@@ -17,11 +17,6 @@
 
         <span>{{user.length > 0  ? user[0].name : ""}}</span>
 
-        <button *ngIf="!isUserLoggetIn" class="p-link layout-topbar-button" (click)="login()">
-            <i class="pi pi-sign-in"></i>
-            <span>Iniciar sesion</span>
-        </button>
-
         <button *ngIf="isUserLoggetIn" class="p-link layout-topbar-button" (click)="logout()">
             <i class="pi pi-sign-out" ></i>
             <span>Cerrar sesion</span>

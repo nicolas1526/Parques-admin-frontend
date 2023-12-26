@@ -61,15 +61,8 @@ export class AppTopBarComponent implements OnInit, OnDestroy {
 
 
 
-    login() {
-        if (this.msalGuardConfig.authRequest) {
-            this.authService.loginRedirect({ ...this.msalGuardConfig.authRequest } as RedirectRequest);
-        } else {
-            this.authService.loginRedirect();
-        }
-    }
-
     logout() {
-        this.authService.logoutRedirect({ postLogoutRedirectUri: "http://localhost:4200/" });
+        this.authService.logoutRedirect({ postLogoutRedirectUri: "http://localhost:4200/#/login" });
+        localStorage.removeItem("token")
     }
 }

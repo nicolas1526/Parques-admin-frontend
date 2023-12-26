@@ -34,18 +34,12 @@ export function loggerCallback(logLevel: LogLevel, message: string): void {
                 clientId: "a76c3213-ad5c-4899-b597-c7a9b14fd02d",
                 authority: "https://login.microsoftonline.com/b89ff380-d78e-44f3-a717-167f8aec1955",
                 redirectUri: "http://localhost:4200",
+        
             },
             cache: {
                 cacheLocation: BrowserCacheLocation.SessionStorage,
                 storeAuthStateInCookie: isIE, // set to true for IE 11
             },
-            system: {
-                loggerOptions: {
-                  loggerCallback,
-                  logLevel: LogLevel.Info,
-                  piiLoggingEnabled: false
-                }
-              }
         }), {
             interactionType: InteractionType.Redirect,
             authRequest: {

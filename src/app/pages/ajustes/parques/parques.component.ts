@@ -191,8 +191,14 @@ export class ParquesComponent implements OnInit {
         reader.onload = () => {
             if (uploaderIdentifier === 'imgParque') {
                 this.parqueSeleccionado.imgBase64 = reader.result as string;
-            } else {
+            } else if (uploaderIdentifier === 'imgboton') {
                 this.parqueSeleccionado.imgBotonBase64 =
+                    reader.result as string;
+            } else if (uploaderIdentifier === 'imgMapa') {
+                this.parqueSeleccionado.imgMapaBase64 =
+                    reader.result as string;
+            } else if (uploaderIdentifier === 'imgReglamento') {
+                this.parqueSeleccionado.imgReglamentoBase64 =
                     reader.result as string;
             }
         };

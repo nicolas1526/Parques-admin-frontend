@@ -12,7 +12,6 @@ import { map } from 'rxjs';
 import { Parques } from 'src/app/models/parques.model';
 import { ParquesService } from 'src/app/services/parques.service';
 import { ServiciosParqueService } from 'src/app/services/servicios-parque.service';
-import { ID_CABAÑA } from 'src/app/constants/app.constants';
 
 @Component({
     templateUrl: './servicios-parque.component.html',

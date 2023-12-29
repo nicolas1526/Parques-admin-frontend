@@ -62,10 +62,13 @@
                         <th>Direccion</th>
                         <th>Municipio</th>
                         <th>Telefono</th>
+                        <th>Descripción</th>
                         <th>Observaciones</th>
                         <th>Img boton</th>
-                        <th>Video youtube</th>
                         <th>Img parque</th>
+                        <th>Img mapa</th>
+                        <th>Img reglamento</th>
+                        <th>Video youtube</th>
                         <th>longitud</th>
                         <th>latitud</th>
                         <th>
@@ -89,7 +92,10 @@
                             {{ parque.Municipio.nombre }}
                         </td>
                         <td class="text-justify">{{ parque.telefono }}</td>
-                        <td class="text-justify" style="min-width: 350px">
+                        <td class="text-justify" style="min-width: 300px">
+                            {{ parque.descripcion }}
+                        </td>
+                        <td class="text-justify" style="min-width: 200px">
                             {{ parque.observacion }}
                         </td>
                         <td>
@@ -103,15 +109,6 @@
                             ></p-image>
                         </td>
                         <td>
-                            <iframe
-                                width="200"
-                                height="150"
-                                src="https://www.youtube.com/embed/ReK0kscoF8o"
-                                frameborder="0"
-                                allowfullscreen
-                            ></iframe>
-                        </td>
-                        <td>
                             <p-image
                                 styleClass="custom-image"
                                 width="80"
@@ -120,6 +117,35 @@
                                 alt="Image"
                                 [preview]="true"
                             ></p-image>
+                        </td>
+                        <td>
+                            <p-image
+                                styleClass="custom-image"
+                                width="80"
+                                height="80"
+                                [src]="parque.urlImagenMapa"
+                                alt="Image"
+                                [preview]="true"
+                            ></p-image>
+                        </td>
+                        <td>
+                            <p-image
+                                styleClass="custom-image"
+                                width="80"
+                                height="80"
+                                [src]="parque.urlImagenReglamento"
+                                alt="Image"
+                                [preview]="true"
+                            ></p-image>
+                        </td>
+                        <td>
+                            <iframe
+                                width="200"
+                                height="150"
+                                src="https://www.youtube.com/embed/ReK0kscoF8o"
+                                frameborder="0"
+                                allowfullscreen
+                            ></iframe>
                         </td>
                         <td>{{ parque.longitud }}</td>
                         <td>{{ parque.latitud }}</td>
@@ -276,12 +302,23 @@
                         appendTo="body"
                     ></p-dropdown>
                 </div>
-                <div class="col-12">
-                    <label htmlFor="observacion">Observaciones</label>
+                <div class="col-6">
+                    <label htmlFor="observacion">Descripción</label>
                     <textarea
                         [style]="{ width: '100%', marginTop: '10px' }"
                         [(ngModel)]="parqueSeleccionado.observacion"
                         id="observacion"
+                        rows="3"
+                        cols="30"
+                        pInputTextarea
+                    ></textarea>
+                </div>
+                <div class="col-6">
+                    <label htmlFor="observacion">Descripción Larga</label>
+                    <textarea
+                        [style]="{ width: '100%', marginTop: '10px' }"
+                        [(ngModel)]="parqueSeleccionado.descripcion"
+                        id="descripcion"
                         rows="3"
                         cols="30"
                         pInputTextarea
@@ -323,6 +360,45 @@
                         <ng-template pTemplate="content"> </ng-template>
                     </p-fileUpload>
                 </div>
+
+
+                <div class="col-6">
+                    <label htmlFor="imgparque">Imagen Mapa</label>
+                    <p-fileUpload
+                        #fileUpload1
+                        id="imgMapa"
+                        [multiple]="false"
+                        [showUploadButton]="false"
+                        [showCancelButton]="false"
+                        name="file"
+                        accept="image/*"
+                        chooseLabel="Seleccionar imagen"
+                        (onSelect)="
+                            manejadorArchivoSeleccionado($event, 'imgMapa')
+                        "
+                    >
+                        <ng-template pTemplate="content"> </ng-template>
+                    </p-fileUpload>
+                </div>
+                <div class="col-6">
+                    <label htmlFor="imgboton">Imagen Reglamento</label>
+                    <p-fileUpload
+                        #fileUpload2
+                        id="imgReglamento"
+                        [multiple]="false"
+                        [showUploadButton]="false"
+                        [showCancelButton]="false"
+                        name="file"
+                        accept="image/*"
+                        chooseLabel="Seleccionar imagen"
+                        (onSelect)="
+                            manejadorArchivoSeleccionado($event, 'imgReglamento')
+                        "
+                    >
+                        <ng-template pTemplate="content"> </ng-template>
+                    </p-fileUpload>
+                </div>
+
             </div>
             <ng-template pTemplate="footer">
                 <button
